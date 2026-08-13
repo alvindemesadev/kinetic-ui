@@ -401,6 +401,8 @@
   box-shadow: var(--shadow-control);
 }
 .ui-kit [data-slot="tabs-list"] {
+  height: var(--kinetic-control-height);
+  min-height: var(--kinetic-control-height);
   padding: 4px;
   border: 1px solid var(--border);
   border-radius: var(--kinetic-radius-control);
@@ -408,7 +410,11 @@
   box-shadow: var(--shadow-inset);
 }
 .ui-kit [data-slot="tabs-trigger"] {
+  height: calc(var(--kinetic-control-height) - 10px);
+  min-height: calc(var(--kinetic-control-height) - 10px);
+  padding-inline: 13px;
   border-radius: var(--kinetic-radius-sm);
+  font-weight: 650;
   color: var(--text-muted);
   transition:
     transform 120ms ease,
@@ -419,9 +425,12 @@
   transform: translateY(1px) scale(0.99);
 }
 .ui-kit [data-slot="tabs-trigger"][data-state="active"] {
-  color: var(--text);
-  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
-  box-shadow: var(--shadow-control);
+  color: var(--action-foreground);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 4px 9px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .ui-kit [data-slot="tabs-trigger"]:hover:not(:disabled):not([data-state="active"]) {
   color: var(--text);
