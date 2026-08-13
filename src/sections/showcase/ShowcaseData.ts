@@ -144,15 +144,6 @@ export const tableRows = [
   },
 ];
 
-export const calendarEvents = new Set([
-  "2026-07-21",
-  "2026-08-05",
-  "2026-08-15",
-  "2026-08-22",
-  "2026-09-03",
-  "2026-09-18",
-]);
-
 export function calendarDateKey(year: number, month: number, day: number) {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
@@ -175,7 +166,6 @@ export function createCalendarMonth(year: number, month: number) {
       value,
       muted: date.getMonth() !== month,
       today: value === todayKey,
-      event: calendarEvents.has(value),
     };
   });
 }

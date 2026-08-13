@@ -68,4 +68,24 @@ describe("SkeuomorphicKit shell", () => {
       expect(screen.getAllByRole("heading", { name: heading }).length).toBeGreaterThan(0);
     }
   });
+
+  it("provides a functional calendar month and agenda view", async () => {
+    const user = userEvent.setup();
+    render(<SkeuomorphicKit />);
+    const calendar = document.querySelector<HTMLElement>("#calendar");
+    expect(calendar).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Calendar that feels tactile" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("radio", { name: "Agenda" }));
+    expect(screen.getByText("August 2026 agenda")).toBeInTheDocument();
+    await user.click(screen.getByRole("radio", { name: "Month" }));
+
+    await user.click(screen.getByRole("button", { name: /2026-08-12/ }));
+    expect(screen.getByText("Wednesday, August 12, 2026")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Add event" }));
+    await user.type(screen.getByLabelText("Event title"), "Team sync");
+    await user.click(screen.getByRole("button", { name: "Save event" }));
+    expect((await screen.findAllByText("Team sync")).length).toBeGreaterThanOrEqual(2);
+  });
 });

@@ -76,6 +76,7 @@ import { Navbar } from "./sections/Navbar";
 import { Hero } from "./sections/Hero";
 import { ShowcaseFoundation } from "./sections/showcase/ShowcaseFoundation";
 import { ShowcaseStatCards } from "./sections/showcase/ShowcaseStatCards";
+import { ShowcaseCalendar } from "./sections/showcase/ShowcaseCalendar";
 import { ShowcaseDataTable } from "./sections/showcase/ShowcaseDataTable";
 import { ShowcaseActivityStream } from "./sections/showcase/ShowcaseActivityStream";
 import { ShowcaseModals } from "./sections/showcase/ShowcaseModals";
@@ -90,10 +91,7 @@ import {
 } from "./components/ui/message";
 
 import {
-  calendarEvents,
   carouselSlides,
-  createCalendarMonth,
-  formatCalendarMonth,
   logoCarouselItems,
   miniViews,
   tableRows,
@@ -149,8 +147,6 @@ export default function SkeuomorphicKit() {
   const [openControl, setOpenControl] = useState<OpenControl>(null);
   const [selectedDate, setSelectedDate] = useState("2026-08-12");
   const [selectedTime, setSelectedTime] = useState("22:22");
-  const [calendarView, setCalendarView] = useState({ year: 2026, month: 7 });
-  const [calendarSelection, setCalendarSelection] = useState("2026-08-12");
   const [miniSection, setMiniSection] = useState<MiniSection>("Dashboard");
   const [miniSidebarOpen, setMiniSidebarOpen] = useState(true);
   const [miniSearchOpen, setMiniSearchOpen] = useState(false);
@@ -265,19 +261,6 @@ export default function SkeuomorphicKit() {
     () => tableRows.filter((row) => row.name.toLowerCase().includes(tableQuery.toLowerCase())),
     [tableQuery],
   );
-  const calendarDays = useMemo(
-    () => createCalendarMonth(calendarView.year, calendarView.month),
-    [calendarView],
-  );
-  const calendarEventCount = calendarDays.filter(
-    (date) => !date.muted && calendarEvents.has(date.value),
-  ).length;
-  const moveCalendarMonth = (amount: number) => {
-    setCalendarView((current) => {
-      const nextMonth = new Date(current.year, current.month + amount, 1);
-      return { year: nextMonth.getFullYear(), month: nextMonth.getMonth() };
-    });
-  };
   const miniView = miniViews[miniSection];
   const miniCards = miniView.cards.filter((card) =>
     card.label.toLowerCase().includes(miniSearchQuery.toLowerCase()),
@@ -740,58 +723,6 @@ export default function SkeuomorphicKit() {
                   </button>
                 </div>
               </article>
-              <article className="panel calendar-card" aria-label="Schedule calendar">
-                <div className="calendar-header">
-                  <button
-                    className="icon-button"
-                    type="button"
-                    aria-label="Previous calendar month"
-                    onClick={() => moveCalendarMonth(-1)}
-                  >
-                    <ChevronLeft size={16} />
-                  </button>
-                  <div>
-                    <strong>{formatCalendarMonth(calendarView.year, calendarView.month)}</strong>
-                    <span>
-                      {calendarEventCount} scheduled {calendarEventCount === 1 ? "event" : "events"}
-                    </span>
-                  </div>
-                  <button
-                    className="icon-button"
-                    type="button"
-                    aria-label="Next calendar month"
-                    onClick={() => moveCalendarMonth(1)}
-                  >
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
-                <div className="calendar-weekdays" aria-hidden="true">
-                  {["M", "T", "W", "T", "F", "S", "S"].map((day, index) => (
-                    <span key={`${day}-${index}`}>{day}</span>
-                  ))}
-                </div>
-                <div
-                  className="calendar-grid"
-                  role="group"
-                  aria-label={formatCalendarMonth(calendarView.year, calendarView.month)}
-                >
-                  {calendarDays.map((date) => (
-                    <button
-                      className={`${date.muted ? "muted" : ""} ${date.today ? "today" : ""} ${date.event ? "has-event" : ""} ${date.value === calendarSelection ? "selected" : ""}`}
-                      type="button"
-                      aria-label={date.value}
-                      aria-pressed={date.value === calendarSelection}
-                      key={date.value}
-                      onClick={() => {
-                        setCalendarSelection(date.value);
-                        if (date.muted) setCalendarView({ year: date.year, month: date.month });
-                      }}
-                    >
-                      {date.day}
-                    </button>
-                  ))}
-                </div>
-              </article>
               <article className="panel carousel-card">
                 <div
                   className={`carousel-slide carousel-slide-${carouselDirection}`}
@@ -888,9 +819,11 @@ export default function SkeuomorphicKit() {
             </div>
           </Section>
 
+          <ShowcaseCalendar />
+
           <Section
             id="overlays"
-            eyebrow="04 · Overlays"
+            eyebrow="05 · Overlays"
             title="Modals on desktop. Drawers on mobile."
             description="Focused actions that stay contextual: inspect, edit, create, confirm, invite, and safely remove workspace content."
           >
@@ -899,7 +832,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="library"
-            eyebrow="05 · Reference"
+            eyebrow="06 · Reference"
             title="Component reference"
             description="Reusable primitives with the same tactile materials, interaction rules, and accessible behavior as the template."
           >
@@ -938,7 +871,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="data"
-            eyebrow="06 · Data"
+            eyebrow="07 · Data"
             title="Tables and information density"
             description="Readable structured data with search, sorting affordances, filters, and semantic status."
           >
@@ -971,7 +904,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="states"
-            eyebrow="07 · States"
+            eyebrow="08 · States"
             title="Every state accounted for"
             description="Empty, loading, skeleton, and progress patterns that preserve layout and communicate what happens next."
           >

@@ -202,6 +202,12 @@
   .chart-grid {
     grid-template-columns: 1fr;
   }
+  .calendar-workspace-body {
+    grid-template-columns: 1fr;
+  }
+  .calendar-agenda-panel {
+    order: -1;
+  }
   .catalog-demo-grid {
     grid-template-columns: 1fr;
   }
@@ -270,6 +276,42 @@
   }
   .catalog-table-search {
     width: 100%;
+  }
+  .calendar-toolbar {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  .calendar-toolbar-start,
+  .calendar-toolbar-end {
+    flex: 1 1 calc(50% - 8px);
+  }
+  .calendar-toolbar-title {
+    order: -1;
+    width: 100%;
+  }
+  .calendar-toolbar-end {
+    justify-content: flex-end;
+  }
+  .calendar-composer {
+    grid-template-columns: 1fr 1fr;
+  }
+  .calendar-composer-actions {
+    grid-column: 1 / -1;
+    justify-content: stretch;
+  }
+  .calendar-composer-actions .button {
+    flex: 1;
+  }
+  .calendar-day-cell {
+    min-height: 88px;
+    padding: 7px;
+  }
+  .calendar-event-chip {
+    overflow: hidden;
+    font-size: 9px;
+  }
+  .calendar-event-chip span {
+    display: none;
   }
   .dialog-card {
     position: absolute;
@@ -385,6 +427,58 @@
   .catalog-summary {
     align-items: flex-start;
     flex-direction: column;
+  }
+  .calendar-toolbar-start,
+  .calendar-toolbar-end {
+    flex: 1 1 100%;
+  }
+  .calendar-toolbar-end {
+    justify-content: space-between;
+  }
+  .calendar-toolbar-end .calendar-add-button {
+    flex: 1;
+  }
+  .calendar-workspace-body {
+    padding: 12px;
+  }
+  .calendar-day-cell {
+    min-height: 64px;
+    padding: 5px 3px;
+  }
+  .calendar-day-number {
+    width: 23px;
+    height: 23px;
+    align-self: center;
+    font-size: var(--text-2xs);
+  }
+  .calendar-day-events {
+    display: flex;
+    justify-content: center;
+  }
+  .calendar-event-chip {
+    width: 5px;
+    height: 5px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 5px var(--accent-glow);
+    font-size: 0;
+  }
+  .calendar-event-chip.blue {
+    background: var(--info);
+  }
+  .calendar-event-chip.green {
+    background: var(--success);
+  }
+  .calendar-event-more {
+    display: none;
+  }
+  .calendar-composer {
+    grid-template-columns: 1fr;
+  }
+  .calendar-composer-actions {
+    grid-column: auto;
   }
 }
 

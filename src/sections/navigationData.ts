@@ -1,6 +1,7 @@
 import {
   Activity,
   BarChart3,
+  CalendarDays,
   Component,
   Gauge,
   LibraryBig,
@@ -23,6 +24,7 @@ export const navigation: NavigationItem[] = [
   { label: "Foundation", href: "#foundation", icon: Palette },
   { label: "Controls", href: "#controls", icon: SlidersHorizontal },
   { label: "Components", href: "#components", icon: Component },
+  { label: "Calendar", href: "#calendar", icon: CalendarDays },
   { label: "Overlays", href: "#overlays", icon: PanelsTopLeft },
   { label: "Reference", href: "/library", icon: LibraryBig },
   { label: "Data", href: "#data", icon: BarChart3 },
