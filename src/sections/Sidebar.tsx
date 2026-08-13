@@ -65,7 +65,6 @@ export function Sidebar({
           </span>
           <span>
             <strong>Kinetic UI</strong>
-            <small>React system · 1.0</small>
           </span>
           <button
             className="icon-button sidebar-close"

@@ -60,7 +60,6 @@
   font-weight: 400;
   letter-spacing: 0.02em;
 }
-.brand-lockup small,
 .sidebar-profile small {
   margin-top: 2px;
   color: var(--text-muted);
