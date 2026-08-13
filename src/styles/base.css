@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+body {
+  background: var(--background);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+:where(.ui-kit button:not([data-slot])) {
+  color: inherit;
+}
+:where(.ui-kit a:not([data-slot])) {
+  color: inherit;
+  text-decoration: none;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+  body {
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  }
+}

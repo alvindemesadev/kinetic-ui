@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+@import "./styles/tokens.css";
+@import "./styles/base.css";
+@import "./styles/components.css";
+@import "./styles/charts.css";
+@import "./styles/responsive.css";

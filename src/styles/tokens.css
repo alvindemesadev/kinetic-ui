@@ -1,0 +1,219 @@
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------
+   Kinetic UI design tokens — single source of truth.
+
+   The Kinetic material palette (surfaces, text, borders, shadows)
+   is defined once per theme here. shadcn's semantic tokens are
+   derived from the same palette, so the custom CSS and the shadcn
+   component system share one set of values instead of two parallel
+   palettes.
+------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Fonts (bundled locally via Fontsource) */
+  --font-dot-gothic: "DotGothic16";
+  --font-geist-sans: "Geist";
+  --font-geist-mono: "Geist Mono";
+
+  /* Radii */
+  --radius: 0.625rem;
+  --kinetic-radius-xs: 6px;
+  --kinetic-radius-sm: 8px;
+  --kinetic-radius-control: 10px;
+  --kinetic-radius-menu: 14px;
+  --kinetic-radius-panel: 18px;
+  --kinetic-radius-pill: 999px;
+
+  /* Kinetic material palette (light) */
+  --bg: #e8e6df;
+  --bg-deep: #d8d5cc;
+  --bg-soft: #eeece5;
+  --sidebar: #e0ded7;
+  --surface-top: #fffefa;
+  --surface-mid: #f2f0e9;
+  --surface-bottom: #d8d6cf;
+  --surface-flat: #eceae3;
+  --surface-hover: #fffefa;
+  --surface-inset: #d8d6cf;
+  --border: rgba(35, 35, 32, 0.16);
+  --border-soft: rgba(35, 35, 32, 0.1);
+  --edge-light: rgba(255, 255, 255, 0.84);
+  --text: #242522;
+  --text-soft: #555651;
+  --text-muted: #595a55;
+  --accent: #ef5a1d;
+  --accent-dark: #c83e0d;
+  --action-top: #c94a16;
+  --action-bottom: #9f3008;
+  --action-foreground: #fff;
+  --accent-soft: rgba(239, 90, 29, 0.12);
+  --accent-glow: rgba(239, 90, 29, 0.2);
+  --success: #238a5b;
+  --warning: #aa6a0a;
+  --danger: #bb3e3e;
+  --info: #2f73d9;
+  --chart-grid: rgba(35, 35, 32, 0.13);
+  --chart-track: #d2cfc6;
+  --chart-hover: rgba(35, 35, 32, 0.045);
+  --shadow-raised:
+    0 18px 40px rgba(61, 57, 47, 0.17), inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(69, 66, 58, 0.18);
+  --shadow-soft: 0 9px 24px rgba(61, 57, 47, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-control:
+    0 4px 9px rgba(60, 57, 50, 0.18), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(55, 52, 46, 0.16);
+  --shadow-inset: inset 0 2px 5px rgba(70, 67, 59, 0.18), inset 0 -1px 0 rgba(255, 255, 255, 0.85);
+
+  /* shadcn semantic tokens, derived from the Kinetic palette */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface-mid);
+  --card-foreground: var(--text);
+  --popover: var(--surface-mid);
+  --popover-foreground: var(--text);
+  --primary: var(--accent-dark);
+  --primary-foreground: #fff;
+  --secondary: var(--surface-flat);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-inset);
+  --muted-foreground: var(--text-muted);
+  --accent-foreground: #fff;
+  --destructive: var(--danger);
+  --input: var(--border);
+  --ring: var(--accent);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--accent-dark);
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: var(--surface-hover);
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--accent);
+
+  /* Chart hues (independent of the material surfaces) */
+  --chart-1: hsl(17 82% 42%);
+  --chart-2: hsl(214 67% 52%);
+  --chart-3: hsl(153 60% 34%);
+  --chart-4: hsl(37 89% 35%);
+  --chart-5: hsl(0 50% 49%);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Kinetic material palette (dark) */
+  --bg: #101214;
+  --bg-deep: #0b0d0f;
+  --bg-soft: #17191c;
+  --sidebar: #121416;
+  --surface-top: #25282b;
+  --surface-mid: #1e2023;
+  --surface-bottom: #17191b;
+  --surface-flat: #1a1c1f;
+  --surface-hover: #292c2f;
+  --surface-inset: #111315;
+  --border: rgba(255, 255, 255, 0.095);
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --edge-light: rgba(255, 255, 255, 0.08);
+  --text: #f4f2eb;
+  --text-soft: #bbb8b0;
+  --text-muted: #7e7d78;
+  --accent: #ff6a2a;
+  --accent-dark: #d94813;
+  --action-top: #ff783e;
+  --action-bottom: var(--accent-dark);
+  --action-foreground: #fff9f5;
+  --accent-soft: rgba(255, 106, 42, 0.14);
+  --accent-glow: rgba(255, 96, 31, 0.28);
+  --success: #45b87f;
+  --warning: #e8a33d;
+  --danger: #e55d5d;
+  --info: #559bff;
+  --chart-grid: rgba(255, 255, 255, 0.075);
+  --chart-track: #2a2d30;
+  --chart-hover: rgba(255, 255, 255, 0.035);
+  --shadow-raised:
+    0 18px 45px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.065),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.48);
+  --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  --shadow-control:
+    0 5px 12px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.52);
+  --shadow-inset: inset 0 2px 5px rgba(0, 0, 0, 0.58), inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+
+  /* shadcn semantic tokens, derived from the Kinetic palette */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface-mid);
+  --card-foreground: var(--text);
+  --popover: var(--surface-mid);
+  --popover-foreground: var(--text);
+  --primary: var(--accent-dark);
+  --primary-foreground: #fff;
+  --secondary: var(--surface-flat);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-inset);
+  --muted-foreground: var(--text-muted);
+  --accent-foreground: #fff;
+  --destructive: var(--danger);
+  --input: var(--border);
+  --ring: var(--accent);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--accent-dark);
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: var(--surface-hover);
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--accent);
+
+  /* Chart hues (independent of the material surfaces) */
+  --chart-1: hsl(17 82% 44%);
+  --chart-2: hsl(214 100% 67%);
+  --chart-3: hsl(153 45% 50%);
+  --chart-4: hsl(37 79% 57%);
+  --chart-5: hsl(0 70% 63%);
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Geist", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}

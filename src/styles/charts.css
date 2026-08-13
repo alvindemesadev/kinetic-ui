@@ -1,0 +1,221 @@
+.charts-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 17px;
+  color: var(--accent);
+}
+.charts-placeholder > div {
+  flex: 1;
+}
+.charts-placeholder strong {
+  color: var(--text);
+  font-size: 11px;
+}
+.charts-placeholder p {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 9px;
+}
+
+.charts-heading {
+  margin: 46px 0 18px;
+}
+.charts-heading > span {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+.charts-heading h3 {
+  margin: 7px 0 5px;
+  font-family: var(--font-dot-gothic), sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+}
+.charts-heading p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 10px;
+}
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.chart-panel {
+  min-width: 0;
+  min-height: 340px;
+  padding: 19px 19px 15px;
+  overflow: hidden;
+}
+.chart-panel > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+.chart-panel > header > div {
+  display: flex;
+  flex-direction: column;
+}
+.chart-panel > header span {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.chart-panel > header h3 {
+  margin: 4px 0 0;
+  font-family: var(--font-dot-gothic), sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chart-panel > header > small {
+  color: var(--success);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+}
+.chart-stage {
+  position: relative;
+  height: 252px;
+  margin-top: 11px;
+}
+.chart-stage .recharts-surface {
+  overflow: visible;
+}
+.chart-stage :is(.recharts-wrapper, .recharts-surface, .recharts-layer, [tabindex]):focus {
+  outline: none;
+}
+.chart-stage :is(.recharts-wrapper, .recharts-surface):focus-visible {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.chart-stage .recharts-tooltip-wrapper {
+  transition: none !important;
+  pointer-events: none;
+}
+.chart-tooltip {
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface-top) 92%, transparent);
+  box-shadow:
+    0 13px 30px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 var(--edge-light);
+  backdrop-filter: blur(12px);
+  transform-origin: 50% 100%;
+  animation: chart-tooltip-in 110ms ease-out both;
+}
+@keyframes chart-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.chart-tooltip > strong {
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 12px;
+}
+.chart-tooltip > span {
+  display: grid;
+  grid-template-columns: 9px 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+.chart-tooltip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  box-shadow: 0 0 5px currentColor;
+}
+.chart-tooltip small {
+  color: var(--text-soft);
+  font-size: 12px;
+}
+.chart-tooltip b {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+}
+.pie-layout {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.chart-legend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chart-legend span {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: center;
+  gap: 9px;
+}
+.chart-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+.chart-legend small {
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.2;
+}
+.chart-legend b {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  line-height: 1.2;
+}
+.radial-wrap,
+.donut-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.radial-center,
+.donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+.radial-center strong,
+.donut-center strong {
+  font-family: var(--font-dot-gothic), sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+.radial-center span,
+.donut-center span {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+.tooltip-chart-card {
+  background: linear-gradient(
+    155deg,
+    var(--surface-top),
+    var(--surface-mid) 48%,
+    color-mix(in srgb, var(--accent) 8%, var(--surface-bottom))
+  );
+}
