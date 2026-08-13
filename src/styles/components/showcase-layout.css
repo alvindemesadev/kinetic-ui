@@ -1107,6 +1107,7 @@ kbd {
   display: grid;
   grid-template-columns: 1.08fr 0.92fr;
   gap: 16px;
+  align-items: start;
 }
 .palette-panel,
 .type-panel,

@@ -1,18 +1,25 @@
 import * as React from "react";
 import { AlertTriangle, Copy, Palette, Type } from "lucide-react";
+import { toast } from "sonner";
 import { palette } from "./ShowcaseData";
 
 interface ShowcaseFoundationProps {
-  onCopyColor?: (value: string) => void;
+  onCopyColor?: (value: string) => void | Promise<void>;
 }
 
 export function ShowcaseFoundation({ onCopyColor }: ShowcaseFoundationProps) {
-  const handleCopyColor = (value: string) => {
-    if (onCopyColor) {
-      onCopyColor(value);
-      return;
+  const handleCopyColor = async (value: string) => {
+    try {
+      if (onCopyColor) {
+        await onCopyColor(value);
+      } else {
+        if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+        await navigator.clipboard.writeText(value);
+      }
+      toast.success("Color copied", { description: `${value} is ready to paste.` });
+    } catch {
+      toast.error("Unable to copy color", { description: "Copy the value manually instead." });
     }
-    navigator.clipboard?.writeText(value);
   };
 
   return (
@@ -40,7 +47,7 @@ export function ShowcaseFoundation({ onCopyColor }: ShowcaseFoundationProps) {
                 <button
                   className="swatch"
                   key={color.name}
-                  onClick={() => handleCopyColor(color.value)}
+                  onClick={() => void handleCopyColor(color.value)}
                   aria-label={`Copy ${color.value}`}
                   type="button"
                 >
