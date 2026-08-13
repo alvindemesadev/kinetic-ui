@@ -123,9 +123,6 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-.nav-label-secondary {
-  margin-top: 12px;
-}
 .sidebar-nav a {
   position: relative;
   display: flex;

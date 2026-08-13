@@ -35,6 +35,27 @@ test("showcase and modal pass automated accessibility checks", async ({ page }) 
   await expect(trigger).toBeFocused();
 });
 
+test("sidebar menus map to real sections and track the active destination", async ({ page }) => {
+  test.skip(
+    (page.viewportSize()?.width ?? 1280) < 981,
+    "The desktop sidebar is collapsed on smaller viewports.",
+  );
+  await page.goto("/");
+  const sidebar = page.locator("#main-sidebar");
+  const hrefs = await sidebar
+    .locator("nav a")
+    .evaluateAll((links) =>
+      links.map((link) => link.getAttribute("href")).filter((href): href is string => Boolean(href)),
+    );
+
+  for (const href of hrefs) {
+    const link = sidebar.locator(`a[href="${href}"]`);
+    await link.click();
+    await expect(page.locator(href)).toBeVisible();
+    await expect(link).toHaveClass(/active/);
+  }
+});
+
 test("command menu traps focus and closes with Escape", async ({ page }) => {
   await page.goto("/");
   const trigger = page.getByRole("button", { name: /Open command menu/ });

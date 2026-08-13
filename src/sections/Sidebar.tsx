@@ -1,5 +1,5 @@
-import { Archive, CircleHelp, LogOut, Menu, Settings, User, X } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { LogOut, Menu, Settings, User, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { InitialsAvatar, LoadingButton } from "@/components";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
@@ -31,6 +31,13 @@ export function Sidebar({
   const sidebarToggleRef = useRef<HTMLButtonElement>(null);
   const profileTriggerRef = useRef<HTMLButtonElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
+  const [activeHref, setActiveHref] = useState(() => window.location.hash || "#overview");
+
+  useEffect(() => {
+    const handleHashChange = () => setActiveHref(window.location.hash || "#overview");
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   useFocusTrap(sidebarRef, sidebarOpen);
 
@@ -89,11 +96,11 @@ export function Sidebar({
         </div>
         <nav className="sidebar-nav" aria-label="Component sections">
           <span className="nav-label">Library</span>
-          {navigation.map((item, index) => {
+          {navigation.map((item) => {
             const Icon = item.icon;
             return (
               <a
-                className={index === 0 ? "active" : ""}
+                className={item.href === activeHref ? "active" : ""}
                 href={item.href}
                 key={item.label}
                 aria-label={item.label}
@@ -102,27 +109,10 @@ export function Sidebar({
               >
                 <Icon size={17} />
                 <span>{item.label}</span>
-                {index === 2 && <span className="nav-count">64</span>}
+                {item.label === "Reference" && <span className="nav-count">64</span>}
               </a>
             );
           })}
-          <span className="nav-label nav-label-secondary">Workspace</span>
-          <a
-            href="#components"
-            aria-label="Resources"
-            data-tooltip={sidebarCollapsed ? "Resources" : undefined}
-          >
-            <Archive size={17} />
-            <span>Resources</span>
-          </a>
-          <a
-            href="#states"
-            aria-label="Documentation"
-            data-tooltip={sidebarCollapsed ? "Documentation" : undefined}
-          >
-            <CircleHelp size={17} />
-            <span>Documentation</span>
-          </a>
         </nav>
         <div className="sidebar-profile" onClick={(event) => event.stopPropagation()}>
           <button
