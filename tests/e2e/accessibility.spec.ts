@@ -11,6 +11,14 @@ async function expectNoSeriousViolations(page: import("@playwright/test").Page) 
   expect(serious, serious.map((violation) => `${violation.id}: ${violation.help}`).join("\n")).toEqual([]);
 }
 
+// Overlays fade in over ~220ms; axe must not sample colors mid-animation,
+// or semi-transparent surfaces get blended and falsely fail contrast checks.
+async function expectOverlaySettled(overlay: import("@playwright/test").Locator) {
+  await expect
+    .poll(() => overlay.evaluate((el) => el.getAnimations({ subtree: true }).length), { timeout: 3000 })
+    .toBe(0);
+}
+
 test("showcase and modal pass automated accessibility checks", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /Interfaces with/ })).toBeVisible();
@@ -21,6 +29,7 @@ test("showcase and modal pass automated accessibility checks", async ({ page }) 
   const dialog = page.getByRole("dialog", { name: "Save this design system?" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole("button", { name: "Cancel" })).toBeFocused();
+  await expectOverlaySettled(page.locator(".modal-layer"));
   await expectNoSeriousViolations(page);
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
@@ -33,6 +42,7 @@ test("command menu traps focus and closes with Escape", async ({ page }) => {
   const dialog = page.getByRole("dialog", { name: "Command menu" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByPlaceholder("Type a command or search...")).toBeFocused();
+  await expectOverlaySettled(page.locator(".command-layer"));
   await expectNoSeriousViolations(page);
   await page.keyboard.press("Shift+Tab");
   await expect
@@ -91,7 +101,9 @@ test("navigation preview controls update its mini workspace", async ({ page }) =
   }
 
   await preview.getByRole("button", { name: "Open preview profile" }).click();
-  await preview.getByRole("button", { name: "View team" }).click();
+  const profileMenu = preview.getByRole("menu", { name: "Preview profile" });
+  await expect(profileMenu.getByRole("menuitem", { name: "View team" })).toBeFocused();
+  await profileMenu.getByRole("menuitem", { name: "View team" }).click();
   await expect(preview.getByText("Team workspace")).toBeVisible();
 
   await preview.getByRole("button", { name: "Search preview" }).click();
@@ -99,10 +111,18 @@ test("navigation preview controls update its mini workspace", async ({ page }) =
   const memberCard = preview.getByRole("button", { name: /Members 18/ });
   await memberCard.click();
   await expect(memberCard).toHaveAttribute("aria-pressed", "true");
+  const searchPreview = preview.getByRole("button", { name: "Close preview search" });
+  await searchPreview.click();
+  await expect(preview.getByRole("button", { name: "Search preview" })).toBeFocused();
 
-  await preview.getByRole("button", { name: "2 preview notifications" }).click();
-  await preview.getByRole("button", { name: "Mark all as read" }).click();
+  const previewNotification = preview.locator(".mini-notification-button");
+  await previewNotification.click();
+  const notificationMenu = preview.getByRole("dialog", { name: "Preview notifications" });
+  await expect(notificationMenu.getByRole("button", { name: "Mark all as read" })).toBeFocused();
+  await notificationMenu.getByRole("button", { name: "Mark all as read" }).click();
   await expect(preview.getByRole("button", { name: "0 preview notifications" })).toBeVisible();
+  await notificationMenu.getByRole("button", { name: "Close notifications" }).click();
+  await expect(previewNotification).toBeFocused();
 
   await preview.getByRole("button", { name: "Collapse preview menu" }).click();
   await expect(preview).toHaveClass(/sidebar-collapsed/);
@@ -128,24 +148,28 @@ test("main hamburger smoothly toggles the sidebar at every viewport", async ({ p
     await expect(content).toHaveCSS("margin-left", "248px");
   } else {
     await expect(sidebar).toHaveClass(/is-open/);
+    await expect(sidebar.getByRole("button", { name: "Close sidebar" })).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(sidebar).not.toHaveClass(/is-open/);
+    await expect(toggle).toBeFocused();
   }
 });
 
 test("navbar notification bell opens, reads, and dismisses its notification card", async ({ page }) => {
   await page.goto("/");
-  const bell = page.getByRole("button", { name: "2 notifications" });
+  const bell = page.locator(".notification-button");
   await bell.click();
 
   const card = page.getByRole("dialog", { name: "Notifications" });
   await expect(card).toBeVisible();
+  await expect(card.getByRole("button", { name: "Mark all read" })).toBeFocused();
   await expect(card.getByText("Component review ready", { exact: true })).toBeVisible();
   await card.getByRole("button", { name: "Mark all read" }).click();
   await expect(page.getByRole("button", { name: "0 notifications" })).toBeVisible();
 
   await card.getByRole("button", { name: "Close notifications" }).click();
   await expect(card).toBeHidden();
+  await expect(bell).toBeFocused();
 });
 
 test("light mode keeps action and checkbox foregrounds readable", async ({ page }) => {
@@ -168,16 +192,30 @@ test("sidebar profile menu exposes profile settings and logout", async ({ page }
   if ((page.viewportSize()?.width ?? 1280) < 980) {
     await page.getByRole("button", { name: "Toggle sidebar" }).click();
   }
+  await expect(trigger).toBeVisible();
 
   await trigger.click();
   const menu = page.getByRole("menu");
   await expect(menu).toBeVisible();
+  await expect(menu.getByRole("menuitem", { name: "Profile" })).toBeFocused();
   await expect(menu.getByText("Alvin de Mesa")).toBeVisible();
   await expect(menu.getByRole("menuitem", { name: "Profile" })).toBeVisible();
   await expect(menu.getByRole("menuitem", { name: "Settings" })).toBeVisible();
 
-  await menu.getByRole("menuitem", { name: "Log out" }).click();
-  await expect(page.getByText("Signed out", { exact: true })).toBeVisible();
+  await menu.getByRole("menuitem", { name: "Settings" }).click();
+  if ((page.viewportSize()?.width ?? 1280) < 980) {
+    const toggle = page.getByRole("button", { name: "Toggle sidebar" });
+    await expect(toggle).toBeFocused();
+    await toggle.click();
+    await expect(trigger).toBeVisible();
+  } else {
+    await expect(trigger).toBeFocused();
+  }
+
+  await trigger.click();
+  const reopenedMenu = page.getByRole("menu");
+  await reopenedMenu.getByRole("menuitem", { name: "Log out" }).click();
+  await expect(page.getByText("Signed out", { exact: true })).toBeVisible({ timeout: 10_000 });
   await page.locator(".sidebar-profile").getByRole("button", { name: "Sign in" }).click();
   await expect(page.getByRole("button", { name: "Profile menu" })).toBeVisible();
 });
@@ -194,7 +232,7 @@ test("component library selection controls behave like Kinetic labeled rows", as
 
   await expect(checkbox).toBeChecked();
   await expect(syncLabel).toHaveCSS("font-size", "12px");
-  await expect(formCard.getByText("Keep component changes synchronized.")).toHaveCSS("font-size", "10px");
+  await expect(formCard.getByText("Keep component changes synchronized.")).toHaveCSS("font-size", "11px");
   const checkboxBox = await checkbox.boundingBox();
   const syncLabelBox = await syncLabel.boundingBox();
   expect(checkboxBox).not.toBeNull();
@@ -220,6 +258,50 @@ test("component library selection controls behave like Kinetic labeled rows", as
   await expect(formCard.locator("output")).toHaveText("63%");
 });
 
+test("custom popovers move focus in and restore it when closed", async ({ page }) => {
+  await page.goto("/#controls");
+  const controls = page.locator("#controls");
+
+  const dateField = controls.locator(".custom-control").filter({ hasText: "Date picker" });
+  const dateTrigger = dateField.getByRole("button", { name: /Date picker/i });
+  await dateTrigger.click();
+  const dateDialog = dateField.getByRole("dialog", { name: "Choose a date" });
+  await expect(dateDialog.locator('button[role="gridcell"][tabindex="0"]')).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(dateTrigger).toBeFocused();
+
+  const timeField = controls.locator(".custom-control").filter({ hasText: "Time picker" });
+  const timeTrigger = timeField.getByRole("button", { name: /Time picker/i });
+  await timeTrigger.click();
+  const timeDialog = timeField.getByRole("dialog", { name: "Choose a time" });
+  await expect(timeDialog.locator('input[aria-label="Hour"]')).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(timeTrigger).toBeFocused();
+
+  await timeTrigger.click();
+  await timeDialog.getByRole("button", { name: "Done" }).click();
+  await expect(timeTrigger).toBeFocused();
+
+  const styleField = controls.locator(".custom-control").filter({ hasText: "Dropdown" });
+  const styleTrigger = styleField.getByRole("combobox", { name: /Interface style/i });
+  await styleTrigger.click();
+  const styleListbox = styleField.getByRole("listbox", { name: "Interface style" });
+  await expect(styleListbox.locator('[role="option"][aria-selected="true"]')).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(styleTrigger).toBeFocused();
+
+  const framework = controls.getByRole("combobox", { name: "Framework" });
+  await framework.click();
+  await page.keyboard.press("Escape");
+  await expect(framework).toBeFocused();
+
+  await framework.fill("V");
+  const frameworkOption = controls.getByRole("option", { name: "Vue" });
+  await frameworkOption.click();
+  await expect(framework).toHaveValue("Vue");
+  await expect(framework).toBeFocused();
+});
+
 test("component library renders working examples inside the Skeuomorphic components section", async ({
   page,
 }) => {
@@ -235,6 +317,11 @@ test("component library renders working examples inside the Skeuomorphic compone
   const boldToggle = library.getByRole("button", { name: "Bold" });
   await expect(boldToggle).toBeVisible();
   await expect(boldToggle.locator("svg")).toBeVisible();
+  const disclosureCard = library.locator('[data-slot="card"]').filter({ hasText: "Disclosure & selection" });
+  await expect(disclosureCard.locator('[data-slot="accordion-content"]').first()).toHaveCSS(
+    "padding-top",
+    "10px",
+  );
 
   const formCard = library.locator('[data-slot="card"]').filter({ hasText: "Form controls" });
   await expect(formCard.getByLabel("Project name")).toHaveCSS("font-size", "14px");
@@ -272,12 +359,14 @@ test("component library renders working examples inside the Skeuomorphic compone
   await sheet.getByRole("button", { name: "Save settings" }).click();
   await expect(sheet).toBeHidden();
 
-  await library.getByRole("button", { name: "Open drawer" }).click();
+  const drawerTrigger = library.getByRole("button", { name: "Open drawer" });
+  await drawerTrigger.click();
   const drawer = page.locator('[data-slot="drawer-content"]');
   await expect(drawer).toBeVisible();
-  await expect(drawer.getByRole("button", { name: "New project" })).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "New project" })).toBeFocused();
   await drawer.getByRole("button", { name: "Done" }).click();
   await expect(drawer).toBeHidden();
+  await expect(drawerTrigger).toBeFocused();
 
   await library.getByRole("button", { name: "Delete", exact: true }).click();
   const alertDialog = page.locator('[data-slot="alert-dialog-content"]');

@@ -16,7 +16,7 @@
 .charts-placeholder p {
   margin: 2px 0 0;
   color: var(--text-muted);
-  font-size: 9px;
+  font-size: var(--text-2xs);
 }
 
 .charts-heading {
@@ -24,7 +24,7 @@
 }
 .charts-heading > span {
   color: var(--accent);
-  font-size: 9px;
+  font-size: var(--text-2xs);
   font-weight: 760;
   letter-spacing: 0.17em;
   text-transform: uppercase;
@@ -38,7 +38,7 @@
 .charts-heading p {
   margin: 0;
   color: var(--text-soft);
-  font-size: 10px;
+  font-size: var(--text-2xs);
 }
 .chart-grid {
   display: grid;
@@ -63,7 +63,7 @@
 }
 .chart-panel > header span {
   color: var(--accent);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   font-weight: 750;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -91,7 +91,7 @@
   outline: none;
 }
 .chart-stage :is(.recharts-wrapper, .recharts-surface):focus-visible {
-  border-radius: 10px;
+  border-radius: var(--kinetic-radius-control);
   box-shadow: inset 0 0 0 2px var(--accent);
 }
 .chart-stage .recharts-tooltip-wrapper {
@@ -105,7 +105,7 @@
   gap: 8px;
   padding: 11px 12px;
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: var(--kinetic-radius-control);
   color: var(--text);
   background: color-mix(in srgb, var(--surface-top) 92%, transparent);
   box-shadow:

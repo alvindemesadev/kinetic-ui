@@ -31,6 +31,13 @@ select {
   color: inherit;
   text-decoration: none;
 }
+/* Universal focus fallback: an accent ring with offset on every keyboard
+   target. :where() keeps specificity at zero, so the per-component
+   focus-visible rules throughout the design system still win when set. */
+:where(.ui-kit :is(button, a, input, select, [tabindex]):focus-visible) {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
 
 @layer base {
   * {

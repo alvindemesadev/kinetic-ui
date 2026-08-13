@@ -11,7 +11,7 @@ import {
   Search,
   Sun,
 } from "lucide-react";
-import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useMemo, useRef, useState, useCallback, type KeyboardEvent } from "react";
 import { frameworkOptions, styleOptions } from "./controlData";
 
 export type OpenControlProps = {
@@ -71,6 +71,7 @@ export type DatePickerProps = OpenControlProps & {
 export function DatePicker({ value, onChange, isOpen, onToggle, onClose }: DatePickerProps) {
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const dayRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const initialDate = value ? new Date(`${value}T00:00:00`) : new Date();
   const [viewMonth, setViewMonth] = useState({
@@ -84,64 +85,74 @@ export function DatePicker({ value, onChange, isOpen, onToggle, onClose }: DateP
   useEffect(() => {
     if (!isOpen) return;
     const nextIndex = selectedIndex >= 0 ? selectedIndex : days.findIndex((date) => !date.muted);
-    requestAnimationFrame(() => {
+    const focusFrame = requestAnimationFrame(() => {
       setActiveIndex(nextIndex);
       dayRefs.current[nextIndex]?.focus();
     });
+    return () => cancelAnimationFrame(focusFrame);
   }, [days, isOpen, selectedIndex]);
 
-  const closeAndRestoreFocus = () => {
+  const closeAndRestoreFocus = useCallback(() => {
     onClose();
     requestAnimationFrame(() => triggerRef.current?.focus());
-  };
+  }, [onClose]);
 
-  const moveMonth = (amount: number) => {
+  const moveMonth = useCallback((amount: number) => {
     setViewMonth((current) => {
       const date = new Date(current.year, current.month + amount, 1);
       return { year: date.getFullYear(), month: date.getMonth() };
     });
-  };
+  }, []);
 
-  const chooseDate = (index: number) => {
-    const date = days[index];
-    onChange(date.value);
-    setViewMonth({ year: date.year, month: date.month });
-    closeAndRestoreFocus();
-  };
-
-  const moveFocus = (nextIndex: number) => {
-    const boundedIndex = Math.max(0, Math.min(days.length - 1, nextIndex));
-    setActiveIndex(boundedIndex);
-    dayRefs.current[boundedIndex]?.focus();
-  };
-
-  const handleDayKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    const moves: Record<string, number> = {
-      ArrowLeft: index - 1,
-      ArrowRight: index + 1,
-      ArrowUp: index - 7,
-      ArrowDown: index + 7,
-      Home: index - (index % 7),
-      End: index + (6 - (index % 7)),
-    };
-    if (event.key in moves) {
-      event.preventDefault();
-      moveFocus(moves[event.key]);
-    } else if (event.key === "PageUp" || event.key === "PageDown") {
-      event.preventDefault();
-      moveMonth(event.key === "PageUp" ? -1 : 1);
-    } else if (event.key === "Escape") {
-      event.preventDefault();
+  const chooseDate = useCallback(
+    (index: number) => {
+      const date = days[index];
+      onChange(date.value);
+      setViewMonth({ year: date.year, month: date.month });
       closeAndRestoreFocus();
-    }
-  };
+    },
+    [days, onChange, closeAndRestoreFocus],
+  );
 
-  const chooseToday = () => {
+  const moveFocus = useCallback(
+    (nextIndex: number) => {
+      const boundedIndex = Math.max(0, Math.min(days.length - 1, nextIndex));
+      setActiveIndex(boundedIndex);
+      dayRefs.current[boundedIndex]?.focus();
+    },
+    [days.length],
+  );
+
+  const handleDayKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+      const moves: Record<string, number> = {
+        ArrowLeft: index - 1,
+        ArrowRight: index + 1,
+        ArrowUp: index - 7,
+        ArrowDown: index + 7,
+        Home: index - (index % 7),
+        End: index + (6 - (index % 7)),
+      };
+      if (event.key in moves) {
+        event.preventDefault();
+        moveFocus(moves[event.key]);
+      } else if (event.key === "PageUp" || event.key === "PageDown") {
+        event.preventDefault();
+        moveMonth(event.key === "PageUp" ? -1 : 1);
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        closeAndRestoreFocus();
+      }
+    },
+    [moveFocus, moveMonth, closeAndRestoreFocus],
+  );
+
+  const chooseToday = useCallback(() => {
     const today = new Date();
     onChange(dateKey(today.getFullYear(), today.getMonth(), today.getDate()));
     setViewMonth({ year: today.getFullYear(), month: today.getMonth() });
     closeAndRestoreFocus();
-  };
+  }, [onChange, closeAndRestoreFocus]);
 
   return (
     <div
@@ -163,8 +174,14 @@ export function DatePicker({ value, onChange, isOpen, onToggle, onClose }: DateP
         <CalendarDays size={15} />
       </button>
       {isOpen && (
-        <div className="control-popover date-popover" id={panelId} role="dialog" aria-label="Choose a date">
-          <div className="picker-heading">
+        <div
+          ref={panelRef}
+          className="control-popover date-popover"
+          id={panelId}
+          role="dialog"
+          aria-label="Choose a date"
+        >
+          <div className="picker-heading" aria-live="polite" aria-atomic="true">
             <button type="button" aria-label="Previous month" onClick={() => moveMonth(-1)}>
               <ChevronLeft size={15} />
             </button>
@@ -268,6 +285,9 @@ function formatTime(value: string, format: ClockFormat) {
 
 export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimePickerProps) {
   const panelId = useId();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const hourInputRef = useRef<HTMLInputElement>(null);
   const presets = ["08:00", "12:30", "18:00", "22:22"];
   const [hour, minute] = value.split(":").map(Number);
   const [clockFormat, setClockFormat] = useState<ClockFormat>("24");
@@ -275,6 +295,17 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
   const [minuteDraft, setMinuteDraft] = useState(() => String(minute).padStart(2, "0"));
   const [lastValue, setLastValue] = useState(value);
   const currentTimeRef = useRef({ hour, minute });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const focusFrame = requestAnimationFrame(() => hourInputRef.current?.focus());
+    return () => cancelAnimationFrame(focusFrame);
+  }, [isOpen]);
+
+  const closeAndRestoreFocus = useCallback(() => {
+    onClose();
+    requestAnimationFrame(() => triggerRef.current?.focus());
+  }, [onClose]);
 
   if (value !== lastValue) {
     setLastValue(value);
@@ -349,6 +380,7 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
     >
       <span>Time picker</span>
       <button
+        ref={triggerRef}
         className="custom-trigger"
         type="button"
         aria-label={`Time picker, ${formatTime(value, clockFormat)}`}
@@ -366,7 +398,13 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
           id={panelId}
           role="dialog"
           aria-label="Choose a time"
-          onKeyDown={(event) => event.key === "Escape" && onClose()}
+          ref={panelRef}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              closeAndRestoreFocus();
+            }
+          }}
         >
           <div className="time-format-heading">
             <span className="popover-kicker">{clockFormat}-hour time</span>
@@ -391,6 +429,7 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
                 <ChevronUp size={16} />
               </button>
               <input
+                ref={hourInputRef}
                 aria-label="Hour"
                 inputMode="numeric"
                 pattern="[0-9]*"
@@ -488,7 +527,7 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
               </button>
             ))}
           </div>
-          <button className="picker-done" type="button" onClick={onClose}>
+          <button className="picker-done" type="button" onClick={closeAndRestoreFocus}>
             Done
           </button>
         </div>
@@ -509,12 +548,37 @@ function ThemePreferenceIcon({ value, size = 14 }: { value: ThemePreference; siz
 
 export function StyleDropdown({ value, onChange, isOpen, onToggle, onClose }: StyleDropdownProps) {
   const listboxId = useId();
-  const selected = styleOptions.find((option) => option.value === value) ?? styleOptions[0];
-  const focusOption = (target: EventTarget & HTMLButtonElement, amount: number) => {
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const selected = useMemo(
+    () => styleOptions.find((option) => option.value === value) ?? styleOptions[0],
+    [value],
+  );
+  useEffect(() => {
+    if (!isOpen) return;
+    const focusFrame = requestAnimationFrame(() =>
+      panelRef.current?.querySelector<HTMLButtonElement>('[aria-selected="true"]')?.focus(),
+    );
+    return () => cancelAnimationFrame(focusFrame);
+  }, [isOpen]);
+  const closeAndRestoreFocus = useCallback(() => {
+    onClose();
+    requestAnimationFrame(() => triggerRef.current?.focus());
+  }, [onClose]);
+  const focusOption = useCallback((target: EventTarget & HTMLButtonElement, amount: number) => {
     const buttons = [...(target.parentElement?.querySelectorAll<HTMLButtonElement>("[role=option]") ?? [])];
     const index = buttons.indexOf(target);
     buttons[(index + amount + buttons.length) % buttons.length]?.focus();
-  };
+  }, []);
+  const handleTriggerKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
+      if (["ArrowDown", "ArrowUp"].includes(event.key)) {
+        event.preventDefault();
+        onToggle();
+      }
+    },
+    [onToggle],
+  );
   return (
     <div
       className={`field full custom-control ${isOpen ? "is-open" : ""}`}
@@ -522,6 +586,7 @@ export function StyleDropdown({ value, onChange, isOpen, onToggle, onClose }: St
     >
       <span>Dropdown</span>
       <button
+        ref={triggerRef}
         className="custom-trigger"
         type="button"
         role="combobox"
@@ -529,12 +594,7 @@ export function StyleDropdown({ value, onChange, isOpen, onToggle, onClose }: St
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={listboxId}
-        onKeyDown={(event) => {
-          if (["ArrowDown", "ArrowUp"].includes(event.key)) {
-            event.preventDefault();
-            onToggle();
-          }
-        }}
+        onKeyDown={handleTriggerKeyDown}
         onClick={onToggle}
       >
         <i className={`theme-choice-icon ${selected.value}`} aria-hidden="true">
@@ -545,6 +605,7 @@ export function StyleDropdown({ value, onChange, isOpen, onToggle, onClose }: St
       </button>
       {isOpen && (
         <div
+          ref={panelRef}
           className="control-popover option-popover"
           id={listboxId}
           role="listbox"
@@ -564,11 +625,14 @@ export function StyleDropdown({ value, onChange, isOpen, onToggle, onClose }: St
                 } else if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
                   event.preventDefault();
                   focusOption(event.currentTarget, -1);
-                } else if (event.key === "Escape") onClose();
+                } else if (event.key === "Escape") {
+                  event.preventDefault();
+                  closeAndRestoreFocus();
+                }
               }}
               onClick={() => {
                 onChange(option.value);
-                onClose();
+                closeAndRestoreFocus();
               }}
             >
               <i className={`option-swatch ${option.value}`} aria-hidden="true">
@@ -603,25 +667,50 @@ export function FrameworkCombobox({
   options = frameworkOptions,
 }: FrameworkComboboxProps) {
   const listboxId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const matches = options.filter((option) => option.toLowerCase().includes(value.toLowerCase()));
-  const choose = (option: string) => {
-    onChange(option);
+  const matches = useMemo(
+    () => options.filter((option) => option.toLowerCase().includes(value.toLowerCase())),
+    [options, value],
+  );
+  const closeAndRestoreFocus = useCallback(() => {
     onClose();
-  };
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      event.preventDefault();
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }, [onClose]);
+  const choose = useCallback(
+    (option: string) => {
+      onChange(option);
+      closeAndRestoreFocus();
+    },
+    [onChange, closeAndRestoreFocus],
+  );
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        onOpen();
+        const amount = event.key === "ArrowDown" ? 1 : -1;
+        setActiveIndex(
+          (index) => (index + amount + Math.max(matches.length, 1)) % Math.max(matches.length, 1),
+        );
+      } else if (event.key === "Enter" && isOpen && matches[activeIndex]) {
+        event.preventDefault();
+        choose(matches[activeIndex]);
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        closeAndRestoreFocus();
+      }
+    },
+    [matches, isOpen, activeIndex, onOpen, choose, closeAndRestoreFocus],
+  );
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(event.target.value);
+      setActiveIndex(0);
       onOpen();
-      const amount = event.key === "ArrowDown" ? 1 : -1;
-      setActiveIndex((index) => (index + amount + Math.max(matches.length, 1)) % Math.max(matches.length, 1));
-    } else if (event.key === "Enter" && isOpen && matches[activeIndex]) {
-      event.preventDefault();
-      choose(matches[activeIndex]);
-    } else if (event.key === "Escape") {
-      onClose();
-    }
-  };
+    },
+    [onChange, onOpen],
+  );
   return (
     <div
       className={`field custom-control combobox-control ${isOpen ? "is-open" : ""}`}
@@ -631,6 +720,7 @@ export function FrameworkCombobox({
       <div className="input-shell has-icon custom-combobox">
         <Search size={15} />
         <input
+          ref={inputRef}
           role="combobox"
           aria-label="Framework"
           aria-autocomplete="list"
@@ -640,11 +730,7 @@ export function FrameworkCombobox({
           value={value}
           onKeyDown={handleKeyDown}
           onFocus={onOpen}
-          onChange={(event) => {
-            onChange(event.target.value);
-            setActiveIndex(0);
-            onOpen();
-          }}
+          onChange={handleInputChange}
         />
         <ChevronDown size={14} />
       </div>

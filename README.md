@@ -41,9 +41,9 @@ npx playwright install chromium
 
 Reusable controls are exported from `src/components/index.ts`:
 
-- `Avatar`
-- `StatusBadge`
-- `Toggle`
+- `InitialsAvatar`
+- `StatusPill`
+- `SwitchControl`
 - `DatePicker`
 - `TimePicker`
 - `StyleDropdown`
@@ -121,12 +121,18 @@ Automated checks support accessibility review but do not replace manual keyboard
 
 ```text
 src/
-  components/          Reusable controls, primitives, and public exports
+  components/          Reusable controls, primitives, and showcase exports
+    controls/          Picker, dropdown, and combobox controls (kept at components root)
+    showcase/          AuthCard, LoadingButton, logo carousel, button states
+    ui/                shadcn-style component catalog and registry
+  sections/            Showcase sections (Sidebar, Navbar, Hero, catalog groups)
   hooks/               Focus management and theme hooks
   test/                Vitest setup
   App.tsx              Application shell
   SkeuomorphicKit.tsx  Showcase composition and demonstration state
+  ComponentCatalog.tsx Lazy-loaded catalog shell
   ChartGallery.tsx     Lazy-loaded chart examples
-  styles.css           Tokens, component styles, themes, and breakpoints
+  styles/              Token, base, component, chart, and responsive stylesheets
+  styles.css           Entry point importing the stylesheets above
 tests/e2e/             Playwright accessibility checks
 ```

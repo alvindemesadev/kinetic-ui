@@ -116,7 +116,7 @@ function ChartCard({
   );
 }
 
-const axis = { fontSize: 11, fill: "var(--text-muted)" };
+const axis = { fontSize: 12, fill: "var(--text-muted)" };
 const tooltipMotion = {
   isAnimationActive: false as const,
   animationDuration: 0,

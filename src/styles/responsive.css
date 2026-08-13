@@ -100,11 +100,45 @@
   }
 }
 
+@media (min-width: 721px) and (max-width: 980px) {
+  .hero-device {
+    margin-left: 0;
+    justify-self: center;
+    width: min(640px, 100%);
+  }
+  .catalog-demo-grid {
+    gap: 12px;
+  }
+}
+
 @media (max-width: 720px) {
   .navbar {
     height: 60px;
     grid-template-columns: 1fr auto;
     padding-inline: 13px;
+  }
+  .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+  .mode-toggle {
+    padding: 3px;
+  }
+  .mode-toggle button {
+    width: 44px;
+    height: 40px;
+  }
+  .button,
+  .ui-kit [data-slot="button"],
+  .auth-submit,
+  .command-item,
+  .ui-kit .catalog-command [data-slot="command-item"],
+  .button-state-sample {
+    min-height: 44px;
+  }
+  .command-layer,
+  .modal-layer {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
   .navbar-search,
   .breadcrumbs {
@@ -201,6 +235,13 @@
     flex-direction: column;
     padding: 23px;
   }
+  .table-panel {
+    overflow-x: auto;
+  }
+  .table-panel th,
+  .table-panel td {
+    white-space: nowrap;
+  }
   .table-toolbar {
     align-items: flex-start;
     flex-direction: column;
@@ -217,7 +258,7 @@
     bottom: 0;
     width: 100%;
     padding: 25px 20px calc(22px + env(safe-area-inset-bottom));
-    border-radius: 22px 22px 0 0;
+    border-radius: var(--kinetic-radius-panel) var(--kinetic-radius-panel) 0 0;
     animation: drawer-in 0.24s ease;
   }
   @keyframes drawer-in {
@@ -234,7 +275,7 @@
     width: 42px;
     height: 4px;
     margin: -12px auto 18px;
-    border-radius: 999px;
+    border-radius: var(--kinetic-radius-pill);
     background: var(--text-muted);
     opacity: 0.55;
   }
@@ -262,7 +303,11 @@
     grid-template-columns: 1fr;
   }
   .navbar-actions .mode-toggle {
-    display: none;
+    display: flex;
+  }
+  .mode-toggle button {
+    width: 40px;
+    height: 36px;
   }
   .hero-actions {
     display: grid;
@@ -273,15 +318,23 @@
   }
   .hero-device {
     margin-right: -12px;
+    width: calc(100% + 12px);
+  }
+  .device-button {
+    width: 62px;
+    height: 62px;
+    border-width: 6px;
   }
   .device-display {
-    min-width: 255px;
+    min-width: 0;
+    flex: 1 1 auto;
+    padding-left: 36px;
   }
   .device-display small {
     font-size: 8px;
   }
   .device-display strong {
-    font-size: 26px;
+    font-size: 23px;
   }
   .field-grid {
     grid-template-columns: 1fr;
@@ -314,6 +367,19 @@
   .catalog-summary {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+    padding-block: 20px;
+  }
+  .hero-device {
+    height: 160px;
+  }
+  .content-shell {
+    padding-top: 16px;
   }
 }
 

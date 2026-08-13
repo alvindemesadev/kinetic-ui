@@ -1,10 +1,10 @@
-export type AvatarProps = {
+export type InitialsAvatarProps = {
   size?: "small" | "medium" | "large";
   label?: string;
   name?: string;
 };
 
-export function Avatar({ size = "medium", label, name = "User" }: AvatarProps) {
+export function InitialsAvatar({ size = "medium", label, name = "User" }: InitialsAvatarProps) {
   const initials =
     label ??
     name
@@ -15,22 +15,22 @@ export function Avatar({ size = "medium", label, name = "User" }: AvatarProps) {
       .toUpperCase();
   return (
     <span className={`avatar avatar-${size}`} role="img" aria-label={`${name} avatar`}>
-      {initials}
+      <span aria-hidden="true">{initials}</span>
     </span>
   );
 }
 
-export function StatusBadge({ status }: { status: string }) {
+export function StatusPill({ status }: { status: string }) {
   return <span className={`badge badge-${status.toLowerCase()}`}>{status}</span>;
 }
 
-export type ToggleProps = {
+export type SwitchControlProps = {
   checked: boolean;
   onChange: (value: boolean) => void;
   label: string;
 };
 
-export function Toggle({ checked, onChange, label }: ToggleProps) {
+export function SwitchControl({ checked, onChange, label }: SwitchControlProps) {
   return (
     <button
       className={`switch ${checked ? "is-on" : ""}`}

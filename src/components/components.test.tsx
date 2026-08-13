@@ -11,16 +11,16 @@ import {
   InfiniteLogoCarousel,
   LoadingButton,
   TimePicker,
-  Toggle,
+  SwitchControl,
 } from ".";
 
 describe("reusable controls", () => {
   it("reports and changes switch state", async () => {
     const onChange = vi.fn();
-    render(<Toggle checked={false} onChange={onChange} label="Notifications" />);
-    const toggle = screen.getByRole("switch", { name: "Notifications" });
-    expect(toggle).toHaveAttribute("aria-checked", "false");
-    await userEvent.click(toggle);
+    render(<SwitchControl checked={false} onChange={onChange} label="Notifications" />);
+    const control = screen.getByRole("switch", { name: "Notifications" });
+    expect(control).toHaveAttribute("aria-checked", "false");
+    await userEvent.click(control);
     expect(onChange).toHaveBeenCalledWith(true);
   });
 

@@ -20,7 +20,9 @@ export function useFocusTrap(ref: RefObject<HTMLElement | null>, active: boolean
       container.querySelector<HTMLElement>("[autofocus]") ??
       container.querySelector<HTMLElement>(focusableSelector) ??
       container;
-    requestAnimationFrame(() => initialFocus.focus());
+    const focusFrame = requestAnimationFrame(() => {
+      if (container.isConnected) initialFocus.focus();
+    });
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Tab") return;
@@ -44,6 +46,7 @@ export function useFocusTrap(ref: RefObject<HTMLElement | null>, active: boolean
     container.addEventListener("keydown", handleKeyDown);
     return () => {
       container.removeEventListener("keydown", handleKeyDown);
+      cancelAnimationFrame(focusFrame);
       document.body.style.overflow = previousOverflow;
       previousFocus?.focus();
     };
