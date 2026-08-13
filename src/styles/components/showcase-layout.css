@@ -1673,6 +1673,8 @@ kbd {
   padding: 0 8px;
   border: 1px solid var(--border);
   border-radius: var(--kinetic-radius-pill);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
+  box-shadow: var(--shadow-control);
   font-size: var(--text-2xs);
   font-weight: 750;
   letter-spacing: 0.03em;
@@ -1682,34 +1684,54 @@ kbd {
 .badge-ready {
   color: var(--success);
   border-color: color-mix(in srgb, var(--success) 28%, transparent);
-  background: color-mix(in srgb, var(--success) 10%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-top) 82%, var(--success) 18%),
+    color-mix(in srgb, var(--surface-bottom) 82%, var(--success) 18%)
+  );
 }
 .badge-warning,
 .badge-review {
   color: var(--warning);
   border-color: color-mix(in srgb, var(--warning) 28%, transparent);
-  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-top) 82%, var(--warning) 18%),
+    color-mix(in srgb, var(--surface-bottom) 82%, var(--warning) 18%)
+  );
 }
 .badge-danger,
 .badge-blocked {
   color: var(--danger);
   border-color: color-mix(in srgb, var(--danger) 28%, transparent);
-  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-top) 82%, var(--danger) 18%),
+    color-mix(in srgb, var(--surface-bottom) 82%, var(--danger) 18%)
+  );
 }
 .badge-info {
   color: var(--info);
   border-color: color-mix(in srgb, var(--info) 28%, transparent);
-  background: color-mix(in srgb, var(--info) 10%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-top) 82%, var(--info) 18%),
+    color-mix(in srgb, var(--surface-bottom) 82%, var(--info) 18%)
+  );
 }
 .badge-accent {
   color: var(--accent);
   border-color: color-mix(in srgb, var(--accent) 28%, transparent);
-  background: var(--accent-soft);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-top) 82%, var(--accent) 18%),
+    color-mix(in srgb, var(--surface-bottom) 82%, var(--accent) 18%)
+  );
 }
 .badge-neutral,
 .badge-draft {
   color: var(--text-soft);
-  background: var(--surface-flat);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
 }
 .notification-preview {
   display: flex;
