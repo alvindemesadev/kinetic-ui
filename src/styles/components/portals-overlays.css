@@ -856,6 +856,9 @@
   display: grid;
   gap: 3px;
 }
+.overlay-settings-list .overlay-settings-copy {
+  min-width: 0;
+}
 .overlay-settings-list strong {
   font-size: var(--text-sm);
 }
@@ -863,11 +866,92 @@
   color: var(--text-muted);
   font-size: var(--text-2xs);
 }
-.overlay-settings-list input {
+.overlay-checkbox {
+  position: relative;
+  width: 20px;
+  height: 20px;
   flex: none;
-  width: 18px;
-  height: 18px;
-  accent-color: var(--accent);
+  display: grid;
+  place-items: center;
+}
+.overlay-checkbox input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.overlay-checkbox-control {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-xs);
+  background: var(--surface-inset);
+  box-shadow: var(--shadow-inset);
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+.overlay-checkbox-control::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--action-foreground);
+  border-width: 0 2px 2px 0;
+  opacity: 0;
+  transform: rotate(45deg) scale(0.7);
+  transition:
+    opacity 120ms ease,
+    transform 160ms ease;
+}
+.overlay-checkbox input:checked + .overlay-checkbox-control {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 4px 9px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+.overlay-checkbox input:checked + .overlay-checkbox-control::after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+.overlay-checkbox input:active + .overlay-checkbox-control {
+  transform: translateY(1px) scale(0.95);
+}
+.overlay-checkbox input:focus-visible + .overlay-checkbox-control {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.overlay-checkbox input:disabled + .overlay-checkbox-control {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.overlay-checkbox input:disabled {
+  cursor: not-allowed;
+}
+.overlay-checkbox input:checked:active + .overlay-checkbox-control {
+  box-shadow:
+    inset 0 2px 4px color-mix(in srgb, var(--action-bottom) 65%, transparent),
+    0 0 9px var(--accent-glow);
+}
+.overlay-checkbox input {
+  appearance: none;
+}
+.overlay-checkbox-control {
+  pointer-events: none;
+}
+.overlay-checkbox {
+  align-self: center;
 }
 
 @media (max-width: 980px) {

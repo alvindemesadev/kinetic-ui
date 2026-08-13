@@ -300,18 +300,24 @@ export function ShowcaseOverlayGallery() {
               {openOverlay === "settings" && (
                 <div className="overlay-settings-list">
                   <label>
-                    <span>
+                    <span className="overlay-settings-copy">
                       <strong>Sync automatically</strong>
                       <small>Keep component changes synchronized.</small>
                     </span>
-                    <input type="checkbox" defaultChecked />
+                    <span className="overlay-checkbox">
+                      <input type="checkbox" defaultChecked />
+                      <span className="overlay-checkbox-control" aria-hidden="true" />
+                    </span>
                   </label>
                   <label>
-                    <span>
+                    <span className="overlay-settings-copy">
                       <strong>Show release notes</strong>
                       <small>Surface updates in the notification center.</small>
                     </span>
-                    <input type="checkbox" />
+                    <span className="overlay-checkbox">
+                      <input type="checkbox" />
+                      <span className="overlay-checkbox-control" aria-hidden="true" />
+                    </span>
                   </label>
                 </div>
               )}
