@@ -2231,6 +2231,13 @@ kbd {
 .table-panel td:first-child {
   color: var(--text);
 }
+.table-panel :is(th, td):last-child,
+.catalog-table-demo [data-slot="table-head"]:last-child,
+.catalog-table-demo [data-slot="table-cell"]:last-child {
+  width: 64px;
+  padding-inline: 10px;
+  text-align: center;
+}
 .file-type {
   width: 28px;
   height: 28px;
