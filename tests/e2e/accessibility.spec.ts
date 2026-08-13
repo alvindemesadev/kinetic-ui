@@ -248,7 +248,7 @@ test("light mode keeps action and checkbox foregrounds readable", async ({ page 
 
 test("sidebar profile menu exposes profile settings and logout", async ({ page }) => {
   await page.goto("/");
-  const trigger = page.getByRole("button", { name: "Profile menu" });
+  const trigger = page.getByRole("button", { name: "Profile menu", exact: true });
   if ((page.viewportSize()?.width ?? 1280) < 980) {
     await page.getByRole("button", { name: "Toggle sidebar" }).click();
   }
@@ -277,7 +277,7 @@ test("sidebar profile menu exposes profile settings and logout", async ({ page }
   await reopenedMenu.getByRole("menuitem", { name: "Log out" }).click();
   await expect(page.getByText("Signed out", { exact: true })).toBeVisible({ timeout: 10_000 });
   await page.locator(".sidebar-profile").getByRole("button", { name: "Sign in" }).click();
-  await expect(page.getByRole("button", { name: "Profile menu" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Profile menu", exact: true })).toBeVisible();
 });
 
 test("navbar profile avatar opens its profile card", async ({ page }) => {
@@ -300,7 +300,7 @@ test("collapsed sidebar profile menu hides its duplicate tooltip", async ({ page
   await page.goto("/");
 
   await page.getByRole("button", { name: "Toggle sidebar" }).click();
-  const trigger = page.getByRole("button", { name: "Profile menu" });
+  const trigger = page.getByRole("button", { name: "Profile menu", exact: true });
   await trigger.click();
 
   await expect(page.getByRole("menu")).toBeVisible();
@@ -601,7 +601,7 @@ test("only asynchronous actions expose loading states", async ({ page }) => {
   await expect(create).not.toHaveAttribute("aria-busy", "true");
   await expect(page.getByText("Component created")).toBeVisible();
 
-  await page.getByRole("button", { name: "Open component" }).click();
+  await page.getByRole("button", { name: "Open component", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Save this design system?" });
   const save = dialog.getByRole("button", { name: "Save template" });
   await save.click();
