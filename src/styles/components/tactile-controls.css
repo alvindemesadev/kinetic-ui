@@ -268,9 +268,15 @@
 .forgot-password-form {
   padding-top: 16px;
 }
-.forgot-password-code-shell input {
-  letter-spacing: 0.22em;
+.forgot-password-otp {
+  width: max-content;
+  max-width: 100%;
+}
+.forgot-password-otp [data-slot="input-otp-slot"] {
+  width: 38px;
+  height: 40px;
   font-family: var(--font-geist-mono), monospace;
+  font-size: var(--text-md);
   font-weight: 650;
 }
 .forgot-password-field-note {

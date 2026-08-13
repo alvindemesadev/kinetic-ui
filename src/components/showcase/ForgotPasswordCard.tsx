@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { CheckCircle2, Eye, EyeOff, KeyRound, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
 
 type RecoveryStep = "email" | "code" | "password" | "complete";
@@ -182,21 +183,28 @@ export function ForgotPasswordCard({
           {step === "code" ? (
             <div className="auth-field">
               <label htmlFor={`${formId}-code`}>Verification code</label>
-              <span className="auth-input-shell forgot-password-code-shell">
-                <KeyRound size={15} aria-hidden="true" />
-                <input
-                  ref={codeRef}
-                  id={`${formId}-code`}
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  pattern="[0-9]{6}"
-                  maxLength={6}
-                  placeholder="123456"
-                  value={code}
-                  onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
-                  required
-                />
-              </span>
+              <InputOTP
+                ref={codeRef}
+                id={`${formId}-code`}
+                className="forgot-password-otp"
+                maxLength={6}
+                value={code}
+                onChange={setCode}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                pattern="[0-9]*"
+                aria-label="Verification code"
+                required
+              >
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
               <span className="forgot-password-field-note">Demo code: 123456</span>
             </div>
           ) : null}
