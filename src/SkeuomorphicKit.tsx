@@ -66,6 +66,9 @@ const densityOptions: Array<{ value: ViewDensity; label: string }> = [
 const ChartGallery = lazy(() => import("./ChartGallery"));
 const ComponentCatalog = lazy(() => import("./ComponentCatalog"));
 
+const isLibraryRoute = () =>
+  window.location.pathname.replace(/\/+$/, "") === "/library" || window.location.hash === "#library";
+
 import { waitForDemo } from "./sections/demoUtils";
 import { Sidebar } from "./sections/Sidebar";
 import { Navbar } from "./sections/Navbar";
@@ -159,7 +162,7 @@ export default function SkeuomorphicKit() {
   const [miniSelectedCard, setMiniSelectedCard] = useState<string | null>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [profileSignedIn, setProfileSignedIn] = useState(true);
-  const [libraryRequested, setLibraryRequested] = useState(() => window.location.hash === "#library");
+  const [libraryRequested, setLibraryRequested] = useState(isLibraryRoute);
   const [viewDensity, setViewDensity] = useState<ViewDensity>(() => {
     const storedDensity = localStorage.getItem("kinetic-view-density");
     return densityOptions.some((option) => option.value === storedDensity)
@@ -216,9 +219,20 @@ export default function SkeuomorphicKit() {
   }, [viewDensity]);
 
   useEffect(() => {
-    const handleHashChange = () => setLibraryRequested(window.location.hash === "#library");
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    const handleRouteChange = () => {
+      const requested = isLibraryRoute();
+      setLibraryRequested(requested);
+      if (requested && window.location.pathname.replace(/\/+$/, "") === "/library") {
+        requestAnimationFrame(() => document.querySelector("#library")?.scrollIntoView({ block: "start" }));
+      }
+    };
+    window.addEventListener("hashchange", handleRouteChange);
+    window.addEventListener("popstate", handleRouteChange);
+    if (window.location.pathname.replace(/\/+$/, "") === "/library") handleRouteChange();
+    return () => {
+      window.removeEventListener("hashchange", handleRouteChange);
+      window.removeEventListener("popstate", handleRouteChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -275,7 +289,11 @@ export default function SkeuomorphicKit() {
   };
   const openLibrary = () => {
     setLibraryRequested(true);
-    window.location.hash = "library";
+    window.history.pushState({}, "", "/library");
+    window.dispatchEvent(new PopStateEvent("popstate"));
+    requestAnimationFrame(() =>
+      document.querySelector("#library")?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
   };
 
   return (

@@ -31,12 +31,24 @@ export function Sidebar({
   const sidebarToggleRef = useRef<HTMLButtonElement>(null);
   const profileTriggerRef = useRef<HTMLButtonElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
-  const [activeHref, setActiveHref] = useState(() => window.location.hash || "#overview");
+  const getActiveHref = () =>
+    window.location.pathname.replace(/\/+$/, "") === "/library"
+      ? "/library"
+      : window.location.hash || "#overview";
+  const getNavigationHref = (href: string) => {
+    if (href === "/library" || window.location.pathname.replace(/\/+$/, "") !== "/library") return href;
+    return href.startsWith("#") ? `/${href}` : href;
+  };
+  const [activeHref, setActiveHref] = useState(getActiveHref);
 
   useEffect(() => {
-    const handleHashChange = () => setActiveHref(window.location.hash || "#overview");
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    const handleRouteChange = () => setActiveHref(getActiveHref());
+    window.addEventListener("hashchange", handleRouteChange);
+    window.addEventListener("popstate", handleRouteChange);
+    return () => {
+      window.removeEventListener("hashchange", handleRouteChange);
+      window.removeEventListener("popstate", handleRouteChange);
+    };
   }, []);
 
   useFocusTrap(sidebarRef, sidebarOpen);
@@ -98,10 +110,11 @@ export function Sidebar({
           <span className="nav-label">Library</span>
           {navigation.map((item) => {
             const Icon = item.icon;
+            const href = getNavigationHref(item.href);
             return (
               <a
-                className={item.href === activeHref ? "active" : ""}
-                href={item.href}
+                className={href === activeHref ? "active" : ""}
+                href={href}
                 key={item.label}
                 aria-label={item.label}
                 data-tooltip={sidebarCollapsed ? item.label : undefined}
