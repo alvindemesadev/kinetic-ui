@@ -646,8 +646,10 @@ kbd {
   height: 6px;
   border: 1px solid var(--bg);
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 5px var(--accent-glow);
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 0 5px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 .navbar-notification-wrap {
   position: relative;
@@ -752,8 +754,10 @@ kbd {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 6px var(--accent-glow);
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 0 6px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 .navbar-notification-icon {
   width: 32px;
@@ -1791,11 +1795,18 @@ kbd {
   height: 23px;
   display: grid;
   place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
   border-radius: 50%;
-  color: white;
-  background: var(--accent);
-  box-shadow: 0 3px 8px var(--accent-glow);
+  color: var(--action-foreground);
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 3px 8px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 color-mix(in srgb, var(--accent-dark) 35%, transparent);
   font-size: var(--text-2xs);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 .chat-feed {
   min-height: 190px;
@@ -2196,10 +2207,16 @@ kbd {
   height: 13px;
   display: grid;
   place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--border));
   border-radius: var(--kinetic-radius-pill);
-  color: #fff;
-  background: var(--accent);
+  color: var(--action-foreground);
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 2px 5px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   font-size: 7px;
+  font-weight: 700;
+  line-height: 1;
   font-style: normal;
 }
 .mini-avatar-button {
@@ -3385,21 +3402,32 @@ kbd {
   font-size: var(--text-2xs);
 }
 .stepper span.complete {
-  color: white;
-  border-color: var(--success);
-  background: var(--success);
-  box-shadow: 0 3px 7px color-mix(in srgb, var(--success) 27%, transparent);
+  color: #f7fff9;
+  border-color: color-mix(in srgb, var(--success) 68%, var(--border));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--success) 82%, white),
+    color-mix(in srgb, var(--success) 92%, black)
+  );
+  box-shadow:
+    0 3px 7px color-mix(in srgb, var(--success) 27%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -1px 0 color-mix(in srgb, var(--success) 42%, black);
 }
 .stepper span.current {
-  color: white;
-  border-color: var(--accent);
-  background: var(--accent);
-  box-shadow: 0 3px 7px var(--accent-glow);
+  color: var(--action-foreground);
+  border-color: color-mix(in srgb, var(--accent) 68%, var(--border));
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 3px 7px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 color-mix(in srgb, var(--accent-dark) 38%, transparent);
 }
 .stepper i {
   height: 1px;
   flex: 1;
-  background: var(--border);
+  background: linear-gradient(90deg, var(--border-soft), var(--border), var(--border-soft));
+  box-shadow: inset 0 1px 0 var(--edge-light);
 }
 
 .kit-footer {

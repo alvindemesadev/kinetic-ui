@@ -1372,8 +1372,10 @@
   border-color: var(--accent);
 }
 .radio.checked i {
-  background: var(--accent);
-  box-shadow: 0 0 7px var(--accent-glow);
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 0 7px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
 }
 .switch-row {
   border-top: 1px solid var(--border-soft);
@@ -1419,7 +1421,7 @@
 }
 .switch.is-on span {
   transform: translate(17px, -50%);
-  background: #fffaf5;
+  background: linear-gradient(180deg, #fffaf5, #d8d3c9);
 }
 .command-trigger {
   width: 100%;
