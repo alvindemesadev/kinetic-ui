@@ -98,7 +98,7 @@ export function CatalogContent() {
         <InputGroup>
           <InputGroupAddon>
             <InputGroupText>
-              <Mail /> Email
+              <Mail />
             </InputGroupText>
           </InputGroupAddon>
           <InputGroupInput aria-label="Email address" placeholder="alvin@example.com" />
