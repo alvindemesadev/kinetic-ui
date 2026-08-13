@@ -1444,13 +1444,14 @@ kbd {
 .component-count {
   flex: none;
   padding: 5px 8px;
-  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 86%, var(--text-soft));
   border-radius: var(--kinetic-radius-pill);
   color: var(--text-muted);
-  background: var(--surface-inset);
-  box-shadow: var(--shadow-inset);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
+  box-shadow: var(--shadow-control);
   font-family: var(--font-geist-mono), monospace;
   font-size: var(--text-2xs);
+  font-weight: 650;
   letter-spacing: 0.05em;
 }
 .ui-kit.density-compact {

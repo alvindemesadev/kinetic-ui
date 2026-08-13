@@ -953,7 +953,7 @@
 .ui-kit [data-slot="avatar-group-count"] {
   border-color: var(--border);
   color: var(--text-soft);
-  background: var(--surface-inset);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
   box-shadow: var(--shadow-control);
 }
 .ui-kit [data-slot="avatar-group-count"] {
