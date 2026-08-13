@@ -818,6 +818,11 @@
   color: var(--danger);
   background: color-mix(in srgb, var(--danger) 12%, var(--surface-inset));
 }
+.overlay-confirmation-icon.success {
+  border-color: color-mix(in srgb, var(--success) 46%, var(--border));
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, var(--surface-inset));
+}
 .overlay-confirmation-copy p {
   grid-column: 2;
   margin: 0;

@@ -225,7 +225,7 @@ export function ShowcaseOverlayGallery() {
 
               {openOverlay === "confirm" && (
                 <div className="overlay-confirmation-copy">
-                  <span className="overlay-confirmation-icon">
+                  <span className="overlay-confirmation-icon success">
                     <Check size={22} />
                   </span>
                   <p>Publish the current workspace changes for your team?</p>
