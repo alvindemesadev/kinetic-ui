@@ -122,6 +122,11 @@ test("table row actions open a tactile action menu", async ({ page }) => {
   await expect(menu.getByRole("menuitem", { name: "View" })).toBeVisible();
   await expect(menu.getByRole("menuitem", { name: "Edit" })).toBeVisible();
   await expect(menu.getByRole("menuitem", { name: "Delete" })).toHaveAttribute("data-variant", "destructive");
+  await menu.getByRole("menuitem", { name: "View" }).hover();
+  await expect(menu.getByRole("menuitem", { name: "View" }).locator("svg path").first()).toHaveCSS(
+    "stroke",
+    "rgb(159, 48, 8)",
+  );
   await menu.getByRole("menuitem", { name: "Edit" }).click();
   await expect(trigger).toBeFocused();
   await expect(page.locator("[data-sonner-toast]")).toContainText("Edit module");

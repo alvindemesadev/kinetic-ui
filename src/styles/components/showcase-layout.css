@@ -2336,6 +2336,12 @@ kbd {
   > svg {
   color: var(--action-bottom) !important;
 }
+.table-row-actions-menu
+  [data-slot="dropdown-menu-item"]:is(:hover, [data-highlighted], :focus-visible)
+  > svg
+  :is(path, circle, line, polyline, polygon, rect) {
+  stroke: var(--action-bottom) !important;
+}
 .table-row-actions-menu [data-slot="dropdown-menu-item"][data-variant="destructive"] {
   color: var(--danger);
 }
@@ -2354,6 +2360,12 @@ kbd {
   [data-slot="dropdown-menu-item"][data-variant="destructive"]:is(:hover, [data-highlighted], :focus-visible)
   > svg {
   color: var(--danger) !important;
+}
+.table-row-actions-menu
+  [data-slot="dropdown-menu-item"][data-variant="destructive"]:is(:hover, [data-highlighted], :focus-visible)
+  > svg
+  :is(path, circle, line, polyline, polygon, rect) {
+  stroke: var(--danger) !important;
 }
 .table-row-actions-menu [data-slot="dropdown-menu-item"][data-variant="destructive"] svg {
   color: currentColor;
