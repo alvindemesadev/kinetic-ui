@@ -110,8 +110,10 @@
 .sidebar-nav {
   display: flex;
   flex: 1;
+  min-height: 0;
   flex-direction: column;
   gap: 5px;
+  overflow-y: auto;
 }
 .nav-label {
   padding: 10px 11px 6px;
@@ -177,16 +179,17 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 11px 8px 3px;
+  padding: 11px 0 3px;
   border-top: 1px solid var(--border-soft);
 }
 .sidebar-profile-trigger {
   min-width: 0;
   width: 100%;
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 7px 6px;
+  padding: 0 11px;
   border: 1px solid var(--border-soft);
   border-radius: var(--kinetic-radius-control);
   color: inherit;
