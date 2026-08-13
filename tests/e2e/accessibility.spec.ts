@@ -266,6 +266,21 @@ test("sidebar profile menu exposes profile settings and logout", async ({ page }
   await expect(page.getByRole("button", { name: "Profile menu" })).toBeVisible();
 });
 
+test("navbar profile avatar opens its profile card", async ({ page }) => {
+  await page.goto("/");
+  const trigger = page.getByRole("button", { name: "Navbar profile menu" });
+  await trigger.click();
+
+  const menu = page.getByRole("menu", { name: "Navbar profile" });
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole("menuitem", { name: "Profile" })).toBeFocused();
+  await expect(menu.getByText("Alvin de Mesa")).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(menu).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+});
+
 test("collapsed sidebar profile menu hides its duplicate tooltip", async ({ page }) => {
   test.skip((page.viewportSize()?.width ?? 1280) < 981, "The collapsed sidebar is a desktop behavior.");
   await page.goto("/");

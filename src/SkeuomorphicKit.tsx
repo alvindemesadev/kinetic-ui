@@ -154,6 +154,7 @@ export default function SkeuomorphicKit() {
   const [miniNotificationCount, setMiniNotificationCount] = useState(2);
   const [navbarNotificationOpen, setNavbarNotificationOpen] = useState(false);
   const [navbarNotificationCount, setNavbarNotificationCount] = useState(2);
+  const [navbarProfileOpen, setNavbarProfileOpen] = useState(false);
   const [miniProfileOpen, setMiniProfileOpen] = useState(false);
   const [miniSelectedCard, setMiniSelectedCard] = useState<string | null>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
@@ -200,6 +201,7 @@ export default function SkeuomorphicKit() {
         setOpenControl(null);
         setProfileMenuOpen(false);
         setNavbarNotificationOpen(false);
+        setNavbarProfileOpen(false);
         setMiniSearchOpen(false);
         setMiniNotificationOpen(false);
         setMiniProfileOpen(false);
@@ -283,6 +285,7 @@ export default function SkeuomorphicKit() {
         setOpenControl(null);
         setProfileMenuOpen(false);
         setNavbarNotificationOpen(false);
+        setNavbarProfileOpen(false);
       }}
     >
       <button
@@ -312,6 +315,10 @@ export default function SkeuomorphicKit() {
           setNavbarNotificationOpen={setNavbarNotificationOpen}
           navbarNotificationCount={navbarNotificationCount}
           setNavbarNotificationCount={setNavbarNotificationCount}
+          profileSignedIn={profileSignedIn}
+          setProfileSignedIn={setProfileSignedIn}
+          navbarProfileOpen={navbarProfileOpen}
+          setNavbarProfileOpen={setNavbarProfileOpen}
         />
 
         <main className="content-shell">

@@ -1,7 +1,20 @@
-import { Bell, CheckCircle2, ChevronRight, Menu, Moon, Search, Sun, Users } from "lucide-react";
+import {
+  Bell,
+  CheckCircle2,
+  ChevronRight,
+  LogOut,
+  Menu,
+  Moon,
+  Search,
+  Settings,
+  Sun,
+  User,
+  Users,
+} from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { InitialsAvatar } from "@/components";
+import { InitialsAvatar, LoadingButton } from "@/components";
+import { waitForDemo } from "./demoUtils";
 
 export type NavbarProps = {
   toggleMainSidebar: () => void;
@@ -12,6 +25,10 @@ export type NavbarProps = {
   setNavbarNotificationOpen: (open: boolean | ((current: boolean) => boolean)) => void;
   navbarNotificationCount: number;
   setNavbarNotificationCount: (count: number | ((current: number) => number)) => void;
+  profileSignedIn: boolean;
+  setProfileSignedIn: (value: boolean) => void;
+  navbarProfileOpen: boolean;
+  setNavbarProfileOpen: (open: boolean | ((current: boolean) => boolean)) => void;
 };
 
 export function Navbar({
@@ -23,9 +40,15 @@ export function Navbar({
   setNavbarNotificationOpen,
   navbarNotificationCount,
   setNavbarNotificationCount,
+  profileSignedIn,
+  setProfileSignedIn,
+  navbarProfileOpen,
+  setNavbarProfileOpen,
 }: NavbarProps) {
   const notificationTriggerRef = useRef<HTMLButtonElement>(null);
   const notificationMenuRef = useRef<HTMLElement>(null);
+  const profileTriggerRef = useRef<HTMLButtonElement>(null);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!navbarNotificationOpen) return;
@@ -35,10 +58,23 @@ export function Navbar({
     return () => cancelAnimationFrame(focusFrame);
   }, [navbarNotificationOpen]);
 
+  useEffect(() => {
+    if (!navbarProfileOpen) return;
+    const focusFrame = requestAnimationFrame(() =>
+      profileMenuRef.current?.querySelector<HTMLButtonElement>('[role="menuitem"]')?.focus(),
+    );
+    return () => cancelAnimationFrame(focusFrame);
+  }, [navbarProfileOpen]);
+
   const closeNotifications = useCallback(() => {
     setNavbarNotificationOpen(false);
     requestAnimationFrame(() => notificationTriggerRef.current?.focus());
   }, [setNavbarNotificationOpen]);
+
+  const closeProfile = useCallback(() => {
+    setNavbarProfileOpen(false);
+    requestAnimationFrame(() => profileTriggerRef.current?.focus());
+  }, [setNavbarProfileOpen]);
 
   return (
     <header className="navbar">
@@ -170,7 +206,83 @@ export function Navbar({
             </section>
           )}
         </div>
-        <InitialsAvatar size="small" name="Alvin de Mesa" />
+        <div className="navbar-profile-wrap" onClick={(event) => event.stopPropagation()}>
+          <button
+            ref={profileTriggerRef}
+            className={`icon-button navbar-profile-trigger ${navbarProfileOpen ? "active" : ""}`}
+            type="button"
+            aria-label="Navbar profile menu"
+            aria-haspopup="menu"
+            aria-expanded={navbarProfileOpen}
+            aria-controls="navbar-profile-menu"
+            onClick={() => setNavbarProfileOpen((open) => !open)}
+          >
+            <InitialsAvatar size="small" name={profileSignedIn ? "Alvin de Mesa" : "Guest"} />
+          </button>
+          {navbarProfileOpen && (
+            <div
+              ref={profileMenuRef}
+              className="navbar-profile-card"
+              id="navbar-profile-menu"
+              role="menu"
+              aria-label="Navbar profile"
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  event.preventDefault();
+                  closeProfile();
+                }
+              }}
+            >
+              <div className="profile-card-identity">
+                <InitialsAvatar name={profileSignedIn ? "Alvin de Mesa" : "Guest"} />
+                <span>
+                  <strong>{profileSignedIn ? "Alvin de Mesa" : "Signed out"}</strong>
+                  <small>{profileSignedIn ? "alvin@kinetic.ui" : "Guest mode"}</small>
+                </span>
+              </div>
+              <div className="profile-card-divider" />
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => {
+                  closeProfile();
+                  toast("Profile", { description: "Alvin de Mesa · Product developer" });
+                }}
+              >
+                <User size={15} />
+                Profile
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => {
+                  closeProfile();
+                  document.querySelector("#controls")?.scrollIntoView({ behavior: "smooth" });
+                  toast("Settings opened");
+                }}
+              >
+                <Settings size={15} />
+                Settings
+              </button>
+              <div className="profile-card-divider" />
+              <LoadingButton
+                className="logout"
+                type="button"
+                role="menuitem"
+                loadingText="Logging out"
+                onAction={async () => {
+                  await waitForDemo();
+                  closeProfile();
+                  setProfileSignedIn(false);
+                  toast.success("Logged out of the preview");
+                }}
+              >
+                <LogOut size={15} />
+                Log out
+              </LoadingButton>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

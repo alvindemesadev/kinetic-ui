@@ -463,6 +463,75 @@
   justify-content: flex-end;
   gap: 8px;
 }
+.navbar-profile-wrap {
+  position: relative;
+}
+.navbar-profile-trigger {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+}
+.navbar-profile-trigger:hover,
+.navbar-profile-trigger:focus-visible,
+.navbar-profile-trigger.active {
+  border-color: var(--border);
+  outline: 0;
+  background: var(--surface-hover);
+  box-shadow: var(--shadow-control);
+}
+.navbar-profile-card {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 50;
+  width: min(232px, calc(100vw - 28px));
+  display: grid;
+  gap: 3px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-menu);
+  color: var(--text);
+  background: linear-gradient(155deg, var(--surface-top), var(--surface-mid) 52%, var(--surface-bottom));
+  box-shadow: var(--shadow-overlay);
+  animation: navbar-notification-enter 160ms ease both;
+}
+.navbar-profile-card > button {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--kinetic-radius-control);
+  color: var(--text-soft);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 550;
+  transition:
+    transform 100ms ease,
+    color 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+.navbar-profile-card > button:hover,
+.navbar-profile-card > button:focus-visible {
+  border-color: var(--border);
+  outline: 0;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
+  box-shadow: var(--shadow-control);
+}
+.navbar-profile-card > button:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-inset);
+}
+.navbar-profile-card > button.logout {
+  color: var(--danger);
+}
 .navbar .hamburger {
   display: none !important;
 }
