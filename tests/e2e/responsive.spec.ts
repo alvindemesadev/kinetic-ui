@@ -27,7 +27,7 @@ test("hero device fits within narrow viewports", async ({ page }) => {
 });
 
 test("component library section has no horizontal overflow", async ({ page }) => {
-  await page.goto("/#components");
+  await page.goto("/#library");
   await expect(page.getByLabel("Skeuomorphic component library")).toBeVisible({
     timeout: 15_000,
   });

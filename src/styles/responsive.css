@@ -187,10 +187,6 @@
     left: 65%;
     width: 3px;
   }
-  .metrics-row {
-    grid-template-columns: 1fr;
-    margin-bottom: 75px;
-  }
   .kit-section {
     margin-bottom: 78px;
   }
@@ -208,6 +204,13 @@
   }
   .catalog-demo-grid {
     grid-template-columns: 1fr;
+  }
+  .reference-launch {
+    grid-template-columns: auto 1fr;
+  }
+  .reference-launch .button {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
   .three-column > .panel {
     min-height: auto;

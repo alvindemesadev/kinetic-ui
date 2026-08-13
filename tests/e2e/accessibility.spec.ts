@@ -252,7 +252,7 @@ test("collapsed sidebar profile menu hides its duplicate tooltip", async ({ page
 });
 
 test("component library selection controls behave like Kinetic labeled rows", async ({ page }) => {
-  await page.goto("/#components");
+  await page.goto("/#library");
   const library = page.getByLabel("Skeuomorphic component library");
   await expect(library).toBeVisible({ timeout: 10_000 });
   const formCard = library.locator('[data-slot="card"]').filter({ hasText: "Form controls" });
@@ -333,11 +333,9 @@ test("custom popovers move focus in and restore it when closed", async ({ page }
   await expect(framework).toBeFocused();
 });
 
-test("component library renders working examples inside the Skeuomorphic components section", async ({
-  page,
-}) => {
-  await page.goto("/#components");
-  const section = page.locator("#components");
+test("component library renders working examples inside its reference section", async ({ page }) => {
+  await page.goto("/#library");
+  const section = page.locator("#library");
   const library = section.getByLabel("Skeuomorphic component library");
 
   await expect(library).toBeVisible({ timeout: 10_000 });
@@ -531,7 +529,7 @@ test("shared components follow the Skeuomorphic radius scale", async ({ page }) 
   await page.goto("/");
 
   const radii = await page
-    .locator("#controls .button-primary, #controls .icon-button, .chat-input, .message p, .panel")
+    .locator("#controls .button-primary, #controls .icon-button, .chat-input, .message-bubble, .panel")
     .evaluateAll((elements) => elements.map((element) => getComputedStyle(element).borderRadius));
 
   expect(radii).toContain("10px");

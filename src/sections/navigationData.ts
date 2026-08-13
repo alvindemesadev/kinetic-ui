@@ -3,6 +3,7 @@ import {
   BarChart3,
   Component,
   Gauge,
+  LibraryBig,
   LayoutDashboard,
   Palette,
   SlidersHorizontal,
@@ -21,6 +22,7 @@ export const navigation: NavigationItem[] = [
   { label: "Foundation", href: "#foundation", icon: Palette },
   { label: "Controls", href: "#controls", icon: SlidersHorizontal },
   { label: "Components", href: "#components", icon: Component },
+  { label: "Library", href: "#library", icon: LibraryBig },
   { label: "Data", href: "#data", icon: BarChart3 },
   { label: "States", href: "#states", icon: Activity },
 ];

@@ -12,6 +12,7 @@ import {
   Download,
   FileText,
   Inbox,
+  LibraryBig,
   Link2,
   LoaderCircle,
   MessageCircle,
@@ -69,11 +70,19 @@ import { waitForDemo } from "./sections/demoUtils";
 import { Sidebar } from "./sections/Sidebar";
 import { Navbar } from "./sections/Navbar";
 import { Hero } from "./sections/Hero";
-import { ShowcaseMetrics } from "./sections/showcase/ShowcaseMetrics";
+import { ShowcaseFoundation } from "./sections/showcase/ShowcaseFoundation";
 import { ShowcaseStatCards } from "./sections/showcase/ShowcaseStatCards";
 import { ShowcaseDataTable } from "./sections/showcase/ShowcaseDataTable";
 import { ShowcaseActivityStream } from "./sections/showcase/ShowcaseActivityStream";
 import { ShowcaseModals } from "./sections/showcase/ShowcaseModals";
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+  MessageGroup,
+  MessageHeader,
+} from "./components/ui/message";
 
 import {
   calendarEvents,
@@ -149,6 +158,7 @@ export default function SkeuomorphicKit() {
   const [miniSelectedCard, setMiniSelectedCard] = useState<string | null>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [profileSignedIn, setProfileSignedIn] = useState(true);
+  const [libraryRequested, setLibraryRequested] = useState(() => window.location.hash === "#library");
   const [viewDensity, setViewDensity] = useState<ViewDensity>(() => {
     const storedDensity = localStorage.getItem("kinetic-view-density");
     return densityOptions.some((option) => option.value === storedDensity)
@@ -204,6 +214,12 @@ export default function SkeuomorphicKit() {
   }, [viewDensity]);
 
   useEffect(() => {
+    const handleHashChange = () => setLibraryRequested(window.location.hash === "#library");
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  useEffect(() => {
     try {
       localStorage.setItem("kinetic-sidebar-collapsed", String(sidebarCollapsed));
     } catch {
@@ -255,6 +271,10 @@ export default function SkeuomorphicKit() {
     setMiniNotificationOpen(false);
     setMiniProfileOpen(false);
   };
+  const openLibrary = () => {
+    setLibraryRequested(true);
+    window.location.hash = "library";
+  };
 
   return (
     <div
@@ -299,7 +319,7 @@ export default function SkeuomorphicKit() {
 
           <ShowcaseStatCards />
 
-          <ShowcaseMetrics />
+          <ShowcaseFoundation />
 
           <Section
             id="controls"
@@ -641,21 +661,29 @@ export default function SkeuomorphicKit() {
                   </div>
                   <MessageCircle size={19} />
                 </div>
-                <div className="chat-feed">
-                  <div className="message incoming">
-                    <InitialsAvatar size="small" label="MI" name="Mika" />
-                    <div>
-                      <p>The new component set looks solid. Is light mode ready?</p>
-                      <span>10:42 PM</span>
-                    </div>
-                  </div>
-                  <div className="message outgoing">
-                    <div>
-                      <p>Yes, both themes use the same depth and material rules.</p>
+                <MessageGroup className="chat-feed">
+                  <Message>
+                    <MessageAvatar>MI</MessageAvatar>
+                    <MessageContent>
+                      <MessageHeader>Mika</MessageHeader>
+                      <div className="message-bubble">
+                        The new component set looks solid. Is light mode ready?
+                      </div>
+                      <MessageFooter>10:42 PM</MessageFooter>
+                    </MessageContent>
+                  </Message>
+                  <Message align="end">
+                    <MessageAvatar>AD</MessageAvatar>
+                    <MessageContent>
+                      <MessageHeader>Alvin</MessageHeader>
+                      <div className="message-bubble">
+                        Yes, both themes use the same depth and material rules.
+                      </div>
+                      <MessageFooter>10:43 PM - Read</MessageFooter>
                       <span>10:43 PM · Read</span>
-                    </div>
-                  </div>
-                </div>
+                    </MessageContent>
+                  </Message>
+                </MessageGroup>
                 <div className="chat-input">
                   <button className="icon-button" aria-label="Attach">
                     <Paperclip size={16} />
@@ -817,24 +845,50 @@ export default function SkeuomorphicKit() {
                 Open component
               </button>
             </div>
-            <Suspense
-              fallback={
-                <div className="panel charts-placeholder">
-                  <LoaderCircle className="large-spinner" size={23} />
-                  <div>
-                    <strong>Loading component library</strong>
-                    <p>The reusable component examples are loading.</p>
+          </Section>
+
+          <Section
+            id="library"
+            eyebrow="06 · Reference"
+            title="Component reference"
+            description="Reusable primitives with the same tactile materials, interaction rules, and accessible behavior as the template."
+          >
+            {libraryRequested ? (
+              <Suspense
+                fallback={
+                  <div className="panel charts-placeholder">
+                    <LoaderCircle className="large-spinner" size={23} />
+                    <div>
+                      <strong>Loading component reference</strong>
+                      <p>The reusable primitive examples are loading.</p>
+                    </div>
                   </div>
+                }
+              >
+                <ComponentCatalog />
+              </Suspense>
+            ) : (
+              <div className="panel reference-launch">
+                <span className="reference-launch-icon" aria-hidden="true">
+                  <LibraryBig size={21} />
+                </span>
+                <div>
+                  <h3>Browse reusable primitives</h3>
+                  <p>
+                    Open the full reference when you need component-level examples without adding duplicate
+                    demos to the main template flow.
+                  </p>
                 </div>
-              }
-            >
-              <ComponentCatalog />
-            </Suspense>
+                <button className="button button-primary" type="button" onClick={openLibrary}>
+                  Open component reference
+                </button>
+              </div>
+            )}
           </Section>
 
           <Section
             id="data"
-            eyebrow="04 · Data"
+            eyebrow="07 · Data"
             title="Tables and information density"
             description="Readable structured data with search, sorting affordances, filters, and semantic status."
           >
@@ -867,7 +921,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="states"
-            eyebrow="05 · States"
+            eyebrow="08 · States"
             title="Every state accounted for"
             description="Empty, loading, skeleton, and progress patterns that preserve layout and communicate what happens next."
           >

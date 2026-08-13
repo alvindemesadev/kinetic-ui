@@ -1,4 +1,4 @@
-/* Shell and showcase layout: page root, sidebar, navbar, hero, metrics,
+/* Shell and showcase layout: page root, sidebar, navbar, hero, stat cards,
    section grids, panels, tables, mini-app preview, catalog, states, and
    footer. */
 
@@ -885,12 +885,6 @@ kbd {
     0 0 18px var(--accent-glow);
 }
 
-.metrics-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 100px;
-}
 .stat-card-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1025,34 +1019,6 @@ kbd {
 .stat-card.amber .stat-card-spark i {
   background: var(--warning);
 }
-.metric-card {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--kinetic-radius-menu);
-  background: linear-gradient(155deg, var(--surface-top), var(--surface-bottom));
-  box-shadow: var(--shadow-soft);
-}
-.metric-card > div {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-}
-.metric-card small {
-  color: var(--text-muted);
-  font-size: var(--text-2xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.metric-card strong {
-  margin-top: 2px;
-  font-family: var(--font-dot-gothic), sans-serif;
-  font-size: 23px;
-  font-weight: 400;
-}
 .metric-icon {
   width: 38px;
   height: 38px;
@@ -1078,16 +1044,6 @@ kbd {
 .metric-icon.green {
   color: var(--success);
 }
-.trend {
-  margin-left: auto;
-  color: var(--text-muted);
-  font-size: var(--text-2xs);
-  white-space: nowrap;
-}
-.trend.positive {
-  color: var(--success);
-}
-
 .kit-section {
   scroll-margin-top: 90px;
   margin-bottom: 105px;
@@ -1631,54 +1587,8 @@ kbd {
   justify-content: center;
   gap: 12px;
 }
-.message {
-  display: flex;
-  gap: 8px;
-}
-.message > div {
-  max-width: 80%;
-  display: flex;
-  flex-direction: column;
-}
-.message > .avatar {
-  margin-top: 2px;
-  color: #fff;
-  font-size: var(--text-2xs);
-  letter-spacing: -0.04em;
-  text-shadow:
-    0 1px 2px rgba(68, 16, 0, 0.65),
-    0 0 5px rgba(255, 255, 255, 0.22);
-}
-.message p {
-  margin: 0;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  color: var(--text-soft);
-  background: linear-gradient(155deg, var(--surface-top), var(--surface-bottom));
-  box-shadow: var(--shadow-soft);
-  font-size: var(--text-2xs);
-  line-height: 1.5;
-}
-.message > div > span {
-  margin-top: 4px;
-  color: var(--text-muted);
-  font-size: var(--text-2xs);
-}
-.message.incoming p {
-  border-radius: var(--kinetic-radius-control);
-}
-.message.outgoing {
-  justify-content: flex-end;
-  text-align: right;
-}
-.message.outgoing p {
-  color: var(--action-foreground);
-  border-color: rgba(255, 130, 76, 0.35);
-  border-radius: var(--kinetic-radius-control);
-  background: linear-gradient(150deg, var(--action-top), var(--action-bottom));
-  box-shadow:
-    0 7px 15px var(--accent-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+.chat-feed [data-slot="message-content"] > span {
+  display: none;
 }
 .chat-input {
   height: 41px;
@@ -2367,6 +2277,41 @@ kbd {
   display: grid;
   gap: 18px;
   margin-top: max(16px, var(--density-grid-gap, 16px));
+}
+.reference-launch {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+}
+.reference-launch-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-control);
+  color: var(--accent);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--accent-soft) 65%, var(--surface-top)),
+    var(--surface-bottom)
+  );
+  box-shadow: var(--shadow-control);
+}
+.reference-launch h3 {
+  margin: 0;
+  font-family: var(--font-dot-gothic), sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+}
+.reference-launch p {
+  max-width: 650px;
+  margin: 5px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
 }
 .catalog-summary {
   display: flex;

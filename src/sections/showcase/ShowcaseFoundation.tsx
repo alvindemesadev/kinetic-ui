@@ -2,11 +2,11 @@ import * as React from "react";
 import { AlertTriangle, Copy, Palette, Type } from "lucide-react";
 import { palette } from "./ShowcaseData";
 
-interface ShowcaseMetricsProps {
+interface ShowcaseFoundationProps {
   onCopyColor?: (value: string) => void;
 }
 
-export function ShowcaseMetrics({ onCopyColor }: ShowcaseMetricsProps) {
+export function ShowcaseFoundation({ onCopyColor }: ShowcaseFoundationProps) {
   const handleCopyColor = (value: string) => {
     if (onCopyColor) {
       onCopyColor(value);
