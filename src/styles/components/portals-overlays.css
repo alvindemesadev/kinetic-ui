@@ -787,17 +787,24 @@
 }
 .overlay-confirmation-copy {
   display: grid;
-  justify-items: center;
-  gap: 10px;
-  padding: 12px 6px 4px;
-  text-align: center;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 13px;
+  row-gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-control);
+  background: var(--surface-inset);
+  box-shadow: var(--shadow-inset);
+  text-align: left;
 }
 .overlay-confirmation-copy.compact {
-  padding-top: 0;
+  margin-bottom: 1px;
 }
 .overlay-confirmation-icon {
-  width: 52px;
-  height: 52px;
+  grid-row: 1 / span 2;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
@@ -812,13 +819,15 @@
   background: color-mix(in srgb, var(--danger) 12%, var(--surface-inset));
 }
 .overlay-confirmation-copy p {
+  grid-column: 2;
   margin: 0;
   color: var(--text);
   font-size: var(--text-md);
   font-weight: 700;
 }
 .overlay-confirmation-copy small {
-  max-width: 390px;
+  grid-column: 2;
+  max-width: none;
   color: var(--text-muted);
   font-size: var(--text-xs);
   line-height: 1.55;
