@@ -1107,7 +1107,6 @@ kbd {
   display: grid;
   grid-template-columns: 1.08fr 0.92fr;
   gap: 16px;
-  align-items: start;
 }
 .palette-panel,
 .type-panel,
@@ -1118,6 +1117,10 @@ kbd {
 .calendar-card,
 .state-card {
   padding: 22px;
+}
+.palette-panel {
+  display: flex;
+  flex-direction: column;
 }
 .swatch-grid {
   display: grid;
@@ -1175,6 +1178,40 @@ kbd {
 }
 .swatch:hover svg {
   opacity: 1;
+}
+.palette-summary {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-soft);
+}
+.palette-summary > span {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.palette-summary p {
+  max-width: 42ch;
+  margin: 6px 0 12px;
+  color: var(--text-muted);
+  font-size: var(--text-2xs);
+  line-height: 1.5;
+}
+.palette-summary > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.palette-summary strong {
+  font-family: var(--font-dot-gothic), sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+}
+.palette-summary small {
+  color: var(--text-muted);
+  font-size: var(--text-2xs);
 }
 .font-sample {
   padding: 14px 0;

@@ -58,6 +58,14 @@ export function ShowcaseFoundation({ onCopyColor }: ShowcaseFoundationProps) {
                 </button>
               ))}
             </div>
+            <div className="palette-summary">
+              <span>Semantic token set</span>
+              <p>Click any swatch to copy its value. The same roles drive both light and dark materials.</p>
+              <div>
+                <strong>{palette.length} tokens</strong>
+                <small>Ready to copy</small>
+              </div>
+            </div>
           </article>
           <article className="panel type-panel">
             <div className="panel-heading">
