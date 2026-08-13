@@ -1120,11 +1120,11 @@ kbd {
   line-height: 1.35;
 }
 .stat-card-spark {
-  height: 27px;
+  height: 29px;
   display: inline-flex;
   align-items: flex-end;
   gap: 3px;
-  padding: 3px;
+  padding: 5px 6px;
   border: 1px solid var(--border-soft);
   border-radius: var(--kinetic-radius-sm);
   background: var(--surface-inset);
