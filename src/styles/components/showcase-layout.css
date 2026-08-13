@@ -2270,6 +2270,16 @@ kbd {
   background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
   box-shadow: var(--shadow-control);
 }
+.table-row-actions-trigger {
+  display: inline-grid;
+  place-items: center;
+  align-content: center;
+  line-height: 0;
+}
+.table-row-actions-trigger > svg {
+  display: block;
+  margin: 0;
+}
 .table-row-actions-trigger[aria-expanded="true"] {
   transform: translateY(1px);
   box-shadow: var(--shadow-inset);
@@ -2317,6 +2327,11 @@ kbd {
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
   outline: none;
 }
+.table-row-actions-menu
+  [data-slot="dropdown-menu-item"]:is(:hover, [data-highlighted], :focus-visible)
+  > svg {
+  color: var(--accent) !important;
+}
 .table-row-actions-menu [data-slot="dropdown-menu-item"][data-variant="destructive"] {
   color: var(--danger);
 }
@@ -2330,6 +2345,11 @@ kbd {
   color: var(--danger);
   background: color-mix(in srgb, var(--danger) 12%, var(--surface-top));
   box-shadow: var(--shadow-control);
+}
+.table-row-actions-menu
+  [data-slot="dropdown-menu-item"][data-variant="destructive"]:is(:hover, [data-highlighted], :focus-visible)
+  > svg {
+  color: var(--danger) !important;
 }
 .table-row-actions-menu [data-slot="dropdown-menu-item"][data-variant="destructive"] svg {
   color: currentColor;
