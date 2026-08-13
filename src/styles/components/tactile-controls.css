@@ -1004,10 +1004,14 @@
   font-weight: 400;
   text-align: center;
 }
-.time-step input:focus {
+.time-step input:focus-visible {
   border-radius: var(--kinetic-radius-xs);
   background: var(--accent-soft);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 38%, transparent);
+}
+.time-step input[data-auto-focused] {
+  background: transparent;
+  box-shadow: none;
 }
 .time-step input::selection {
   color: white;

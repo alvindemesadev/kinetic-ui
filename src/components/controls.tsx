@@ -295,12 +295,29 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
   const [minuteDraft, setMinuteDraft] = useState(() => String(minute).padStart(2, "0"));
   const [lastValue, setLastValue] = useState(value);
   const currentTimeRef = useRef({ hour, minute });
+  const suppressInitialSelectionRef = useRef(false);
 
   useEffect(() => {
     if (!isOpen) return;
-    const focusFrame = requestAnimationFrame(() => hourInputRef.current?.focus());
+    suppressInitialSelectionRef.current = true;
+    const focusFrame = requestAnimationFrame(() => {
+      hourInputRef.current?.setAttribute("data-auto-focused", "true");
+      hourInputRef.current?.focus();
+    });
     return () => cancelAnimationFrame(focusFrame);
   }, [isOpen]);
+
+  const clearAutoFocusStyle = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    event.currentTarget.removeAttribute("data-auto-focused");
+  };
+
+  const selectInputOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (suppressInitialSelectionRef.current) {
+      suppressInitialSelectionRef.current = false;
+      return;
+    }
+    event.currentTarget.select();
+  };
 
   const closeAndRestoreFocus = useCallback(() => {
     onClose();
@@ -436,9 +453,14 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
                 maxLength={2}
                 value={hourDraft}
                 onChange={(event) => updateDraft("hour", event.target.value)}
-                onFocus={(event) => event.currentTarget.select()}
-                onBlur={(event) => commitDraft("hour", event.currentTarget.value)}
+                onFocus={selectInputOnFocus}
+                onPointerDown={clearAutoFocusStyle}
+                onBlur={(event) => {
+                  clearAutoFocusStyle(event);
+                  commitDraft("hour", event.currentTarget.value);
+                }}
                 onKeyDown={(event) => {
+                  clearAutoFocusStyle(event);
                   if (event.key === "Enter") {
                     event.preventDefault();
                     commitDraft("hour", event.currentTarget.value);
@@ -466,9 +488,14 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
                 maxLength={2}
                 value={minuteDraft}
                 onChange={(event) => updateDraft("minute", event.target.value)}
-                onFocus={(event) => event.currentTarget.select()}
-                onBlur={(event) => commitDraft("minute", event.currentTarget.value)}
+                onFocus={selectInputOnFocus}
+                onPointerDown={clearAutoFocusStyle}
+                onBlur={(event) => {
+                  clearAutoFocusStyle(event);
+                  commitDraft("minute", event.currentTarget.value);
+                }}
                 onKeyDown={(event) => {
+                  clearAutoFocusStyle(event);
                   if (event.key === "Enter") {
                     event.preventDefault();
                     commitDraft("minute", event.currentTarget.value);
