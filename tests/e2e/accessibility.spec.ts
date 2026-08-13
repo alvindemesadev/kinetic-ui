@@ -49,11 +49,25 @@ test("sidebar menus map to real sections and track the active destination", asyn
     );
 
   for (const href of hrefs) {
-    const link = sidebar.locator(`a[href="${href}"]`);
+    const link = sidebar.locator(href === "/library" ? 'a[href="/library"]' : `a[href$="${href}"]`);
     await link.click();
-    await expect(page.locator(href)).toBeVisible();
+    const section = href.startsWith("#") ? page.locator(href) : page.locator("#library");
+    await expect(section).toBeVisible();
     await expect(link).toHaveClass(/active/);
   }
+});
+
+test("responsive overlay gallery opens an accessible edit surface", async ({ page }) => {
+  await page.goto("/#overlays");
+  const gallery = page.locator('[aria-label="Responsive modal and drawer examples"]');
+  await expect(gallery).toBeVisible();
+  await gallery.getByRole("button", { name: "Open edit" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Edit" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel("Module name")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
 });
 
 test("command menu traps focus and closes with Escape", async ({ page }) => {

@@ -17,7 +17,7 @@ export function useFocusTrap(ref: RefObject<HTMLElement | null>, active: boolean
     document.body.style.overflow = "hidden";
     const container = ref.current;
     const initialFocus =
-      container.querySelector<HTMLElement>("[autofocus]") ??
+      container.querySelector<HTMLElement>("[autofocus], [data-autofocus]") ??
       container.querySelector<HTMLElement>(focusableSelector) ??
       container;
     const focusFrame = requestAnimationFrame(() => {

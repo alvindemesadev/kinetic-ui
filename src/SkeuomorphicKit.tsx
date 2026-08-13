@@ -78,6 +78,7 @@ import { ShowcaseStatCards } from "./sections/showcase/ShowcaseStatCards";
 import { ShowcaseDataTable } from "./sections/showcase/ShowcaseDataTable";
 import { ShowcaseActivityStream } from "./sections/showcase/ShowcaseActivityStream";
 import { ShowcaseModals } from "./sections/showcase/ShowcaseModals";
+import { ShowcaseOverlayGallery } from "./sections/showcase/ShowcaseOverlayGallery";
 import {
   Message,
   MessageAvatar,
@@ -873,8 +874,17 @@ export default function SkeuomorphicKit() {
           </Section>
 
           <Section
+            id="overlays"
+            eyebrow="04 · Overlays"
+            title="Modals on desktop. Drawers on mobile."
+            description="Focused actions that stay contextual: inspect, edit, create, confirm, invite, and safely remove workspace content."
+          >
+            <ShowcaseOverlayGallery />
+          </Section>
+
+          <Section
             id="library"
-            eyebrow="06 · Reference"
+            eyebrow="05 · Reference"
             title="Component reference"
             description="Reusable primitives with the same tactile materials, interaction rules, and accessible behavior as the template."
           >
@@ -913,7 +923,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="data"
-            eyebrow="07 · Data"
+            eyebrow="06 · Data"
             title="Tables and information density"
             description="Readable structured data with search, sorting affordances, filters, and semantic status."
           >
@@ -946,7 +956,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="states"
-            eyebrow="08 · States"
+            eyebrow="07 · States"
             title="Every state accounted for"
             description="Empty, loading, skeleton, and progress patterns that preserve layout and communicate what happens next."
           >
