@@ -138,7 +138,7 @@ export function CatalogForms({
       </DemoBlock>
 
       <DemoBlock title="Date, OTP & popover">
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="catalog-date-otp-row">
           <div className="catalog-date-picker">
             <KineticDatePicker
               value={dateValue}

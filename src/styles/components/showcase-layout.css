@@ -2766,6 +2766,15 @@ kbd {
 .catalog-date-picker .custom-control {
   width: 100%;
 }
+.catalog-date-otp-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+.catalog-date-otp-row > [data-slot="input-otp"] {
+  min-height: 40px;
+}
 .catalog-framework-menu {
   padding: 6px;
 }
