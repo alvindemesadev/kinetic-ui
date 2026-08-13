@@ -208,7 +208,7 @@ export default function ChartGallery() {
                 cx="50%"
                 cy="50%"
                 outerRadius="78%"
-                stroke="var(--surface-top)"
+                stroke="var(--surface-mid)"
                 strokeWidth={3}
               >
                 {distributionData.map((item) => (
