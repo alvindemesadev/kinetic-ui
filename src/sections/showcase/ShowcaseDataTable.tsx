@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Search, Filter, Plus, ArrowUpDown, FileText, MoreHorizontal } from "lucide-react";
-import { InitialsAvatar, StatusPill } from "@/components";
+import { Search, Filter, Plus, ArrowUpDown, FileText } from "lucide-react";
+import { InitialsAvatar, StatusPill, TableRowActions } from "@/components";
 import { toast } from "sonner";
 
 interface TableRowData {
@@ -85,9 +85,7 @@ export function ShowcaseDataTable({ tableQuery, setTableQuery, filteredRows }: S
                 <td>{row.updated}</td>
                 <td>{row.size}</td>
                 <td>
-                  <button className="icon-button" aria-label={`Actions for ${row.name}`} type="button">
-                    <MoreHorizontal size={16} />
-                  </button>
+                  <TableRowActions rowName={row.name} />
                 </td>
               </tr>
             ))}

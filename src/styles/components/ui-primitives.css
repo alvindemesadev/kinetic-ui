@@ -249,6 +249,21 @@
   height: 100%;
   font-size: var(--text-md);
 }
+.ui-kit [data-slot="input-group-control"]:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+.ui-kit
+  :is(
+    [data-slot="command-input-wrapper"],
+    [data-slot="input-group"],
+    [data-slot="combobox-chips"],
+    [data-slot="questionnaire-input-wrapper"]
+  )
+  :is(input, textarea, select):focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
 .ui-kit
   :is(
     [data-slot="input"],
@@ -438,6 +453,11 @@
     filter 120ms ease,
     box-shadow 120ms ease;
 }
+.ui-kit [data-slot="accordion-trigger"][data-state="open"],
+.ui-kit [data-slot="collapsible-trigger"][data-state="open"] {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
 .ui-kit [data-slot="accordion-trigger"]:hover:not(:disabled) {
   color: var(--text);
   filter: brightness(1.05);
@@ -544,6 +564,9 @@
   line-height: 1.5;
 }
 .ui-kit [data-slot="message"][data-align="end"] .message-bubble {
+  align-self: flex-end;
+  width: fit-content;
+  max-width: 100%;
   color: var(--action-foreground);
   border-color: rgba(255, 130, 76, 0.35);
   background: linear-gradient(150deg, var(--action-top), var(--action-bottom));
@@ -765,6 +788,15 @@
     0 4px 10px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
+/* Select items receive the shadcn accent-foreground utility on focus. Keep
+   the Kinetic hover surface readable in both themes instead of switching to
+   white text on the light material palette. */
+[data-slot="select-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"]) {
+  border-color: var(--border);
+  color: var(--text);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
+  box-shadow: var(--shadow-control);
+}
 .ui-kit .catalog-command {
   border: 1px solid var(--border);
   border-radius: var(--kinetic-radius-control) !important;
@@ -932,6 +964,20 @@
   background: var(--surface-inset);
   box-shadow: var(--shadow-inset);
 }
+.ui-kit [data-slot="data-table"] .data-table-surface {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-menu);
+  background: var(--surface-inset);
+  box-shadow: var(--shadow-inset);
+}
+.ui-kit [data-slot="data-table"] .data-table-surface [data-slot="table-container"] {
+  overflow-x: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
 .ui-kit :is([data-slot="table-head"], [data-slot="table-footer"]) {
   color: var(--text-soft);
   background: linear-gradient(180deg, var(--surface-top), var(--surface-flat));
@@ -953,10 +999,18 @@
   color: var(--text-muted);
 }
 .ui-kit :is([data-slot="breadcrumb-link"], [data-slot="pagination-link"]):hover,
-.ui-kit [data-slot="pagination-link"][data-active="true"] {
+.ui-kit [data-slot="pagination-link"]:hover {
   color: var(--text);
   background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
   box-shadow: var(--shadow-control);
+}
+.ui-kit [data-slot="pagination-link"][data-active="true"] {
+  border-color: color-mix(in srgb, var(--accent) 58%, var(--border));
+  color: var(--action-foreground);
+  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
+  box-shadow:
+    0 4px 9px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 .ui-kit [data-slot="breadcrumb-page"] {
   color: var(--text);

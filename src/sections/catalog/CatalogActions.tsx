@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Spinner } from "@/components/ui/spinner";
-import { Info, Sparkles } from "lucide-react";
+import { Info, Plus } from "lucide-react";
 
 import { DemoBlock } from "./DemoBlock";
 
@@ -12,7 +12,7 @@ export function CatalogActions() {
       <DemoBlock title="Actions & feedback">
         <div className="flex flex-wrap items-center gap-2">
           <Button>
-            <Sparkles /> Primary
+            <Plus /> Primary
           </Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="outline">Outline</Button>

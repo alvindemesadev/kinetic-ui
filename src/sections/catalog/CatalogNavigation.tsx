@@ -87,7 +87,13 @@ export function CatalogNavigation() {
           </AccordionItem>
         </Accordion>
         <Separator className="my-4" />
-        <ToggleGroup type="multiple" variant="outline" aria-label="Notification channels">
+        <ToggleGroup
+          type="multiple"
+          variant="outline"
+          spacing={1}
+          defaultValue={["alerts"]}
+          aria-label="Notification channels"
+        >
           <ToggleGroupItem value="alerts" aria-label="Alerts">
             <Bell /> Alerts
           </ToggleGroupItem>

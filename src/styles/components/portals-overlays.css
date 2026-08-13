@@ -293,6 +293,18 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Keep the catalog tooltip visually consistent with the collapsed sidebar
+   tooltips: compact, tactile, and readable in both themes. */
+[data-slot="tooltip-content"].sidebar-matched-tooltip {
+  padding: 7px 10px;
+  border-radius: var(--kinetic-radius-control);
+  color: var(--text);
+  background: linear-gradient(155deg, var(--surface-top), var(--surface-bottom));
+  box-shadow: var(--shadow-overlay);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
 /* Sonner renders in a portal, so it needs its own material treatment and must
    not rely on the compact defaults from the library. */
 [data-sonner-toast].cn-toast {

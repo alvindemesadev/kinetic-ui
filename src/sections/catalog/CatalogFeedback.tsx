@@ -31,7 +31,7 @@ export function CatalogFeedback() {
                 Hover for details
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Accessible tooltip content</TooltipContent>
+            <TooltipContent className="sidebar-matched-tooltip">Accessible tooltip content</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </DemoBlock>

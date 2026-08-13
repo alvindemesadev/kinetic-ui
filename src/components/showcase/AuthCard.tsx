@@ -1,5 +1,5 @@
 import { useId, useState, type FormEvent } from "react";
-import { Eye, EyeOff, LoaderCircle, LockKeyhole, Mail, Sparkles, User } from "lucide-react";
+import { Component, Eye, EyeOff, LoaderCircle, LockKeyhole, Mail, User } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -60,7 +60,7 @@ export function AuthCard({ mode, className, onSubmit, onModeChange, onForgotPass
     <article className={cn("panel auth-card", className)} data-slot="auth-card">
       <header className="auth-card-header">
         <span className="auth-brand-mark" aria-hidden="true">
-          <Sparkles size={16} />
+          <Component size={16} />
         </span>
         <div>
           <span>{isSignup ? "Create your workspace" : "Welcome back"}</span>

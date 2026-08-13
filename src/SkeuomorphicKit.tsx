@@ -21,7 +21,7 @@ import {
   Search,
   Send,
   Settings,
-  Sparkles,
+  Tags,
   Trash2,
   UploadCloud,
   User,
@@ -70,6 +70,7 @@ import { Sidebar } from "./sections/Sidebar";
 import { Navbar } from "./sections/Navbar";
 import { Hero } from "./sections/Hero";
 import { ShowcaseMetrics } from "./sections/showcase/ShowcaseMetrics";
+import { ShowcaseStatCards } from "./sections/showcase/ShowcaseStatCards";
 import { ShowcaseDataTable } from "./sections/showcase/ShowcaseDataTable";
 import { ShowcaseActivityStream } from "./sections/showcase/ShowcaseActivityStream";
 import { ShowcaseModals } from "./sections/showcase/ShowcaseModals";
@@ -113,7 +114,13 @@ function Section({
 export default function SkeuomorphicKit() {
   const { theme, preference: selectedStyle, setPreference } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem("kinetic-sidebar-collapsed") === "true";
+    } catch {
+      return false;
+    }
+  });
   const [modalOpen, setModalOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -196,6 +203,14 @@ export default function SkeuomorphicKit() {
     localStorage.setItem("kinetic-view-density", viewDensity);
   }, [viewDensity]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem("kinetic-sidebar-collapsed", String(sidebarCollapsed));
+    } catch {
+      // The in-memory sidebar preference still works when storage is unavailable.
+    }
+  }, [sidebarCollapsed]);
+
   const handleDensityKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
     if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
     event.preventDefault();
@@ -259,6 +274,8 @@ export default function SkeuomorphicKit() {
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        sidebarCollapsed={sidebarCollapsed}
+        toggleMainSidebar={toggleMainSidebar}
         profileSignedIn={profileSignedIn}
         setProfileSignedIn={setProfileSignedIn}
         profileMenuOpen={profileMenuOpen}
@@ -279,6 +296,8 @@ export default function SkeuomorphicKit() {
 
         <main className="content-shell">
           <Hero setModalOpen={setModalOpen} />
+
+          <ShowcaseStatCards />
 
           <ShowcaseMetrics />
 
@@ -593,7 +612,7 @@ export default function SkeuomorphicKit() {
                     <h3>Badges</h3>
                     <p>Status, count, and category labels.</p>
                   </div>
-                  <Sparkles size={19} />
+                  <Tags size={19} />
                 </div>
                 <div className="badge-cloud">
                   <span className="badge badge-success">Ready</span>

@@ -1,4 +1,4 @@
-import { ChevronLeft, Component, Eye, Sparkles } from "lucide-react";
+import { ChevronLeft, Component, Eye } from "lucide-react";
 
 export type HeroProps = {
   setModalOpen: (open: boolean) => void;
@@ -9,7 +9,7 @@ export function Hero({ setModalOpen }: HeroProps) {
     <section className="hero" id="overview">
       <div className="hero-copy">
         <span className="eyebrow">
-          <Sparkles size={14} /> Skeuomorphic React template
+          <Component size={14} /> Skeuomorphic React template
         </span>
         <h1>
           <span className="hero-title-lead">Interfaces</span> with

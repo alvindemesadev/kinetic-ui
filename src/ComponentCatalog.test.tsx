@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -40,6 +41,18 @@ describe("ComponentCatalog showcase", () => {
     expect(switchControl).toHaveAttribute("data-state", "unchecked");
   });
 
+  it("defaults the alert notification channel to active", () => {
+    render(<ComponentCatalog />);
+    expect(screen.getByRole("button", { name: "Alerts" })).toHaveAttribute("data-state", "on");
+    expect(screen.getByRole("button", { name: "Updates" })).toHaveAttribute("data-state", "off");
+  });
+
+  it("marks the current pagination page as active", () => {
+    render(<ComponentCatalog />);
+    expect(screen.getByRole("link", { name: "1" })).toHaveAttribute("data-active", "true");
+    expect(screen.getByRole("link", { name: "2" })).not.toHaveAttribute("data-active");
+  });
+
   it("selects a framework from the select with the keyboard", async () => {
     const user = userEvent.setup();
     render(<ComponentCatalog />);
@@ -47,6 +60,18 @@ describe("ComponentCatalog showcase", () => {
     await user.click(trigger);
     await user.keyboard("{ArrowDown}{Enter}");
     expect(screen.getByText("Vue")).toBeInTheDocument();
+  });
+
+  it("uses the Kinetic date picker in the date primitives card", async () => {
+    const user = userEvent.setup();
+    render(<ComponentCatalog />);
+    const trigger = screen.getByRole("button", { name: "Date picker, 08/12/2026" });
+
+    await user.click(trigger);
+    expect(screen.getByRole("dialog", { name: "Choose a date" })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Month" })).toHaveValue("7");
+    expect(screen.getByRole("combobox", { name: "Year" })).toHaveValue("2026");
+    expect(screen.getByRole("gridcell", { name: "2026-08-12" })).toHaveAttribute("aria-selected", "true");
   });
 
   it("opens and closes the edit profile dialog", async () => {
@@ -68,7 +93,7 @@ describe("ComponentCatalog showcase", () => {
     expect(screen.getByLabelText("Activity completion")).toBeInTheDocument();
 
     await user.hover(screen.getByRole("button", { name: "Hover for details" }));
-    expect(await screen.findByText("Accessible tooltip content")).toBeInTheDocument();
+    expect(await screen.findByText("Accessible tooltip content")).toHaveClass("sidebar-matched-tooltip");
   });
 
   it("lays out resizable panels and a scrollable region", () => {
@@ -81,9 +106,30 @@ describe("ComponentCatalog showcase", () => {
 
   it("renders the structured data table with all rows", () => {
     render(<ComponentCatalog />);
-    expect(screen.getByRole("table")).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "Component" })).toBeInTheDocument();
-    expect(screen.getByRole("cell", { name: "Button" })).toBeInTheDocument();
-    expect(screen.getByRole("cell", { name: "Dialog" })).toBeInTheDocument();
+    const tableDemo = document.querySelector<HTMLElement>(".catalog-table-demo");
+    expect(tableDemo).toBeInTheDocument();
+
+    const table = within(tableDemo as HTMLElement);
+    expect(table.getByRole("table")).toBeInTheDocument();
+    expect(table.getByRole("columnheader", { name: /Name/ })).toBeInTheDocument();
+    expect(table.getByRole("cell", { name: /Control Surface/ })).toBeInTheDocument();
+    expect(table.getByRole("cell", { name: /Command Palette/ })).toBeInTheDocument();
+    expect(table.getByRole("cell", { name: /Analytics Module/ })).toBeInTheDocument();
+    expect(table.getByRole("cell", { name: /Profile Drawer/ })).toBeInTheDocument();
+    expect(table.getByRole("textbox", { name: "Filter modules" })).toBeInTheDocument();
+  });
+
+  it("opens row actions with view, edit, and delete choices", async () => {
+    const user = userEvent.setup();
+    render(<ComponentCatalog />);
+    const actions = screen.getByRole("button", { name: "Actions for Control Surface" });
+
+    await user.click(actions);
+
+    expect(screen.getByRole("menu")).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "View" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Edit" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Delete" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Delete" })).toHaveAttribute("data-variant", "destructive");
   });
 });

@@ -1,5 +1,7 @@
+import { useState } from "react";
+import { format } from "date-fns";
+
 import { Checkbox } from "@/components/ui/checkbox";
-import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
@@ -17,6 +19,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { DatePicker as KineticDatePicker } from "@/components";
 import { Atom, Settings2, Triangle } from "lucide-react";
 
 import { DemoBlock } from "./DemoBlock";
@@ -40,6 +43,9 @@ export function CatalogForms({
   framework: string;
   setFramework: (value: string) => void;
 }) {
+  const [dateOpen, setDateOpen] = useState(false);
+  const dateValue = date ? format(date, "yyyy-MM-dd") : "";
+
   return (
     <>
       <DemoBlock title="Form controls">
@@ -133,7 +139,15 @@ export function CatalogForms({
 
       <DemoBlock title="Date, OTP & popover">
         <div className="flex flex-wrap items-center gap-3">
-          <DatePicker value={date} onChange={setDate} />
+          <div className="catalog-date-picker">
+            <KineticDatePicker
+              value={dateValue}
+              onChange={(nextValue) => setDate(nextValue ? new Date(`${nextValue}T00:00:00`) : undefined)}
+              isOpen={dateOpen}
+              onToggle={() => setDateOpen((current) => !current)}
+              onClose={() => setDateOpen(false)}
+            />
+          </div>
           <InputOTP maxLength={4} aria-label="Verification code">
             <InputOTPGroup>
               <InputOTPSlot index={0} />

@@ -50,7 +50,7 @@ function DataTable<TData, TValue>({
           className="max-w-sm"
         />
       )}
-      <div className="overflow-hidden rounded-lg border bg-card">
+      <div className="data-table-surface">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

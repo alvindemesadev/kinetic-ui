@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, CheckCircle2, Component, Copy, Palette, Type, Zap } from "lucide-react";
+import { AlertTriangle, Copy, Palette, Type } from "lucide-react";
 import { palette } from "./ShowcaseData";
 
 interface ShowcaseMetricsProps {
@@ -17,39 +17,6 @@ export function ShowcaseMetrics({ onCopyColor }: ShowcaseMetricsProps) {
 
   return (
     <>
-      <div className="metrics-row">
-        <article className="metric-card">
-          <span className="metric-icon orange">
-            <Component size={18} />
-          </span>
-          <div>
-            <small>Components</small>
-            <strong>32</strong>
-          </div>
-          <span className="trend positive">+8 new</span>
-        </article>
-        <article className="metric-card">
-          <span className="metric-icon blue">
-            <Zap size={18} />
-          </span>
-          <div>
-            <small>Interactions</small>
-            <strong>18</strong>
-          </div>
-          <span className="trend">Keyboard ready</span>
-        </article>
-        <article className="metric-card">
-          <span className="metric-icon green">
-            <CheckCircle2 size={18} />
-          </span>
-          <div>
-            <small>Theme coverage</small>
-            <strong>100%</strong>
-          </div>
-          <span className="trend positive">Light + dark</span>
-        </article>
-      </div>
-
       <section className="kit-section" id="foundation">
         <header className="section-heading">
           <span>01 · Foundation</span>

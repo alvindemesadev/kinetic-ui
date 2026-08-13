@@ -89,6 +89,22 @@ test("schedule calendar changes months and selects dates", async ({ page }) => {
   await expect(selectedDate).toHaveClass(/selected/);
 });
 
+test("table row actions open a tactile action menu", async ({ page }) => {
+  await page.goto("/");
+  const table = page.locator(".table-panel");
+  const trigger = table.getByRole("button", { name: "Actions for Control Surface" });
+
+  await trigger.click();
+
+  const menu = page.getByRole("menu");
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole("menuitem", { name: "View" })).toBeVisible();
+  await expect(menu.getByRole("menuitem", { name: "Edit" })).toBeVisible();
+  await expect(menu.getByRole("menuitem", { name: "Delete" })).toHaveAttribute("data-variant", "destructive");
+  await menu.getByRole("menuitem", { name: "Edit" }).click();
+  await expect(trigger).toBeFocused();
+});
+
 test("navigation preview controls update its mini workspace", async ({ page }) => {
   await page.goto("/");
   const preview = page.getByRole("article", { name: "Interactive navigation preview" });
@@ -137,12 +153,15 @@ test("main hamburger smoothly toggles the sidebar at every viewport", async ({ p
   const toggle = page.getByRole("button", { name: "Toggle sidebar" });
 
   await expect(toggle).toBeVisible();
-  await expect(sidebar).toHaveCSS("transition-duration", "0.32s");
+  await expect(sidebar).toHaveCSS("transition-duration", /0\.32s/);
   await toggle.click();
 
   if ((page.viewportSize()?.width ?? 1280) >= 981) {
     await expect(shell).toHaveClass(/sidebar-collapsed/);
-    await expect(content).toHaveCSS("margin-left", "0px");
+    await expect(sidebar).toHaveCSS("width", "76px");
+    await expect(content).toHaveCSS("margin-left", "76px");
+    await expect(sidebar.getByRole("button", { name: "Toggle sidebar" })).toBeVisible();
+    await expect(sidebar.getByRole("img", { name: "Alvin de Mesa avatar" })).toBeVisible();
     await toggle.click();
     await expect(shell).not.toHaveClass(/sidebar-collapsed/);
     await expect(content).toHaveCSS("margin-left", "248px");
@@ -218,6 +237,18 @@ test("sidebar profile menu exposes profile settings and logout", async ({ page }
   await expect(page.getByText("Signed out", { exact: true })).toBeVisible({ timeout: 10_000 });
   await page.locator(".sidebar-profile").getByRole("button", { name: "Sign in" }).click();
   await expect(page.getByRole("button", { name: "Profile menu" })).toBeVisible();
+});
+
+test("collapsed sidebar profile menu hides its duplicate tooltip", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 1280) < 981, "The collapsed sidebar is a desktop behavior.");
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Toggle sidebar" }).click();
+  const trigger = page.getByRole("button", { name: "Profile menu" });
+  await trigger.click();
+
+  await expect(page.getByRole("menu")).toBeVisible();
+  await expect(trigger).not.toHaveAttribute("data-tooltip");
 });
 
 test("component library selection controls behave like Kinetic labeled rows", async ({ page }) => {
@@ -322,6 +353,10 @@ test("component library renders working examples inside the Skeuomorphic compone
     "padding-top",
     "10px",
   );
+  const disclosureTrigger = disclosureCard.getByRole("button", { name: "Accessible behavior" });
+  await disclosureTrigger.click();
+  await expect(disclosureTrigger).toHaveCSS("border-bottom-left-radius", "0px");
+  await expect(disclosureTrigger).toHaveCSS("border-bottom-right-radius", "0px");
 
   const formCard = library.locator('[data-slot="card"]').filter({ hasText: "Form controls" });
   await expect(formCard.getByLabel("Project name")).toHaveCSS("font-size", "14px");
@@ -331,6 +366,18 @@ test("component library renders working examples inside the Skeuomorphic compone
   await framework.click();
   await page.getByRole("option", { name: "Vue" }).click();
   await expect(framework).toContainText("Vue");
+  const catalogEmail = library.getByRole("textbox", { name: "Email address" });
+  await catalogEmail.focus();
+  await expect(catalogEmail).toHaveCSS("outline-style", "none");
+
+  const catalogDateCard = library.locator('[data-slot="card"]').filter({ hasText: "Date, OTP & popover" });
+  const catalogDateTrigger = catalogDateCard.locator(".catalog-date-picker").getByRole("button", {
+    name: /Date picker/i,
+  });
+  await catalogDateTrigger.click();
+  await expect(catalogDateCard.locator(".date-popover")).toBeVisible();
+  await expect(catalogDateCard).toHaveCSS("overflow", "visible");
+  await catalogDateTrigger.click();
 
   const command = library.locator(".catalog-command");
   const commandBox = await command.boundingBox();
@@ -375,7 +422,28 @@ test("component library renders working examples inside the Skeuomorphic compone
   await alertDialog.getByRole("button", { name: "Cancel" }).click();
   await expect(alertDialog).toBeHidden();
 
-  await library.getByRole("button", { name: "Show implementation note" }).click();
+  const catalogTable = library.locator(".catalog-table-demo");
+  await expect(catalogTable.getByText("Project files", { exact: true })).toBeVisible();
+  await expect(catalogTable.locator('[data-slot="table-body"] > [data-slot="table-row"]')).toHaveCount(4);
+  await expect(catalogTable.locator('[data-slot="table-container"]')).toHaveCSS("border-radius", "0px");
+  const rowActions = catalogTable.getByRole("button", { name: "Actions for Control Surface" });
+  await rowActions.click();
+  const rowActionsMenu = page.getByRole("menu");
+  await expect(rowActionsMenu.getByRole("menuitem", { name: "View" })).toBeVisible();
+  await expect(rowActionsMenu.getByRole("menuitem", { name: "Edit" })).toBeVisible();
+  await expect(rowActionsMenu.getByRole("menuitem", { name: "Delete" })).toHaveAttribute(
+    "data-variant",
+    "destructive",
+  );
+  await rowActionsMenu.getByRole("menuitem", { name: "View" }).click();
+  await catalogTable.getByRole("textbox", { name: "Filter modules" }).fill("Analytics");
+  await expect(catalogTable.getByText("Analytics Module", { exact: true })).toBeVisible();
+  await expect(catalogTable.getByText("Control Surface", { exact: true })).toHaveCount(0);
+
+  const implementationNoteTrigger = library.getByRole("button", { name: "Show implementation note" });
+  await implementationNoteTrigger.click();
+  await expect(implementationNoteTrigger).toHaveCSS("border-bottom-left-radius", "0px");
+  await expect(implementationNoteTrigger).toHaveCSS("border-bottom-right-radius", "0px");
   await expect(
     library.getByText("The table, collapsible region, and controls above are the real exported components."),
   ).toBeVisible();

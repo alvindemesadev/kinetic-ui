@@ -10,7 +10,7 @@ describe("SkeuomorphicKit shell", () => {
     expect(screen.getAllByText("Kinetic UI").length).toBeGreaterThan(0);
     expect(screen.getByRole("navigation", { name: "Component sections" })).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: "Overview" }).length).toBeGreaterThan(0);
-    expect(screen.getByText("64")).toBeInTheDocument();
+    expect(screen.getAllByText("64").length).toBeGreaterThan(0);
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
   });
 

@@ -62,7 +62,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
-import { FileText, Mail, MoreHorizontal, Search, Settings2, Sparkles, Trash2 } from "lucide-react";
+import { FileText, Mail, MoreHorizontal, Plus, Search, Settings2, Trash2 } from "lucide-react";
 
 import { DemoBlock } from "./DemoBlock";
 
@@ -146,7 +146,7 @@ export function CatalogOverlays({
               </DrawerHeader>
               <div className="drawer-action-grid">
                 <Button variant="outline">
-                  <Sparkles /> New project
+                  <Plus /> New project
                 </Button>
                 <Button variant="outline">
                   <FileText /> Upload file

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Sparkles,
   Component,
   Palette,
   Download,
@@ -56,7 +55,7 @@ export function ShowcaseModals({
           >
             <span className="drawer-handle" />
             <div className="dialog-icon">
-              <Sparkles size={22} />
+              <Component size={22} />
             </div>
             <div className="dialog-copy">
               <span className="eyebrow">New component set</span>

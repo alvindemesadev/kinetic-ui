@@ -9,7 +9,7 @@ import { CatalogNavigation } from "@/sections/catalog/CatalogNavigation";
 import { CatalogOverlays } from "@/sections/catalog/CatalogOverlays";
 
 export default function ComponentCatalog() {
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = useState<Date | undefined>(() => new Date(2026, 7, 12));
   const [enabled, setEnabled] = useState(true);
   const [completion, setCompletion] = useState([62]);
   const [framework, setFramework] = useState("react");

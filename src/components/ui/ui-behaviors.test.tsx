@@ -124,7 +124,9 @@ describe("ui component behaviors", () => {
       </TooltipProvider>,
     );
     await user.hover(screen.getByRole("button", { name: "Hover me" }));
-    expect(await screen.findByText("Tooltip copy")).toBeInTheDocument();
+    const tooltip = await screen.findByText("Tooltip copy");
+    expect(tooltip).toBeInTheDocument();
+    expect(tooltip.querySelector("svg")).toBeNull();
   });
 
   it("reports progress and slider values accessibly", () => {
