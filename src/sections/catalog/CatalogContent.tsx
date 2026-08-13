@@ -103,7 +103,7 @@ export function CatalogContent() {
           </InputGroupAddon>
           <InputGroupInput aria-label="Email address" placeholder="alvin@example.com" />
         </InputGroup>
-        <div className="mt-4 flex items-center justify-between gap-4">
+        <div className="catalog-identity-toolbar">
           <AvatarGroup>
             <Avatar>
               <AvatarFallback>AD</AvatarFallback>
@@ -113,8 +113,13 @@ export function CatalogContent() {
             </Avatar>
             <AvatarGroupCount>+3</AvatarGroupCount>
           </AvatarGroup>
-          <div className="flex gap-2">
-            <Toggle variant="outline" aria-label="Bold" title="Bold">
+          <div className="catalog-identity-actions">
+            <Toggle
+              className="catalog-identity-format-toggle"
+              variant="outline"
+              aria-label="Bold"
+              title="Bold"
+            >
               <Bold />
             </Toggle>
             <ToggleGroup type="single" defaultValue="left">

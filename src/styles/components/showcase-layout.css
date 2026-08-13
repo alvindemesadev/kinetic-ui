@@ -2775,6 +2775,30 @@ kbd {
 .catalog-date-otp-row > [data-slot="input-otp"] {
   min-height: 40px;
 }
+.catalog-identity-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+}
+.catalog-identity-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.ui-kit .catalog-identity-format-toggle {
+  width: 40px;
+  height: var(--kinetic-control-height);
+  min-height: var(--kinetic-control-height);
+  padding: 0;
+}
+.ui-kit .catalog-identity-actions > [data-slot="toggle-group"] {
+  height: var(--kinetic-control-height);
+  min-height: var(--kinetic-control-height);
+}
 .catalog-framework-menu {
   padding: 6px;
 }
