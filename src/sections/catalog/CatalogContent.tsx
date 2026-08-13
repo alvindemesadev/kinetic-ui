@@ -17,7 +17,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import {
   Item,
   ItemActions,
@@ -95,14 +94,10 @@ export function CatalogContent() {
   return (
     <>
       <DemoBlock title="Inputs, toggles & identity">
-        <InputGroup>
-          <InputGroupAddon>
-            <InputGroupText>
-              <Mail />
-            </InputGroupText>
-          </InputGroupAddon>
-          <InputGroupInput aria-label="Email address" placeholder="alvin@example.com" />
-        </InputGroup>
+        <span className="auth-input-shell catalog-email-input">
+          <Mail size={15} aria-hidden="true" />
+          <input aria-label="Email address" type="email" autoComplete="email" placeholder="you@example.com" />
+        </span>
         <div className="catalog-identity-toolbar">
           <AvatarGroup>
             <Avatar>
