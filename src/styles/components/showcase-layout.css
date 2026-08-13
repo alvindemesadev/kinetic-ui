@@ -2270,10 +2270,14 @@ kbd {
   background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
   box-shadow: var(--shadow-control);
 }
-.table-row-actions-trigger {
+.ui-kit .table-row-actions-trigger {
+  width: 38px;
+  height: 38px !important;
+  min-height: 38px !important;
   display: inline-grid;
   place-items: center;
   align-content: center;
+  padding: 0 !important;
   line-height: 0;
 }
 .table-row-actions-trigger > svg {
@@ -2330,7 +2334,7 @@ kbd {
 .table-row-actions-menu
   [data-slot="dropdown-menu-item"]:is(:hover, [data-highlighted], :focus-visible)
   > svg {
-  color: var(--accent) !important;
+  color: var(--action-bottom) !important;
 }
 .table-row-actions-menu [data-slot="dropdown-menu-item"][data-variant="destructive"] {
   color: var(--danger);
