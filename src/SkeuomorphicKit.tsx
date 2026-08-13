@@ -41,6 +41,7 @@ import {
 import { toast } from "sonner";
 import {
   AuthCard,
+  ForgotPasswordCard,
   InitialsAvatar,
   ButtonStateShowcase,
   DatePicker,
@@ -591,6 +592,20 @@ export default function SkeuomorphicKit() {
                 onModeChange={() => toast.info("Login card is beside this one")}
               />
             </div>
+            <ForgotPasswordCard
+              onRequestCode={async () => {
+                await waitForDemo();
+                toast.success("Reset code sent to your email");
+              }}
+              onResendCode={async () => {
+                await waitForDemo();
+                toast.success("A new reset code was sent");
+              }}
+              onResetPassword={async () => {
+                await waitForDemo();
+                toast.success("Password reset complete");
+              }}
+            />
             <div className="component-grid three-column">
               <article className="panel profile-card">
                 <div className="cover-strip" />

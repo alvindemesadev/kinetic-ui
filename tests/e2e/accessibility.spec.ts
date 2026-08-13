@@ -562,6 +562,24 @@ test("login and signup cards validate and submit", async ({ page }) => {
   await expect(signup.getByRole("alert")).toHaveText("Passwords do not match.");
 });
 
+test("forgot password card completes its email, code, and reset steps", async ({ page }) => {
+  await page.goto("/");
+  const card = page.locator('[data-slot="forgot-password-card"]');
+
+  await card.getByLabel("Email address").fill("alvin@example.com");
+  await card.getByRole("button", { name: "Send reset code" }).click();
+  await expect(card.getByText("Verification code")).toBeVisible();
+
+  await card.getByLabel("Verification code").fill("123456");
+  await card.getByRole("button", { name: "Verify code" }).click();
+  await expect(card.getByRole("textbox", { name: "New password", exact: true })).toBeVisible();
+
+  await card.getByRole("textbox", { name: "New password", exact: true }).fill("kinetic123");
+  await card.getByRole("textbox", { name: "Confirm new password", exact: true }).fill("kinetic123");
+  await card.getByRole("button", { name: "Reset password" }).click();
+  await expect(card.getByRole("status")).toContainText("Password reset complete");
+});
+
 test("text-bearing buttons use the shared readable type scale", async ({ page }) => {
   await page.goto("/");
 
