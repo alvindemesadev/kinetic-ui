@@ -124,6 +124,7 @@ test("table row actions open a tactile action menu", async ({ page }) => {
   await expect(menu.getByRole("menuitem", { name: "Delete" })).toHaveAttribute("data-variant", "destructive");
   await menu.getByRole("menuitem", { name: "Edit" }).click();
   await expect(trigger).toBeFocused();
+  await expect(page.locator("[data-sonner-toast]")).toContainText("Edit module");
 });
 
 test("navigation preview controls update its mini workspace", async ({ page }) => {
