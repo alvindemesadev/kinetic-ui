@@ -2009,52 +2009,8 @@ kbd {
   box-shadow: var(--shadow-overlay);
 }
 .calendar-view-mode-menu [data-slot="dropdown-menu-radio-item"] {
-  min-height: 36px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 10px;
-  border: 1px solid transparent;
-  border-radius: var(--kinetic-radius-sm);
-  color: var(--text);
-  font-size: var(--text-sm);
-  font-weight: 650;
-}
-.calendar-view-mode-menu
-  [data-slot="dropdown-menu-radio-item"]:is(:hover, [data-highlighted], :focus-visible) {
-  outline: none;
-  border-color: var(--border);
-  background: var(--surface-hover);
-  box-shadow: var(--shadow-control);
-}
-.calendar-view-mode-menu
-  [data-slot="dropdown-menu-radio-item"]:is(
-    :hover,
-    [data-highlighted],
-    :focus-visible,
-    [data-state="checked"]
-  )
-  > span:nth-child(2) {
-  color: var(--text) !important;
-}
-.calendar-view-mode-menu [data-slot="dropdown-menu-radio-item"][data-state="checked"] {
-  border-color: color-mix(in srgb, var(--accent) 36%, var(--border));
-  background: color-mix(in srgb, var(--accent-soft) 50%, var(--surface-top));
-}
-.calendar-view-mode-menu [data-slot="dropdown-menu-radio-item"] > span:last-child {
-  margin-left: auto;
-  color: var(--text-muted) !important;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: var(--text-2xs);
-  font-weight: 700;
-}
-.calendar-view-mode-shortcut {
-  margin-left: auto;
-}
-.calendar-view-mode-menu
-  [data-slot="dropdown-menu-radio-item"]
-  [data-slot="dropdown-menu-radio-item-indicator"] {
-  display: none;
+  min-height: var(--kinetic-control-height-small);
+  padding: 0 36px 0 10px;
 }
 .calendar-mode-view {
   min-height: 538px;

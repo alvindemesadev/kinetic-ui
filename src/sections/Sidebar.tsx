@@ -51,6 +51,45 @@ export function Sidebar({
     };
   }, []);
 
+  useEffect(() => {
+    const sectionHrefs = navigation.map((item) => item.href);
+    const stickyOffset = 112;
+    let frame = 0;
+
+    const syncActiveSection = () => {
+      frame = 0;
+      let nextActive = sectionHrefs[0] ?? "#overview";
+      let closestTop = Number.NEGATIVE_INFINITY;
+
+      for (const href of sectionHrefs) {
+        const section = document.querySelector<HTMLElement>(href);
+        if (!section) continue;
+        const top = section.getBoundingClientRect().top;
+        if (top <= stickyOffset && top > closestTop) {
+          closestTop = top;
+          nextActive = href;
+        }
+      }
+
+      setActiveHref((current) => (current === nextActive ? current : nextActive));
+    };
+
+    const requestSync = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(syncActiveSection);
+    };
+
+    window.addEventListener("scroll", requestSync, { passive: true });
+    window.addEventListener("resize", requestSync);
+    requestSync();
+
+    return () => {
+      window.removeEventListener("scroll", requestSync);
+      window.removeEventListener("resize", requestSync);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
   useFocusTrap(sidebarRef, sidebarOpen);
 
   useEffect(() => {

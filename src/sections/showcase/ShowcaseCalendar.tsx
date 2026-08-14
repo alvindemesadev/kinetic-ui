@@ -35,11 +35,11 @@ const initialEvents: CalendarEvent[] = [
 ];
 
 const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const viewModes: Array<{ value: CalendarView; label: string; shortcut: string }> = [
-  { value: "day", label: "Day", shortcut: "D" },
-  { value: "week", label: "Week", shortcut: "W" },
-  { value: "month", label: "Month", shortcut: "M" },
-  { value: "year", label: "Year", shortcut: "Y" },
+const viewModes: Array<{ value: CalendarView; label: string }> = [
+  { value: "day", label: "Day" },
+  { value: "week", label: "Week" },
+  { value: "month", label: "Month" },
+  { value: "year", label: "Year" },
 ];
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
@@ -223,7 +223,6 @@ export function ShowcaseCalendar() {
                   {viewModes.map((option) => (
                     <DropdownMenuRadioItem value={option.value} key={option.value}>
                       <span>{option.label}</span>
-                      <span className="calendar-view-mode-shortcut">{option.shortcut}</span>
                     </DropdownMenuRadioItem>
                   ))}
                 </DropdownMenuRadioGroup>

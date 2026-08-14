@@ -789,13 +789,31 @@
   [data-slot="command-item"],
   [data-slot="combobox-item"],
   [data-slot="navigation-menu-link"]
-):is([data-highlighted], [data-selected="true"], [data-state="open"], [aria-current="page"]) {
+):is(
+  [data-highlighted],
+  [data-selected="true"],
+  [data-state="open"],
+  [data-state="checked"],
+  [aria-current="page"]
+) {
   border-color: var(--border);
   color: var(--foreground);
   background: linear-gradient(180deg, var(--popover), var(--secondary));
   box-shadow:
     0 4px 10px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+[data-slot="dropdown-menu-radio-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"]) svg,
+[data-slot="dropdown-menu-checkbox-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"]) svg {
+  color: var(--accent) !important;
+  stroke: var(--accent) !important;
+}
+[data-slot="dropdown-menu-radio-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"]) {
+  color: var(--text) !important;
+}
+[data-slot="dropdown-menu-radio-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"])
+  > span:not([data-slot="dropdown-menu-radio-item-indicator"]) {
+  color: var(--text) !important;
 }
 /* Select items receive the shadcn accent-foreground utility on focus. Keep
    the Kinetic hover surface readable in both themes instead of switching to
@@ -813,6 +831,18 @@
   > span:first-child
   svg {
   color: var(--accent) !important;
+  stroke: var(--accent) !important;
+}
+/* Radix wraps SelectItem indicators in an additional state span. Keep every
+   check glyph on the highlighted option tied to the accent token instead of
+   inheriting shadcn's white accent-foreground utility in light mode. */
+[data-slot="select-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"]) svg {
+  color: var(--accent) !important;
+  stroke: var(--accent) !important;
+}
+[data-slot="select-item"] > span:first-child svg {
+  color: var(--accent) !important;
+  stroke: var(--accent) !important;
 }
 .ui-kit .catalog-command {
   border: 1px solid var(--border);
