@@ -72,6 +72,10 @@ const isLibraryAlias = () => {
   return (path === "/library" && !window.location.hash) || window.location.hash === "#library";
 };
 
+if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
 import { waitForDemo } from "./sections/demoUtils";
 import { Sidebar } from "./sections/Sidebar";
 import { Navbar } from "./sections/Navbar";
@@ -79,10 +83,13 @@ import { Hero } from "./sections/Hero";
 import { ShowcaseFoundation } from "./sections/showcase/ShowcaseFoundation";
 import { ShowcaseStatCards } from "./sections/showcase/ShowcaseStatCards";
 import { ShowcaseCalendar } from "./sections/showcase/ShowcaseCalendar";
+import { ShowcaseKanban, ShowcaseTimeline, ShowcaseTodoList } from "./sections/showcase/ShowcaseProductivity";
 import { ShowcaseDataTable } from "./sections/showcase/ShowcaseDataTable";
 import { ShowcaseActivityStream } from "./sections/showcase/ShowcaseActivityStream";
 import { ShowcaseModals } from "./sections/showcase/ShowcaseModals";
 import { ShowcaseOverlayGallery } from "./sections/showcase/ShowcaseOverlayGallery";
+import { ShowcaseProfile } from "./sections/showcase/ShowcaseProfile";
+import { ShowcaseSettings } from "./sections/showcase/ShowcaseSettings";
 import {
   Message,
   MessageAvatar,
@@ -174,6 +181,18 @@ export default function SkeuomorphicKit() {
 
   const chooseTheme = (nextTheme: "dark" | "light") => setPreference(nextTheme);
   const chooseStyle = (style: ThemePreference) => setPreference(style);
+  const navigateToPage = (href: "#profile" | "#settings") => {
+    if (window.location.hash !== href) {
+      window.history.pushState({}, "", href);
+      window.dispatchEvent(new Event("hashchange"));
+    }
+    requestAnimationFrame(() =>
+      document.querySelector<HTMLElement>(href)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      }),
+    );
+  };
   const toggleMainSidebar = () => {
     if (window.matchMedia("(max-width: 980px)").matches) {
       setSidebarOpen((open) => !open);
@@ -219,14 +238,42 @@ export default function SkeuomorphicKit() {
   }, [viewDensity]);
 
   useEffect(() => {
+    const path = window.location.pathname.replace(/\/+$/, "");
+    const navigationEntry = performance.getEntriesByType("navigation")[0] as
+      PerformanceNavigationTiming | undefined;
+    const isReload = navigationEntry?.type === "reload";
+    if (path === "" && window.location.hash === "#reference" && isReload) {
+      window.history.replaceState({}, "", `${window.location.pathname}${window.location.search}`);
+      const resetScroll = () => {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
+      };
+      resetScroll();
+      requestAnimationFrame(() => {
+        resetScroll();
+        requestAnimationFrame(resetScroll);
+      });
+      window.dispatchEvent(new Event("hashchange"));
+    }
+
     const handleRouteChange = () => {
       if (isLibraryAlias()) {
-        requestAnimationFrame(() => document.querySelector("#reference")?.scrollIntoView({ block: "start" }));
+        requestAnimationFrame(() =>
+          document.querySelector("#reference")?.scrollIntoView({ behavior: "auto", block: "start" }),
+        );
+        return;
+      }
+      const hash = window.location.hash;
+      if (/^#[A-Za-z][\w-]*$/.test(hash)) {
+        requestAnimationFrame(() =>
+          document.querySelector(hash)?.scrollIntoView({ behavior: "auto", block: "start" }),
+        );
       }
     };
     window.addEventListener("hashchange", handleRouteChange);
     window.addEventListener("popstate", handleRouteChange);
-    if (isLibraryAlias()) handleRouteChange();
+    handleRouteChange();
     return () => {
       window.removeEventListener("hashchange", handleRouteChange);
       window.removeEventListener("popstate", handleRouteChange);
@@ -297,6 +344,7 @@ export default function SkeuomorphicKit() {
         setProfileSignedIn={setProfileSignedIn}
         profileMenuOpen={profileMenuOpen}
         setProfileMenuOpen={setProfileMenuOpen}
+        onNavigateToPage={navigateToPage}
       />
 
       <div className="app-column">
@@ -313,10 +361,19 @@ export default function SkeuomorphicKit() {
           setProfileSignedIn={setProfileSignedIn}
           navbarProfileOpen={navbarProfileOpen}
           setNavbarProfileOpen={setNavbarProfileOpen}
+          onNavigateToPage={navigateToPage}
         />
 
         <main className="content-shell">
           <Hero setModalOpen={setModalOpen} />
+
+          <ShowcaseProfile onNavigateToPage={navigateToPage} />
+
+          <ShowcaseSettings
+            selectedStyle={selectedStyle}
+            onStyleChange={chooseStyle}
+            onNavigateToPage={navigateToPage}
+          />
 
           <ShowcaseStatCards />
 
@@ -816,9 +873,15 @@ export default function SkeuomorphicKit() {
 
           <ShowcaseCalendar />
 
+          <ShowcaseKanban />
+
+          <ShowcaseTimeline />
+
+          <ShowcaseTodoList />
+
           <Section
             id="overlays"
-            eyebrow="05 · Overlays"
+            eyebrow="08 · Overlays"
             title="Modals on desktop. Drawers on mobile."
             description="Focused actions that stay contextual: inspect, edit, create, confirm, invite, and safely remove workspace content."
           >
@@ -827,7 +890,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="reference"
-            eyebrow="06 · Reference"
+            eyebrow="09 · Reference"
             title="Component reference"
             description="Reusable primitives with the same tactile materials, interaction rules, and accessible behavior as the template."
           >
@@ -848,7 +911,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="data"
-            eyebrow="07 · Data"
+            eyebrow="10 · Data"
             title="Tables and information density"
             description="Readable structured data with search, sorting affordances, filters, and semantic status."
           >
@@ -881,7 +944,7 @@ export default function SkeuomorphicKit() {
 
           <Section
             id="states"
-            eyebrow="08 · States"
+            eyebrow="11 · States"
             title="Every state accounted for"
             description="Empty, loading, skeleton, and progress patterns that preserve layout and communicate what happens next."
           >

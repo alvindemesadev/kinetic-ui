@@ -29,6 +29,7 @@ export type NavbarProps = {
   setProfileSignedIn: (value: boolean) => void;
   navbarProfileOpen: boolean;
   setNavbarProfileOpen: (open: boolean | ((current: boolean) => boolean)) => void;
+  onNavigateToPage: (href: "#profile" | "#settings") => void;
 };
 
 export function Navbar({
@@ -44,6 +45,7 @@ export function Navbar({
   setProfileSignedIn,
   navbarProfileOpen,
   setNavbarProfileOpen,
+  onNavigateToPage,
 }: NavbarProps) {
   const notificationTriggerRef = useRef<HTMLButtonElement>(null);
   const notificationMenuRef = useRef<HTMLElement>(null);
@@ -246,7 +248,7 @@ export function Navbar({
                 role="menuitem"
                 onClick={() => {
                   closeProfile();
-                  toast("Profile", { description: "Alvin de Mesa · Product developer" });
+                  onNavigateToPage("#profile");
                 }}
               >
                 <User size={15} />
@@ -257,8 +259,7 @@ export function Navbar({
                 role="menuitem"
                 onClick={() => {
                   closeProfile();
-                  document.querySelector("#controls")?.scrollIntoView({ behavior: "smooth" });
-                  toast("Settings opened");
+                  onNavigateToPage("#settings");
                 }}
               >
                 <Settings size={15} />

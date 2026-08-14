@@ -10,10 +10,24 @@ interface DeleteConfirmationDialogProps {
   open: boolean;
   rowName: string;
   onOpenChange: (open: boolean) => void;
+  onConfirm?: () => void;
+  bodyText?: string;
+  confirmLabel?: string;
+  successTitle?: string;
+  successDescription?: string;
 }
 
 /** The shared destructive confirmation surface used by row actions and overlays. */
-export function DeleteConfirmationDialog({ open, rowName, onOpenChange }: DeleteConfirmationDialogProps) {
+export function DeleteConfirmationDialog({
+  open,
+  rowName,
+  onOpenChange,
+  onConfirm,
+  bodyText = "This action removes the module from the workspace and cannot be undone.",
+  confirmLabel = "Delete module",
+  successTitle = "Module deleted",
+  successDescription = `${rowName} was removed from the workspace.`,
+}: DeleteConfirmationDialogProps) {
   const dialogRef = useRef<HTMLElement>(null);
   const titleId = `delete-confirmation-title-${useId().replace(/:/g, "")}`;
   const descriptionId = `delete-confirmation-description-${useId().replace(/:/g, "")}`;
@@ -25,9 +39,10 @@ export function DeleteConfirmationDialog({ open, rowName, onOpenChange }: Delete
   const close = () => onOpenChange(false);
   const confirmDelete = async () => {
     await waitForDemo(650);
+    onConfirm?.();
     close();
-    toast.success("Module deleted", {
-      description: `${rowName} was removed from the workspace.`,
+    toast.success(successTitle, {
+      description: successDescription,
     });
   };
 
@@ -75,9 +90,7 @@ export function DeleteConfirmationDialog({ open, rowName, onOpenChange }: Delete
               <CircleAlert size={22} />
             </span>
             <p>{`Delete ${rowName}?`}</p>
-            <small id={descriptionId}>
-              This action removes the module from the workspace and cannot be undone.
-            </small>
+            <small id={descriptionId}>{bodyText}</small>
           </div>
         </div>
 
@@ -86,7 +99,7 @@ export function DeleteConfirmationDialog({ open, rowName, onOpenChange }: Delete
             Cancel
           </button>
           <LoadingButton className="button button-danger" loadingText="Deleting" onAction={confirmDelete}>
-            Delete module
+            {confirmLabel}
           </LoadingButton>
         </footer>
       </section>

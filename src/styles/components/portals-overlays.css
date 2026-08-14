@@ -380,6 +380,9 @@
   box-shadow: var(--shadow-overlay);
   animation: dialog-in 0.22s ease;
 }
+.dialog-card.kanban-task-dialog {
+  width: min(520px, 100%);
+}
 @keyframes dialog-in {
   from {
     opacity: 0;

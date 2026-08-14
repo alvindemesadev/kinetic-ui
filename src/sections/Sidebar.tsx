@@ -1,5 +1,5 @@
 import { LogOut, Menu, Settings, User, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { toast } from "sonner";
 import { InitialsAvatar, LoadingButton } from "@/components";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
@@ -15,6 +15,7 @@ export type SidebarProps = {
   setProfileSignedIn: (value: boolean) => void;
   profileMenuOpen: boolean;
   setProfileMenuOpen: (open: boolean | ((current: boolean) => boolean)) => void;
+  onNavigateToPage: (href: "#profile" | "#settings") => void;
 };
 
 export function Sidebar({
@@ -26,6 +27,7 @@ export function Sidebar({
   setProfileSignedIn,
   profileMenuOpen,
   setProfileMenuOpen,
+  onNavigateToPage,
 }: SidebarProps) {
   const sidebarRef = useRef<HTMLElement>(null);
   const sidebarToggleRef = useRef<HTMLButtonElement>(null);
@@ -71,7 +73,17 @@ export function Sidebar({
         }
       }
 
-      setActiveHref((current) => (current === nextActive ? current : nextActive));
+      setActiveHref((current) => {
+        if (current === nextActive && window.location.hash === nextActive) return current;
+        if (window.location.hash !== nextActive) {
+          window.history.replaceState(
+            window.history.state,
+            "",
+            `${window.location.pathname}${window.location.search}${nextActive}`,
+          );
+        }
+        return nextActive;
+      });
     };
 
     const requestSync = () => {
@@ -125,6 +137,17 @@ export function Sidebar({
 
   const hideSidebarTooltip = () => setSidebarTooltip(null);
 
+  const handleSectionNavigation = (event: ReactMouseEvent<HTMLAnchorElement>, href: string) => {
+    event.preventDefault();
+    hideSidebarTooltip();
+    setSidebarOpen(false);
+    if (window.location.hash !== href) window.history.pushState({}, "", href);
+    window.dispatchEvent(new Event("hashchange"));
+    requestAnimationFrame(() =>
+      document.querySelector<HTMLElement>(href)?.scrollIntoView({ behavior: "auto", block: "start" }),
+    );
+  };
+
   return (
     <>
       <aside ref={sidebarRef} className={`sidebar ${sidebarOpen ? "is-open" : ""}`} id="main-sidebar">
@@ -171,15 +194,13 @@ export function Sidebar({
                 href={href}
                 key={item.label}
                 aria-label={item.label}
+                aria-current={href === activeHref ? "page" : undefined}
                 data-tooltip={sidebarCollapsed ? item.label : undefined}
                 onMouseEnter={(event) => showSidebarTooltip(event.currentTarget)}
                 onMouseLeave={hideSidebarTooltip}
                 onFocus={(event) => showSidebarTooltip(event.currentTarget)}
                 onBlur={hideSidebarTooltip}
-                onClick={() => {
-                  hideSidebarTooltip();
-                  setSidebarOpen(false);
-                }}
+                onClick={(event) => handleSectionNavigation(event, href)}
               >
                 <Icon size={17} />
                 <span>{item.label}</span>
@@ -249,7 +270,7 @@ export function Sidebar({
                 role="menuitem"
                 onClick={() => {
                   closeProfileMenu();
-                  toast("Profile", { description: "Alvin de Mesa · Product developer" });
+                  onNavigateToPage("#profile");
                 }}
               >
                 <User size={15} />
@@ -261,8 +282,7 @@ export function Sidebar({
                 onClick={() => {
                   closeProfileMenu(!window.matchMedia("(max-width: 980px)").matches);
                   setSidebarOpen(false);
-                  document.querySelector("#controls")?.scrollIntoView({ behavior: "smooth" });
-                  toast("Settings opened");
+                  onNavigateToPage("#settings");
                 }}
               >
                 <Settings size={15} />

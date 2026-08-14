@@ -17,8 +17,15 @@
   .state-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .account-page-grid,
+  .settings-page-grid {
+    grid-template-columns: 1fr;
+  }
   .swatch-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .kanban-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .hero {
     grid-template-columns: 0.9fr 1.1fr;
@@ -99,6 +106,9 @@
   }
   .foundation-grid,
   .component-grid.two-column {
+    grid-template-columns: 1fr;
+  }
+  .timeline-layout {
     grid-template-columns: 1fr;
   }
 }
@@ -195,6 +205,59 @@
   .auth-card-grid,
   .stat-card-grid {
     grid-template-columns: 1fr;
+  }
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+  .kanban-composer,
+  .todo-composer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .kanban-composer .button,
+  .todo-composer .button {
+    width: 100%;
+  }
+  .timeline-toolbar,
+  .todo-toolbar {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .timeline-toolbar::-webkit-scrollbar,
+  .todo-toolbar::-webkit-scrollbar {
+    display: none;
+  }
+  .timeline-toolbar button,
+  .todo-toolbar button {
+    flex: 1 0 auto;
+  }
+  .timeline-entry {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .timeline-item {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 76px;
+    padding: 12px;
+  }
+  .timeline-item > .badge {
+    display: none;
+  }
+  .timeline-item-copy strong,
+  .timeline-item-copy small {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .todo-row {
+    grid-template-columns: 30px minmax(0, 1fr) 34px;
+  }
+  .todo-due {
+    display: none;
   }
   .button-state-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -410,6 +473,28 @@
   }
   .field-grid {
     grid-template-columns: 1fr;
+  }
+  .account-profile-page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .account-profile-page-heading .avatar-large {
+    margin-top: -48px;
+  }
+  .account-profile-page-card .account-profile-page-heading .avatar-large {
+    margin-top: 0;
+  }
+  .settings-security-grid {
+    grid-template-columns: 1fr;
+  }
+  .settings-style-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .settings-style-row .custom-control {
+    width: 100%;
+    flex-basis: auto;
   }
   .field.full {
     grid-column: auto;
