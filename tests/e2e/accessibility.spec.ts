@@ -48,6 +48,9 @@ test("legacy library URL is the canonical page and focuses the reference section
     })
     .toBeLessThan(180);
 
+  if ((page.viewportSize()?.width ?? 1280) < 981) {
+    await page.getByRole("button", { name: "Toggle sidebar" }).click();
+  }
   const overview = page.locator("#main-sidebar").getByRole("link", { name: "Overview" });
   await overview.click();
   await expect(page.locator("#overview")).toBeVisible();
@@ -296,6 +299,7 @@ test("sidebar profile menu exposes profile settings and logout", async ({ page }
   const reopenedMenu = page.getByRole("menu");
   await reopenedMenu.getByRole("menuitem", { name: "Log out" }).click();
   await expect(page.getByText("Signed out", { exact: true })).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText("Logged out of the preview", { exact: true })).toBeHidden({ timeout: 10_000 });
   await page.locator(".sidebar-profile").getByRole("button", { name: "Sign in" }).click();
   await expect(page.getByRole("button", { name: "Profile menu", exact: true })).toBeVisible();
 });
@@ -401,6 +405,10 @@ test("component library renders working examples inside its reference section", 
   await expect(library).toBeVisible({ timeout: 10_000 });
   await expect(library).toHaveCSS("margin-top", "0px");
   await expect(library.locator('[data-slot="card"]')).toHaveCount(11);
+  const registrySearch = library.getByRole("searchbox", { name: "Search components" });
+  await registrySearch.fill("calendar");
+  await expect(library.getByRole("link", { name: "Calendar content" })).toHaveAttribute("href", "#calendar");
+  await registrySearch.fill("");
   await expect(page.getByText("Full shadcn-style catalog", { exact: true })).toHaveCount(0);
   await expect(page.locator(".catalog-registry-item")).toHaveCount(0);
   const boldToggle = library.getByRole("button", { name: "Bold" });
@@ -618,7 +626,9 @@ test("button state specimen exposes every documented state", async ({ page }) =>
 
 test("chart tooltip stays at the hovered point and clicks have no black outline", async ({ page }) => {
   await page.goto("/");
+  await page.locator("#data").scrollIntoViewIfNeeded();
   const chart = page.locator(".tooltip-chart-card");
+  await expect(chart).toBeVisible({ timeout: 15_000 });
   const bar = chart.locator(".recharts-bar-rectangle path").first();
 
   await bar.hover();

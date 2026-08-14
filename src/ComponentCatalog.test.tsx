@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -30,6 +30,15 @@ describe("ComponentCatalog showcase", () => {
     render(<ComponentCatalog />);
     expect(screen.getByLabelText("Project name")).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: "Verification code" })).toBeInTheDocument();
+  });
+
+  it("filters registry metadata without duplicating a demo", async () => {
+    render(<ComponentCatalog />);
+    fireEvent.change(screen.getByRole("searchbox", { name: "Search components" }), {
+      target: { value: "calendar" },
+    });
+    expect(screen.getByRole("link", { name: /^Calendar/i })).toHaveAttribute("href", "#calendar");
+    expect(screen.getByText("Browse the registry")).toBeInTheDocument();
   });
 
   it("defaults the alert notification channel to active", () => {

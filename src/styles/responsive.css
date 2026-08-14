@@ -291,6 +291,16 @@
   .catalog-demo-grid {
     grid-template-columns: 1fr;
   }
+  .catalog-reference-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .catalog-reference-search {
+    width: 100%;
+  }
+  .catalog-reference-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .reference-launch {
     grid-template-columns: auto 1fr;
   }

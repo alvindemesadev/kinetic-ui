@@ -20,18 +20,20 @@ The root URL (`/`) is the canonical showcase page. The legacy `/library` URL is 
 
 ## Available scripts
 
-| Command                | Purpose                                     |
-| ---------------------- | ------------------------------------------- |
-| `npm run dev`          | Start the Vite development server           |
-| `npm run build`        | Type-check and create a production bundle   |
-| `npm run preview`      | Preview the production build                |
-| `npm run lint`         | Run ESLint with zero warnings allowed       |
-| `npm run format`       | Format supported files with Prettier        |
-| `npm run format:check` | Verify formatting without changing files    |
-| `npm test`             | Run Vitest component and hook tests         |
-| `npm run test:watch`   | Run Vitest interactively                    |
-| `npm run test:e2e`     | Run Playwright accessibility tests          |
-| `npm run check`        | Run lint, formatting, unit tests, and build |
+| Command                  | Purpose                                                                   |
+| ------------------------ | ------------------------------------------------------------------------- |
+| `npm run dev`            | Start the Vite development server                                         |
+| `npm run build`          | Type-check and create a production bundle                                 |
+| `npm run preview`        | Preview the production build                                              |
+| `npm run verify:library` | Build and verify the showcase-independent component entrypoint            |
+| `npm run verify:docs`    | Generate and verify one source-linked page for every registered component |
+| `npm run lint`           | Run ESLint with zero warnings allowed                                     |
+| `npm run format`         | Format supported files with Prettier                                      |
+| `npm run format:check`   | Verify formatting without changing files                                  |
+| `npm test`               | Run Vitest component and hook tests                                       |
+| `npm run test:watch`     | Run Vitest interactively                                                  |
+| `npm run test:e2e`       | Run Playwright accessibility tests                                        |
+| `npm run check`          | Run lint, formatting, unit tests, and build                               |
 
 Install Playwright's Chromium binary once before the first browser test:
 
@@ -78,6 +80,8 @@ All components rely on the design tokens and class definitions in `src/styles.cs
 ## Complete shadcn-style registry
 
 The current official component catalog is installed in `src/components/ui`. It includes all registry components plus the documented Data Table, Date Picker, Toast, and Typography compositions. Components are source-owned and can be edited directly, following shadcn's model.
+
+The reusable boundary is `src/library.ts` (also built by `npm run build:library`). It exports primitives and named Skeuomorphic controls without importing the showcase shell, charts, catalog demos, or page sections. See [the usage guides](docs/guides/README.md) and [the Phase 1 inventory](docs/phase-1-inventory.md) for source ownership and API conventions.
 
 Import one component directly for the smallest dependency surface:
 

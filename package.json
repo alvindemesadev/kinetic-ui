@@ -7,14 +7,34 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "build:library": "tsc -p tsconfig.library.json && vite build -c vite.library.config.ts",
+    "verify:library": "npm run build:library && node scripts/verify-library.mjs",
+    "docs:components": "node scripts/generate-component-docs.mjs",
+    "verify:docs": "npm run docs:components && node scripts/verify-component-docs.mjs",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "measure:build": "npm run build && node scripts/report-build.mjs",
-    "check": "npm run lint && npm run format:check && npm run test && npm run build"
+    "measure:build": "npm run build && node scripts/report-build.mjs --check",
+    "measure:build:report": "npm run build && node scripts/report-build.mjs",
+    "check": "npm run lint && npm run format:check && npm run test && npm run build && npm run verify:docs"
+  },
+  "files": [
+    "dist-library",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/library.ts",
+      "import": "./dist-library/kinetic-ui.js"
+    },
+    "./styles.css": "./dist-library/kinetic-ui.css",
+    "./ui": {
+      "types": "./src/components/ui/index.ts",
+      "import": "./dist-library/kinetic-ui.js"
+    }
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -31,7 +51,6 @@
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.31.0",
-    "next-themes": "^0.4.6",
     "radix-ui": "^1.6.7",
     "react": "19.2.6",
     "react-day-picker": "^10.0.1",

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const assetsDirectory = join(root, "dist", "assets");
 const budgetFile = join(root, "performance-budget.json");
+const enforce = process.argv.includes("--check");
 
 function collectFiles(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -81,12 +82,17 @@ const checks = [
   ["total CSS gzip", cssTotal.gzipBytes, budget.budgets.totalCssGzipBytes],
 ];
 
-console.log("\nPhase 0 budget targets (informational until Phase 10):");
+console.log(`\nPerformance budget targets (${enforce ? "enforced" : "report only"}):`);
+let failed = false;
 for (const [label, value, limit] of checks) {
   const status = value <= limit ? "within target" : "over target";
+  if (enforce && value > limit) failed = true;
   console.log(`  ${label}: ${formatBytes(value)} / ${formatBytes(limit)} — ${status}`);
 }
 
-console.log(
-  "\nNo budget failure is raised in Phase 0; this report establishes the baseline for later enforcement.",
-);
+if (failed) {
+  console.error("\nPerformance budget check failed. Review the largest assets before merging.");
+  process.exit(1);
+}
+
+console.log(enforce ? "\nAll enforced budgets pass." : "\nReport generated without enforcement.");

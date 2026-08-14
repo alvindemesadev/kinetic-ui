@@ -30,7 +30,9 @@ import {
 } from "lucide-react";
 import {
   lazy,
+  memo,
   Suspense,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -52,6 +54,7 @@ import {
   SwitchControl,
   type ThemePreference,
 } from "./components";
+import { DeferredRender } from "./components/DeferredRender";
 import { useFocusTrap } from "./hooks/useFocusTrap";
 import { useTheme } from "./hooks/useTheme";
 
@@ -66,6 +69,21 @@ const densityOptions: Array<{ value: ViewDensity; label: string }> = [
 
 const ChartGallery = lazy(() => import("./ChartGallery"));
 const ComponentCatalog = lazy(() => import("./ComponentCatalog"));
+
+// Static sections are memoized so local controls (pickers, filters, menus) do not
+// rerender unrelated galleries. Interactive sections keep their own state and
+// are intentionally left outside this boundary.
+const MemoShowcaseStatCards = memo(ShowcaseStatCards);
+const MemoShowcaseFeatures = memo(ShowcaseFeatures);
+const MemoShowcasePricing = memo(ShowcasePricing);
+const MemoShowcaseFoundation = memo(ShowcaseFoundation);
+const MemoShowcaseProfile = memo(ShowcaseProfile);
+const MemoShowcaseSettings = memo(ShowcaseSettings);
+const MemoShowcaseCalendar = memo(ShowcaseCalendar);
+const MemoShowcaseKanban = memo(ShowcaseKanban);
+const MemoShowcaseTimeline = memo(ShowcaseTimeline);
+const MemoShowcaseTodoList = memo(ShowcaseTodoList);
+const MemoShowcaseOverlayGallery = memo(ShowcaseOverlayGallery);
 
 const isLibraryAlias = () => {
   const path = window.location.pathname.replace(/\/+$/, "");
@@ -181,9 +199,9 @@ export default function SkeuomorphicKit() {
   const modalDialogRef = useRef<HTMLElement>(null);
   const commandDialogRef = useRef<HTMLElement>(null);
 
-  const chooseTheme = (nextTheme: "dark" | "light") => setPreference(nextTheme);
-  const chooseStyle = (style: ThemePreference) => setPreference(style);
-  const navigateToPage = (href: "#profile" | "#settings") => {
+  const chooseTheme = useCallback((nextTheme: "dark" | "light") => setPreference(nextTheme), [setPreference]);
+  const chooseStyle = useCallback((style: ThemePreference) => setPreference(style), [setPreference]);
+  const navigateToPage = useCallback((href: "#profile" | "#settings") => {
     if (window.location.hash !== href) {
       window.history.pushState({}, "", href);
       window.dispatchEvent(new Event("hashchange"));
@@ -194,14 +212,14 @@ export default function SkeuomorphicKit() {
         block: "start",
       }),
     );
-  };
-  const toggleMainSidebar = () => {
+  }, []);
+  const toggleMainSidebar = useCallback(() => {
     if (window.matchMedia("(max-width: 980px)").matches) {
       setSidebarOpen((open) => !open);
       return;
     }
     setSidebarCollapsed((collapsed) => !collapsed);
-  };
+  }, []);
 
   useFocusTrap(modalDialogRef, modalOpen);
   useFocusTrap(commandDialogRef, commandOpen);
@@ -314,13 +332,13 @@ export default function SkeuomorphicKit() {
   const miniCards = miniView.cards.filter((card) =>
     card.label.toLowerCase().includes(miniSearchQuery.toLowerCase()),
   );
-  const chooseMiniSection = (section: MiniSection) => {
+  const chooseMiniSection = useCallback((section: MiniSection) => {
     setMiniSection(section);
     setMiniSelectedCard(null);
     setMiniSearchQuery("");
     setMiniNotificationOpen(false);
     setMiniProfileOpen(false);
-  };
+  }, []);
   return (
     <div
       className={`ui-kit ${theme} density-${viewDensity} ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}
@@ -369,21 +387,21 @@ export default function SkeuomorphicKit() {
         <main className="content-shell">
           <Hero setModalOpen={setModalOpen} />
 
-          <ShowcaseProfile onNavigateToPage={navigateToPage} />
+          <MemoShowcaseProfile onNavigateToPage={navigateToPage} />
 
-          <ShowcaseSettings
+          <MemoShowcaseSettings
             selectedStyle={selectedStyle}
             onStyleChange={chooseStyle}
             onNavigateToPage={navigateToPage}
           />
 
-          <ShowcaseStatCards />
+          <MemoShowcaseStatCards />
 
-          <ShowcaseFeatures />
+          <MemoShowcaseFeatures />
 
-          <ShowcasePricing />
+          <MemoShowcasePricing />
 
-          <ShowcaseFoundation />
+          <MemoShowcaseFoundation />
 
           <Section
             id="controls"
@@ -877,13 +895,13 @@ export default function SkeuomorphicKit() {
             </div>
           </Section>
 
-          <ShowcaseCalendar />
+          <MemoShowcaseCalendar />
 
-          <ShowcaseKanban />
+          <MemoShowcaseKanban />
 
-          <ShowcaseTimeline />
+          <MemoShowcaseTimeline />
 
-          <ShowcaseTodoList />
+          <MemoShowcaseTodoList />
 
           <Section
             id="overlays"
@@ -891,7 +909,7 @@ export default function SkeuomorphicKit() {
             title="Modals on desktop. Drawers on mobile."
             description="Focused actions that stay contextual: inspect, edit, create, confirm, invite, and safely remove workspace content."
           >
-            <ShowcaseOverlayGallery />
+            <MemoShowcaseOverlayGallery />
           </Section>
 
           <Section
@@ -900,19 +918,31 @@ export default function SkeuomorphicKit() {
             title="Component reference"
             description="Reusable primitives with the same tactile materials, interaction rules, and accessible behavior as the template."
           >
-            <Suspense
+            <DeferredRender
               fallback={
                 <div className="panel charts-placeholder">
                   <LoaderCircle className="large-spinner" size={23} />
                   <div>
                     <strong>Loading component reference</strong>
-                    <p>The reusable primitive examples are loading.</p>
+                    <p>The reusable primitive examples load as this section approaches.</p>
                   </div>
                 </div>
               }
             >
-              <ComponentCatalog />
-            </Suspense>
+              <Suspense
+                fallback={
+                  <div className="panel charts-placeholder">
+                    <LoaderCircle className="large-spinner" size={23} />
+                    <div>
+                      <strong>Loading component reference</strong>
+                      <p>The reusable primitive examples are loading.</p>
+                    </div>
+                  </div>
+                }
+              >
+                <ComponentCatalog />
+              </Suspense>
+            </DeferredRender>
           </Section>
 
           <Section
@@ -933,19 +963,31 @@ export default function SkeuomorphicKit() {
                 Recharts-powered examples using the same theme tokens, custom tooltip, and material surfaces.
               </p>
             </div>
-            <Suspense
+            <DeferredRender
               fallback={
                 <div className="panel charts-placeholder">
                   <LoaderCircle className="large-spinner" size={23} />
                   <div>
                     <strong>Loading charts</strong>
-                    <p>The chart bundle is fetched only when this gallery renders.</p>
+                    <p>The chart bundle loads as this gallery approaches.</p>
                   </div>
                 </div>
               }
             >
-              <ChartGallery />
-            </Suspense>
+              <Suspense
+                fallback={
+                  <div className="panel charts-placeholder">
+                    <LoaderCircle className="large-spinner" size={23} />
+                    <div>
+                      <strong>Loading charts</strong>
+                      <p>The chart bundle is fetched only when this gallery renders.</p>
+                    </div>
+                  </div>
+                }
+              >
+                <ChartGallery />
+              </Suspense>
+            </DeferredRender>
           </Section>
 
           <Section

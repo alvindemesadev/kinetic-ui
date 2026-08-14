@@ -6,7 +6,7 @@ Phase 0 freezes the current experience before structural optimization begins. It
 
 ## Current production baseline
 
-Run `npm run measure:build` to regenerate this report after a build. The current output is approximately:
+Run `npm run measure:build:report` to regenerate this report after a build. The current output is approximately:
 
 | Asset                   |    Raw |   Gzip | Notes                                               |
 | ----------------------- | -----: | -----: | --------------------------------------------------- |
@@ -15,7 +15,7 @@ Run `npm run measure:build` to regenerate this report after a build. The current
 | `ComponentCatalog-*.js` | 230 KB |  65 KB | Reference/catalog demos; should not block the shell |
 | `index-*.css`           | 430 KB |  61 KB | Shared tokens plus demo styles                      |
 
-These numbers are a starting point, not a failure gate. The initial target budgets are recorded in [`../performance-budget.json`](../performance-budget.json) and are informational until the later CI enforcement phase.
+The target budgets are recorded in [`../performance-budget.json`](../performance-budget.json). `npm run measure:build` enforces them; use the `:report` variant when measuring a change before deciding how to resolve an overage.
 
 ### Browser trace baseline
 
@@ -70,7 +70,10 @@ The empty boxes are intentionally a design-review checklist. They should be chec
 ## Reproducible measurement commands
 
 ```bash
-# Build and print raw/gzip asset sizes and informational budget status
+# Build and print raw/gzip asset sizes without failing on a budget overage
+npm run measure:build:report
+
+# Build and enforce the current budgets
 npm run measure:build
 
 # Existing quality gate

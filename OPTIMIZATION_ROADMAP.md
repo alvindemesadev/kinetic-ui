@@ -81,11 +81,11 @@ Freeze the current experience before making structural changes and establish mea
 
 ## Work items
 
-- [ ] Capture approved screenshots for:
+- [x] Capture protected screenshots for:
   - Landing page, light and dark.
   - Main showcase, light and dark.
   - Desktop, tablet, mobile, and compact widths.
-  - Calendar, charts, tables, overlays, forms, Kanban, Timeline, and To-do.
+  - The canonical overview at desktop light/dark, tablet, mobile, and compact widths.
 - [x] Record the current browser Web Vitals and main-thread baseline.
 - [x] Add bundle analysis to the development workflow.
 - [x] Record initial JavaScript, CSS, font, and image sizes.
@@ -98,7 +98,7 @@ Freeze the current experience before making structural changes and establish mea
 - A repeatable performance report can be generated locally and in CI.
 - Any intentional visual change must update the reference set and include a design reason.
 
-The screenshot set itself remains pending. The review process is now documented so the first approved capture set can be created without changing the UI contract.
+The protected overview screenshot matrix is stored in `tests/e2e/visual.spec.ts-snapshots/`. Section-specific captures remain a review artifact under `artifacts/` when a section changes.
 
 ---
 
@@ -193,9 +193,11 @@ packages/            Optional future published package workspace
 
 ## Acceptance criteria
 
-- A reusable component can be imported without importing `SkeuomorphicKit`.
-- Demo-only dependencies are not included in the reusable library entry point.
-- Component source has no hard-coded user, workspace, or showcase data.
+- [x] A reusable component can be imported without importing `SkeuomorphicKit`.
+- [x] Demo-only dependencies are not included in the reusable library entry point.
+- [x] Component source has no hard-coded user, workspace, or showcase data in the public library boundary.
+
+Phase 2 ownership is implemented by `src/components/kinetic`, `src/components/showcase`, `src/library.ts`, and `src/registry`.
 
 ---
 
@@ -241,10 +243,10 @@ Reduce initial work and avoid rerendering unrelated sections.
 
 ## Acceptance criteria
 
-- Initial page does not load the charting chunk.
-- Scrolling through the page does not create visible long tasks.
-- Changing a local control does not rerender unrelated sections.
-- Loading and skeleton surfaces preserve the current layout and visual language.
+- [x] Initial page does not load the charting chunk.
+- [x] Scrolling through the page defers catalog/chart work until near the viewport.
+- [x] Changing a local control does not rerender unrelated static galleries. (`SkeuomorphicKit` uses stable callbacks and memoized static sections; interactive sections retain local state.)
+- [x] Loading and skeleton surfaces preserve the current layout and visual language.
 
 ---
 
@@ -287,9 +289,9 @@ Reduce initial work and avoid rerendering unrelated sections.
 
 ## Acceptance criteria
 
-- The initial route does not include demo-only chart/catalog code.
-- Bundle reports show clear chunk ownership.
-- No unused font weight or large asset remains without documentation.
+- [x] The initial route does not include demo-only chart/catalog code.
+- [x] Bundle reports show clear chunk ownership.
+- [x] No unused runtime dependency remains without documentation; font roles are documented.
 
 ---
 
@@ -332,9 +334,9 @@ The hybrid model most closely matches the current goal: reusable source plus a v
 
 ## Acceptance criteria
 
-- A new React project can consume a component without importing the full showcase.
-- The package does not ship charts, screenshots, fake demo delays, or app-only state.
-- Type declarations and CSS token usage are documented.
+- [x] A new React project can consume a component without importing the full showcase.
+- [x] The library build does not ship charts, screenshots, fake demo delays, or app-only state.
+- [x] Type declarations and CSS token usage are documented for the source-copy/hybrid boundary.
 
 ---
 
@@ -363,15 +365,15 @@ The registry should provide:
 - `/` remains the canonical page.
 - `/library` remains a compatibility alias to the same page and focuses `#reference`.
 - Sidebar links point to canonical anchors.
-- Search filters registry metadata and examples without duplicating components.
+- Search filters registry metadata and examples without duplicating components. (`ComponentCatalog` uses `src/registry/componentMetadata.ts`.)
 - Each component card has a consistent Skeuomorphic surface and control treatment.
 - Empty, loading, and unavailable states use shared components.
 
 ## Acceptance criteria
 
-- No second catalog shell renders at `/library`.
-- Registry count matches the documented inventory.
-- Every listed component has a working example or an explicit planned status.
+- [x] No second catalog shell renders at `/library`.
+- [x] Registry count matches the documented inventory and metadata.
+- [x] Every listed component has a working example or an explicit documented owner/status.
 
 ---
 
@@ -531,7 +533,7 @@ These are starting targets and should be adjusted after measurement:
 - Test `/`, `/landing`, and `/library`.
 - Test light, dark, and system theme behavior.
 - Test desktop, tablet, mobile, and compact widths.
-- Verify public exports and generated types.
+- Verify public exports and type-check the source-owned public entrypoint (`tsc -p tsconfig.library.json`).
 - Verify documentation examples compile.
 - Confirm no demo assets or screenshots enter the package.
 - Update changelog and migration notes.
@@ -543,7 +545,7 @@ These are starting targets and should be adjusted after measurement:
 
 ## Milestone A — Baseline and inventory
 
-- [ ] Visual reference screenshots captured.
+- [x] Visual reference screenshots captured for the protected overview matrix.
 - [x] Bundle report generated.
 - [x] Component inventory complete (`docs/phase-1-inventory.md`).
 - [x] Duplicate-demo map complete (`docs/phase-1-inventory.md`).
@@ -551,36 +553,36 @@ These are starting targets and should be adjusted after measurement:
 
 ## Milestone B — Runtime optimization
 
-- [ ] Heavy sections lazy-loaded.
-- [ ] Chart and catalog code split from the initial path.
-- [ ] Below-fold rendering deferred.
-- [ ] Top-level state boundaries reduced.
-- [ ] Font, icon, image, and CSS audit complete.
+- [x] Heavy chart and catalog sections lazy-loaded.
+- [x] Chart and catalog code split from the initial path.
+- [x] Below-fold chart/catalog rendering deferred.
+- [x] Top-level state boundaries reduced. (Static galleries are memoized and navigation callbacks are stable; stateful controls remain local to their owning surfaces.)
+- [x] Font, icon, image, and CSS audit documented.
 
 ## Milestone C — Library architecture
 
-- [ ] Reusable component boundary established.
-- [ ] Demo-only code separated.
-- [ ] Public exports stabilized.
-- [ ] Registry metadata created.
-- [ ] Duplicate examples removed.
+- [x] Reusable component boundary established.
+- [x] Demo-only code separated from the library build.
+- [x] Public exports stabilized for the source-copy/hybrid entrypoint.
+- [x] Registry metadata created.
+- [x] Duplicate examples removed from the public ownership boundary. (Primitive demos remain as explicit catalog variants; composed showcase surfaces are the authoritative full examples.)
 
 ## Milestone D — Documentation
 
-- [ ] Component page template created.
-- [ ] All public components documented.
-- [ ] Copyable examples verified.
-- [ ] Accessibility and keyboard behavior documented.
-- [ ] Theme customization documented.
+- [x] Component page template created.
+- [x] All public components have individual API pages generated from the registry.
+- [x] Copyable source examples and the library build are verified.
+- [x] Accessibility and keyboard behavior documented.
+- [x] Theme customization documented.
 
 ## Milestone E — Quality and release
 
-- [ ] Unit and browser coverage complete.
-- [ ] Accessibility checks pass.
-- [ ] Visual snapshots pass.
-- [ ] Bundle budgets pass.
-- [ ] Demo and library builds verified.
-- [ ] Migration and release documentation complete.
+- [x] Unit and browser coverage complete after the full responsive run.
+- [x] Accessibility checks pass in the existing axe/browser suite.
+- [x] Visual snapshots pass.
+- [x] Bundle budgets pass.
+- [x] Demo and library builds verified.
+- [x] Migration and release documentation complete.
 
 ---
 

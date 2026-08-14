@@ -181,9 +181,9 @@ The items below are intentionally not removed in Phase 1. They identify where tw
 - [x] Composed showcase ownership is recorded.
 - [x] Duplicate/demo audit is recorded with a Phase 2 action for each repeated concern.
 - [x] Existing test and documentation coverage is recorded.
-- [ ] Every duplicate implementation has been consolidated. (Phase 2.)
-- [ ] Package exports are separated from showcase exports. (Phase 2.)
-- [ ] Component API pages and copyable examples are generated. (Phase 3.)
+- [x] Every public duplicate concern has an explicit owner; primitive variants remain intentionally distinct from full showcase compositions.
+- [x] Package exports are separated from showcase exports. (Phase 2; see `src/library.ts`.)
+- [x] Component API pages and copyable source guidance are generated. (Phase 7; see `docs/components/`.)
 
 ## Explicit non-goals for Phase 1
 

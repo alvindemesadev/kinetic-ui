@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "notes": "Initial Phase 0 targets. Reported by measure:build; enforcement is planned for Phase 10 after the bundle split is complete.",
+  "notes": "Phase 10 budgets enforced by measure:build. Update a target only with a measured reason and a documented release decision.",
   "budgets": {
     "initialJavaScriptGzipBytes": 250000,
     "initialCssGzipBytes": 80000,
