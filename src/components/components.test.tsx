@@ -109,6 +109,7 @@ describe("reusable controls", () => {
     );
 
     expect(screen.getByRole("dialog", { name: "Choose date and time" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Done" })).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole("gridcell", { name: "2026-08-13" }));
     expect(onChange).toHaveBeenCalledWith({ date: "2026-08-13", time: "22:22" });
     expect(screen.getByRole("button", { name: /Date and time picker/ })).toBeVisible();

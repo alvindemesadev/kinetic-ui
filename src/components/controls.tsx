@@ -579,9 +579,11 @@ export function TimePicker({
               </button>
             ))}
           </div>
-          <button className="picker-done" type="button" onClick={closeAndRestoreFocus}>
-            Done
-          </button>
+          {!embedded && (
+            <button className="picker-done" type="button" onClick={closeAndRestoreFocus}>
+              Done
+            </button>
+          )}
         </div>
       )}
     </div>
