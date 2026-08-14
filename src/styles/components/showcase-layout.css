@@ -2949,10 +2949,13 @@ kbd {
 }
 .avatar-image-editor {
   position: relative;
-  height: 166px;
+  width: min(100%, 190px);
+  aspect-ratio: 1;
+  height: auto;
   overflow: hidden;
   display: grid;
   place-items: center;
+  margin-inline: auto;
   border: 1px solid var(--border);
   border-radius: var(--kinetic-radius-control);
   background: linear-gradient(
