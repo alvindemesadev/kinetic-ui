@@ -89,7 +89,7 @@ Freeze the current experience before making structural changes and establish mea
 - [x] Record the current browser Web Vitals and main-thread baseline.
 - [x] Add bundle analysis to the development workflow.
 - [x] Record initial JavaScript, CSS, font, and image sizes.
-- [ ] Add a short visual-regression review checklist to pull requests.
+- [x] Add a short visual-regression review checklist to pull requests (`docs/visual-regression-checklist.md` and `.github/pull_request_template.md`).
 - [x] Document the current token names and radius scale as stable design contracts.
 
 ## Acceptance criteria
@@ -97,6 +97,8 @@ Freeze the current experience before making structural changes and establish mea
 - A reference screenshot set exists for both themes and supported viewports.
 - A repeatable performance report can be generated locally and in CI.
 - Any intentional visual change must update the reference set and include a design reason.
+
+The screenshot set itself remains pending. The review process is now documented so the first approved capture set can be created without changing the UI contract.
 
 ---
 
@@ -145,6 +147,8 @@ Find and consolidate repeated examples for:
 - Every component has exactly one authoritative example.
 - Any intentional variant is named and documented as a variant, not copied as a second component.
 - The Reference section links to shared examples instead of rendering an independent catalog shell.
+
+The completed inventory and duplicate audit are recorded in [`docs/phase-1-inventory.md`](docs/phase-1-inventory.md). Consolidation and package-boundary changes are intentionally deferred to Phase 2.
 
 ---
 
@@ -541,8 +545,8 @@ These are starting targets and should be adjusted after measurement:
 
 - [ ] Visual reference screenshots captured.
 - [x] Bundle report generated.
-- [ ] Component inventory complete.
-- [ ] Duplicate-demo map complete.
+- [x] Component inventory complete (`docs/phase-1-inventory.md`).
+- [x] Duplicate-demo map complete (`docs/phase-1-inventory.md`).
 - [x] Performance budgets agreed.
 
 ## Milestone B — Runtime optimization
