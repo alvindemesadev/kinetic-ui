@@ -124,6 +124,35 @@
   background: color-mix(in srgb, var(--muted-foreground) 52%, transparent);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
+
+/* Dialog, sheet, and drawer actions use the same full-size tactile target as
+   ordinary Kinetic buttons. This intentionally normalizes footer buttons
+   even when a generated shadcn example supplied a compact `size="sm"`.
+   Icon buttons remain compact/square by design. */
+:is(
+    [data-slot="dialog-footer"],
+    [data-slot="alert-dialog-footer"],
+    [data-slot="sheet-footer"],
+    [data-slot="drawer-footer"]
+  )
+  button:not([data-size^="icon"]) {
+  height: var(--kinetic-control-height);
+  min-height: var(--kinetic-control-height);
+  padding-inline: 15px;
+  border-radius: var(--kinetic-radius-control);
+  font-size: var(--button-label-size, var(--text-sm));
+}
+
+/* Drawer quick actions are action buttons too, rather than compact menu
+   items, so they share the same dimensions as the drawer footer action. */
+.drawer-action-grid [data-slot="button"]:not([data-size^="icon"]) {
+  height: var(--kinetic-control-height);
+  min-height: var(--kinetic-control-height);
+  padding-inline: 15px;
+  border-radius: var(--kinetic-radius-control);
+  font-size: var(--button-label-size, var(--text-sm));
+}
+
 :is(
     [data-slot="dialog-content"],
     [data-slot="alert-dialog-content"],

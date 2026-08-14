@@ -158,6 +158,16 @@
   .button-state-sample {
     min-height: 44px;
   }
+  :is(
+      [data-slot="dialog-footer"],
+      [data-slot="alert-dialog-footer"],
+      [data-slot="sheet-footer"],
+      [data-slot="drawer-footer"]
+    )
+    button:not([data-size^="icon"]),
+  .drawer-action-grid [data-slot="button"]:not([data-size^="icon"]) {
+    min-height: 44px;
+  }
   .command-layer,
   .modal-layer {
     padding-bottom: max(12px, env(safe-area-inset-bottom));
@@ -488,6 +498,16 @@
     grid-template-columns: 1fr 1fr;
   }
   .button {
+    padding-inline: 11px;
+  }
+  :is(
+      [data-slot="dialog-footer"],
+      [data-slot="alert-dialog-footer"],
+      [data-slot="sheet-footer"],
+      [data-slot="drawer-footer"]
+    )
+    button:not([data-size^="icon"]),
+  .drawer-action-grid [data-slot="button"]:not([data-size^="icon"]) {
     padding-inline: 11px;
   }
   .hero-device {

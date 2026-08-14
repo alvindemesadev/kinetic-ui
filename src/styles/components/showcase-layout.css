@@ -3014,9 +3014,10 @@ kbd {
 }
 .avatar-picker-upload {
   position: relative;
-  min-height: 31px;
-  padding-inline: 9px;
-  font-size: var(--text-xs);
+  height: var(--kinetic-control-height);
+  min-height: var(--kinetic-control-height);
+  padding-inline: 15px;
+  font-size: var(--button-label-size, var(--text-sm));
 }
 .avatar-picker-upload input {
   position: absolute;
@@ -3106,9 +3107,10 @@ kbd {
   border-top: 1px solid var(--border-soft);
 }
 .avatar-picker-footer .button {
-  min-height: 32px;
-  padding-inline: 10px;
-  font-size: var(--text-xs);
+  height: var(--kinetic-control-height);
+  min-height: var(--kinetic-control-height);
+  padding-inline: 15px;
+  font-size: var(--button-label-size, var(--text-sm));
 }
 .profile-menu {
   position: absolute;

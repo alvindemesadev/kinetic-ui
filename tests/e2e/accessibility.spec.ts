@@ -479,6 +479,23 @@ test("component library renders working examples inside its reference section", 
   await expect(dialog).toHaveCSS("border-radius", "18px");
   await expect(dialog).not.toHaveCSS("box-shadow", "none");
   await expect(dialog.getByLabel("Display name")).toBeVisible();
+  const readButtonMetrics = async (button: import("@playwright/test").Locator) =>
+    button.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        height: style.height,
+        minHeight: style.minHeight,
+        paddingInline: style.paddingInline,
+        borderRadius: style.borderRadius,
+        fontSize: style.fontSize,
+      };
+    });
+  const normalButtonMetrics = await readButtonMetrics(
+    page.locator("#controls .button-demo-row .button-primary").first(),
+  );
+  expect(await readButtonMetrics(dialog.getByRole("button", { name: "Save changes" }))).toEqual(
+    normalButtonMetrics,
+  );
   await dialog.getByRole("button", { name: "Save changes" }).click();
   await expect(dialog).toBeHidden();
 
@@ -491,6 +508,9 @@ test("component library renders working examples inside its reference section", 
   }
   await expect(sheet.getByText("Automatic updates", { exact: true })).toBeVisible();
   await expect(sheet.getByRole("button", { name: "Save settings" })).toBeVisible();
+  expect(await readButtonMetrics(sheet.getByRole("button", { name: "Save settings" }))).toEqual(
+    normalButtonMetrics,
+  );
   await sheet.getByRole("button", { name: "Save settings" }).click();
   await expect(sheet).toBeHidden();
 
@@ -499,6 +519,10 @@ test("component library renders working examples inside its reference section", 
   const drawer = page.locator('[data-slot="drawer-content"]');
   await expect(drawer).toBeVisible();
   await expect(drawer.getByRole("button", { name: "New project" })).toBeFocused();
+  expect(await readButtonMetrics(drawer.getByRole("button", { name: "Done" }))).toEqual(normalButtonMetrics);
+  expect(await readButtonMetrics(drawer.getByRole("button", { name: "New project" }))).toEqual(
+    normalButtonMetrics,
+  );
   await drawer.getByRole("button", { name: "Done" }).click();
   await expect(drawer).toBeHidden();
   await expect(drawerTrigger).toBeFocused();
