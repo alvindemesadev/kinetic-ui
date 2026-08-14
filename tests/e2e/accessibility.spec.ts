@@ -454,6 +454,10 @@ test("component library renders working examples inside its reference section", 
   await library.getByRole("button", { name: "Open settings" }).click();
   const sheet = page.locator('[data-slot="sheet-content"]');
   await expect(sheet).toBeVisible();
+  if ((page.viewportSize()?.width ?? 1280) >= 981) {
+    await expect(sheet).not.toHaveCSS("border-top-right-radius", "0px");
+    await expect(sheet).not.toHaveCSS("border-bottom-right-radius", "0px");
+  }
   await expect(sheet.getByText("Automatic updates", { exact: true })).toBeVisible();
   await expect(sheet.getByRole("button", { name: "Save settings" })).toBeVisible();
   await sheet.getByRole("button", { name: "Save settings" }).click();

@@ -50,6 +50,15 @@
     -24px 0 58px rgba(0, 0, 0, 0.34),
     inset 1px 0 0 rgba(255, 255, 255, 0.28);
 }
+@media (min-width: 981px) {
+  [data-slot="sheet-content"][data-side="right"] {
+    top: 12px;
+    right: 12px;
+    bottom: 12px;
+    height: calc(100% - 24px);
+    border-radius: var(--kinetic-radius-panel);
+  }
+}
 [data-slot="drawer-content"] {
   border-radius: var(--kinetic-radius-panel) var(--kinetic-radius-panel) 0 0;
   box-shadow:
