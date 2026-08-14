@@ -44,6 +44,7 @@ import {
   ForgotPasswordCard,
   InitialsAvatar,
   ButtonStateShowcase,
+  DeleteConfirmationDialog,
   DatePicker,
   FrameworkCombobox,
   InfiniteLogoCarousel,
@@ -134,6 +135,7 @@ export default function SkeuomorphicKit() {
     }
   });
   const [modalOpen, setModalOpen] = useState(false);
+  const [buttonDeleteOpen, setButtonDeleteOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [carouselDirection, setCarouselDirection] = useState<"next" | "previous">("next");
@@ -360,7 +362,11 @@ export default function SkeuomorphicKit() {
                     <Download size={16} /> Export
                   </button>
                   <button className="button button-ghost">Cancel</button>
-                  <button className="button button-danger" onClick={() => toast.success("Demo item deleted")}>
+                  <button
+                    className="button button-danger"
+                    onClick={() => setButtonDeleteOpen(true)}
+                    type="button"
+                  >
                     <Trash2 size={16} /> Delete
                   </button>
                   <button className="icon-button raised" aria-label="Settings">
@@ -1017,6 +1023,12 @@ export default function SkeuomorphicKit() {
         commandDialogRef={commandDialogRef}
         theme={theme}
         chooseTheme={chooseTheme}
+      />
+
+      <DeleteConfirmationDialog
+        open={buttonDeleteOpen}
+        rowName="Demo item"
+        onOpenChange={setButtonDeleteOpen}
       />
     </div>
   );

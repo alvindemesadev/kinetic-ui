@@ -131,5 +131,11 @@ describe("ComponentCatalog showcase", () => {
     expect(screen.getByRole("menuitem", { name: "Edit" })).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "Delete" })).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "Delete" })).toHaveAttribute("data-variant", "destructive");
+
+    await user.click(screen.getByRole("menuitem", { name: "Delete" }));
+
+    expect(screen.getByRole("dialog", { name: "Delete" })).toBeInTheDocument();
+    expect(screen.getByText("Delete Control Surface?")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
   });
 });

@@ -7,3 +7,4 @@ export * from "./showcase/ButtonStateShowcase";
 export * from "./showcase/InfiniteLogoCarousel";
 export * from "./showcase/LoadingButton";
 export * from "./showcase/TableRowActions";
+export * from "./showcase/DeleteConfirmationDialog";
