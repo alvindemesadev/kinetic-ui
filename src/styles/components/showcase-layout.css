@@ -1994,10 +1994,12 @@ kbd {
 .calendar-month-surface {
   min-width: 0;
 }
-.calendar-weekday-row,
-.calendar-month-grid {
+.calendar-weekday-row {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.calendar-month-grid {
+  display: block;
 }
 .calendar-weekday-row {
   padding: 0 0 8px;
