@@ -31,6 +31,7 @@ export function Sidebar({
   const sidebarToggleRef = useRef<HTMLButtonElement>(null);
   const profileTriggerRef = useRef<HTMLButtonElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
+  const [sidebarTooltip, setSidebarTooltip] = useState<{ label: string; top: number } | null>(null);
   const getActiveHref = () => {
     const path = window.location.pathname.replace(/\/+$/, "");
     if ((path === "/library" && !window.location.hash) || window.location.hash === "#library") {
@@ -70,9 +71,20 @@ export function Sidebar({
 
   const handleSidebarToggle = () => {
     const isDesktop = window.matchMedia("(min-width: 981px)").matches;
+    setSidebarTooltip(null);
     toggleMainSidebar();
     if (isDesktop) requestAnimationFrame(() => sidebarToggleRef.current?.focus());
   };
+
+  const showSidebarTooltip = (target: HTMLElement) => {
+    if (!sidebarCollapsed || !window.matchMedia("(min-width: 981px)").matches) return;
+    const label = target.dataset.tooltip;
+    if (!label) return;
+    const bounds = target.getBoundingClientRect();
+    setSidebarTooltip({ label, top: bounds.top + bounds.height / 2 });
+  };
+
+  const hideSidebarTooltip = () => setSidebarTooltip(null);
 
   return (
     <>
@@ -100,6 +112,10 @@ export function Sidebar({
             aria-controls="main-sidebar"
             aria-expanded={!sidebarCollapsed}
             data-tooltip={sidebarCollapsed ? "Expand sidebar" : undefined}
+            onMouseEnter={(event) => showSidebarTooltip(event.currentTarget)}
+            onMouseLeave={hideSidebarTooltip}
+            onFocus={(event) => showSidebarTooltip(event.currentTarget)}
+            onBlur={hideSidebarTooltip}
             onClick={handleSidebarToggle}
           >
             <Menu size={19} />
@@ -117,7 +133,14 @@ export function Sidebar({
                 key={item.label}
                 aria-label={item.label}
                 data-tooltip={sidebarCollapsed ? item.label : undefined}
-                onClick={() => setSidebarOpen(false)}
+                onMouseEnter={(event) => showSidebarTooltip(event.currentTarget)}
+                onMouseLeave={hideSidebarTooltip}
+                onFocus={(event) => showSidebarTooltip(event.currentTarget)}
+                onBlur={hideSidebarTooltip}
+                onClick={() => {
+                  hideSidebarTooltip();
+                  setSidebarOpen(false);
+                }}
               >
                 <Icon size={17} />
                 <span>{item.label}</span>
@@ -138,7 +161,12 @@ export function Sidebar({
             data-tooltip={
               sidebarCollapsed && !profileMenuOpen ? (profileSignedIn ? "Profile" : "Sign in") : undefined
             }
+            onMouseEnter={(event) => showSidebarTooltip(event.currentTarget)}
+            onMouseLeave={hideSidebarTooltip}
+            onFocus={(event) => showSidebarTooltip(event.currentTarget)}
+            onBlur={hideSidebarTooltip}
             onClick={() => {
+              hideSidebarTooltip();
               if (!profileSignedIn) {
                 setProfileSignedIn(true);
                 toast.success("Signed back in");
@@ -220,6 +248,11 @@ export function Sidebar({
             </div>
           )}
         </div>
+        {sidebarTooltip && (
+          <span className="sidebar-tooltip" style={{ top: `${sidebarTooltip.top}px` }} aria-hidden="true">
+            {sidebarTooltip.label}
+          </span>
+        )}
       </aside>
     </>
   );

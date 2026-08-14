@@ -320,11 +320,17 @@ test("collapsed sidebar profile menu hides its duplicate tooltip", async ({ page
   await page.goto("/");
 
   await page.getByRole("button", { name: "Toggle sidebar" }).click();
+  const overview = page.locator("#main-sidebar").getByRole("link", { name: "Overview" });
+  await overview.hover();
+  await expect(page.locator(".sidebar-tooltip")).toHaveText("Overview");
   const trigger = page.getByRole("button", { name: "Profile menu", exact: true });
+  await trigger.hover();
+  await expect(page.locator(".sidebar-tooltip")).toHaveText("Profile");
   await trigger.click();
 
   await expect(page.getByRole("menu")).toBeVisible();
   await expect(trigger).not.toHaveAttribute("data-tooltip");
+  await expect(page.locator(".sidebar-tooltip")).toHaveCount(0);
 });
 
 test("reference form primitives stay unique and use the shared controls", async ({ page }) => {

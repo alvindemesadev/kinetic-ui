@@ -348,17 +348,9 @@
   margin-left: auto;
 }
 
-/* Collapsed rails keep their labels available to assistive technology while
-   exposing the same labels visually on hover and keyboard focus. */
-.ui-kit.sidebar-collapsed
-  :is(
-    .sidebar-nav a[data-tooltip],
-    .sidebar-toggle[data-tooltip],
-    .sidebar-profile-trigger[data-tooltip]
-  )::after {
+.sidebar-tooltip {
   position: absolute;
-  left: calc(100% + 9px);
-  top: 50%;
+  left: 85px;
   z-index: 100;
   padding: 7px 10px;
   border: 1px solid var(--border);
@@ -366,31 +358,40 @@
   color: var(--text);
   background: linear-gradient(155deg, var(--surface-top), var(--surface-bottom));
   box-shadow: var(--shadow-overlay);
-  content: attr(data-tooltip);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
-  opacity: 0;
   pointer-events: none;
-  transform: translate(-4px, -50%);
-  transition:
-    opacity 140ms ease,
-    transform 140ms ease;
+  display: none;
+  transform: translateY(-50%);
+  animation: sidebar-tooltip-enter 140ms ease both;
 }
-.ui-kit.sidebar-collapsed
-  :is(
-    .sidebar-nav a[data-tooltip]:hover,
-    .sidebar-nav a[data-tooltip]:focus-visible,
-    .sidebar-toggle[data-tooltip]:hover,
-    .sidebar-toggle[data-tooltip]:focus-visible,
-    .sidebar-profile-trigger[data-tooltip]:hover,
-    .sidebar-profile-trigger[data-tooltip]:focus-visible
-  )::after {
-  opacity: 1;
-  transform: translate(0, -50%);
+@keyframes sidebar-tooltip-enter {
+  from {
+    opacity: 0;
+    transform: translate(-4px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
 }
 
+/* Collapsed rails keep their labels available to assistive technology while
+   exposing the same labels visually on hover and keyboard focus. */
+@media (min-width: 981px) {
+  .ui-kit.sidebar-collapsed .sidebar-tooltip {
+    display: block;
+  }
+}
+
+/* Keep the tooltip animation subtle when motion is reduced. */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-tooltip {
+    animation: none;
+  }
+}
 @media (min-width: 981px) {
   .sidebar {
     padding-top: 0;
