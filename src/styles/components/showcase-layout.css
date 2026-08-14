@@ -2760,7 +2760,7 @@ kbd {
 }
 .profile-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: 86px 22px 20px;
   text-align: center;
 }
@@ -2770,6 +2770,7 @@ kbd {
   height: 104px;
   background: linear-gradient(120deg, #382219, #181b1e 50%, #2c160e);
   border-bottom: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-panel) var(--kinetic-radius-panel) 0 0;
 }
 .cover-strip::after {
   content: "";
@@ -2778,6 +2779,7 @@ kbd {
   background:
     repeating-linear-gradient(90deg, transparent 0 31px, rgba(255, 255, 255, 0.025) 32px),
     repeating-linear-gradient(0deg, transparent 0 31px, rgba(255, 255, 255, 0.025) 32px);
+  border-radius: inherit;
 }
 .light .cover-strip {
   background: linear-gradient(120deg, #f1c2aa, #e6e4dd 50%, #e8a282);
@@ -2804,6 +2806,9 @@ kbd {
 }
 .profile-card .avatar-picker .avatar-large {
   margin: 0;
+}
+.profile-card:has(.avatar-picker.is-open) {
+  z-index: 30;
 }
 .avatar-picker {
   position: relative;
