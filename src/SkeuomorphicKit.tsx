@@ -53,6 +53,7 @@ import {
   TimePicker,
   DateTimePicker,
   SwitchControl,
+  type AvatarImageValue,
   type ThemePreference,
 } from "./components";
 import { DeferredRender } from "./components/DeferredRender";
@@ -179,6 +180,7 @@ export default function SkeuomorphicKit() {
   const [selectedDate, setSelectedDate] = useState("2026-08-12");
   const [selectedTime, setSelectedTime] = useState("22:22");
   const [profileAvatar, setProfileAvatar] = useState("AD");
+  const [profileAvatarImage, setProfileAvatarImage] = useState<AvatarImageValue | null>(null);
   const [miniSection, setMiniSection] = useState<MiniSection>("Dashboard");
   const [miniSidebarOpen, setMiniSidebarOpen] = useState(true);
   const [miniSearchOpen, setMiniSearchOpen] = useState(false);
@@ -682,7 +684,13 @@ export default function SkeuomorphicKit() {
             <div className="component-grid three-column">
               <article className="panel profile-card">
                 <div className="cover-strip" />
-                <AvatarPicker name="Alvin de Mesa" value={profileAvatar} onChange={setProfileAvatar} />
+                <AvatarPicker
+                  name="Alvin de Mesa"
+                  value={profileAvatar}
+                  onChange={setProfileAvatar}
+                  image={profileAvatarImage}
+                  onImageChange={setProfileAvatarImage}
+                />
                 <button className="icon-button profile-menu" aria-label="Profile options">
                   <MoreHorizontal size={18} />
                 </button>

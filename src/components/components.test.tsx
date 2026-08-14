@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { siReact, siVite } from "simple-icons";
@@ -28,6 +28,31 @@ describe("reusable controls", () => {
     await userEvent.click(screen.getByRole("option", { name: "Use KM avatar" }));
     await userEvent.click(screen.getByRole("button", { name: "Save avatar" }));
     expect(screen.getByRole("img", { name: "Alvin de Mesa avatar" })).toHaveTextContent("KM");
+  });
+
+  it("supports image avatar zoom and rotation before saving", async () => {
+    const onImageChange = vi.fn();
+    render(
+      <AvatarPicker
+        name="Alvin de Mesa"
+        value="AD"
+        onChange={vi.fn()}
+        image={{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" }}
+        onImageChange={onImageChange}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Change Alvin de Mesa avatar" }));
+    await userEvent.click(screen.getByRole("tab", { name: "Image" }));
+    await userEvent.click(screen.getByRole("button", { name: "Rotate image right" }));
+    fireEvent.change(screen.getByRole("slider", { name: "Image zoom" }), { target: { value: "2" } });
+    await userEvent.click(screen.getByRole("button", { name: "Save avatar" }));
+
+    expect(onImageChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        transform: expect.objectContaining({ rotation: 90, zoom: 2 }),
+      }),
+    );
   });
 
   it("reports and changes switch state", async () => {
