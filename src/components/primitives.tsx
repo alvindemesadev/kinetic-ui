@@ -384,7 +384,7 @@ export function AvatarPicker({
                   <span className="avatar-image-editor-empty">
                     <ImagePlus size={20} />
                     <strong>Choose an image</strong>
-                    <small>Drag after upload to position it.</small>
+                    <small>Drag to position it</small>
                   </span>
                 )}
                 <span className="avatar-image-editor-frame" aria-hidden="true" />
