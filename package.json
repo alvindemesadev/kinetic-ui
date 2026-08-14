@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "measure:build": "npm run build && node scripts/report-build.mjs",
     "check": "npm run lint && npm run format:check && npm run test && npm run build"
   },
   "dependencies": {

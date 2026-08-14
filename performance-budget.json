@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "notes": "Initial Phase 0 targets. Reported by measure:build; enforcement is planned for Phase 10 after the bundle split is complete.",
+  "budgets": {
+    "initialJavaScriptGzipBytes": 250000,
+    "initialCssGzipBytes": 80000,
+    "totalJavaScriptGzipBytes": 550000,
+    "totalCssGzipBytes": 100000
+  },
+  "webVitals": {
+    "lcpMs": 2500,
+    "inpMs": 200,
+    "cls": 0.1
+  }
+}
