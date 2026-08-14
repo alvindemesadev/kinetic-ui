@@ -806,6 +806,14 @@
   background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
   box-shadow: var(--shadow-control);
 }
+[data-slot="select-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"]) > span:last-child {
+  color: var(--text) !important;
+}
+[data-slot="select-item"]:is(:hover, :focus, [data-highlighted], [data-state="checked"])
+  > span:first-child
+  svg {
+  color: var(--accent) !important;
+}
 .ui-kit .catalog-command {
   border: 1px solid var(--border);
   border-radius: var(--kinetic-radius-control) !important;
