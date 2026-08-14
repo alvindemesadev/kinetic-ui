@@ -135,19 +135,6 @@ export function ForgotPasswordCard({
         </div>
       </header>
 
-      <ol className="forgot-password-steps" aria-label="Password recovery steps">
-        {steps.map(({ key, label }, index) => {
-          const complete = step === "complete" || index < stepIndex;
-          const active = step === key;
-          return (
-            <li className={cn(complete && "is-complete", active && "is-active")} key={key}>
-              <span aria-hidden="true">{complete ? <CheckCircle2 size={13} /> : index + 1}</span>
-              <strong>{label}</strong>
-            </li>
-          );
-        })}
-      </ol>
-
       {step === "complete" ? (
         <div className="forgot-password-success" role="status">
           <span className="forgot-password-success-icon" aria-hidden="true">

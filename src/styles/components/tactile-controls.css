@@ -209,61 +209,14 @@
 }
 .auth-card-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--density-grid-gap, 16px);
   margin-bottom: var(--density-grid-gap, 16px);
 }
 .forgot-password-card {
-  width: min(100%, 620px);
-  margin: 0 auto var(--density-grid-gap, 16px);
-}
-.forgot-password-steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin: 16px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.forgot-password-steps li {
   min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 8px;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--kinetic-radius-sm);
-  color: var(--text-muted);
-  background: color-mix(in srgb, var(--surface-inset) 64%, transparent);
-  font-size: var(--text-2xs);
-  font-weight: 650;
-}
-.forgot-password-steps li > span {
-  width: 20px;
-  height: 20px;
-  flex: none;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--text-muted);
-  background: var(--surface-inset);
-  box-shadow: var(--shadow-inset);
-  font-size: 10px;
-}
-.forgot-password-steps li.is-active {
-  border-color: color-mix(in srgb, var(--accent) 44%, var(--border));
-  color: var(--text);
-  background: color-mix(in srgb, var(--accent-soft) 58%, var(--surface-inset));
-}
-.forgot-password-steps li.is-active > span,
-.forgot-password-steps li.is-complete > span {
-  border-color: color-mix(in srgb, var(--accent) 58%, var(--border));
-  color: var(--action-foreground);
-  background: linear-gradient(180deg, var(--action-top), var(--action-bottom));
-  box-shadow:
-    0 3px 7px var(--accent-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  width: 100%;
+  margin: 0;
 }
 .forgot-password-form {
   padding-top: 16px;

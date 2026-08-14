@@ -11,6 +11,9 @@
   .component-grid.three-column {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .auth-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .stat-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
