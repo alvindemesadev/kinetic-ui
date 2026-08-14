@@ -2020,13 +2020,23 @@ kbd {
   background: var(--surface-hover);
   box-shadow: var(--shadow-control);
 }
+.calendar-view-mode-menu
+  [data-slot="dropdown-menu-radio-item"]:is(
+    :hover,
+    [data-highlighted],
+    :focus-visible,
+    [data-state="checked"]
+  )
+  > span:nth-child(2) {
+  color: var(--text) !important;
+}
 .calendar-view-mode-menu [data-slot="dropdown-menu-radio-item"][data-state="checked"] {
   border-color: color-mix(in srgb, var(--accent) 36%, var(--border));
   background: color-mix(in srgb, var(--accent-soft) 50%, var(--surface-top));
 }
 .calendar-view-mode-menu [data-slot="dropdown-menu-radio-item"] > span:last-child {
   margin-left: auto;
-  color: var(--text-muted);
+  color: var(--text-muted) !important;
   font-family: var(--font-geist-mono), monospace;
   font-size: var(--text-2xs);
   font-weight: 700;
