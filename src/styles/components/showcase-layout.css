@@ -424,7 +424,7 @@
   .ui-kit.sidebar-collapsed .sidebar-nav {
     align-items: center;
     margin-top: 18px;
-    gap: 8px;
+    gap: 4px;
     scrollbar-width: none;
   }
   .ui-kit.sidebar-collapsed .sidebar-nav::-webkit-scrollbar {
