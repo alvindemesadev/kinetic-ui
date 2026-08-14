@@ -2196,9 +2196,8 @@ kbd {
 }
 .calendar-year-month.selected {
   border-color: var(--accent);
-  box-shadow:
-    var(--shadow-control),
-    inset 0 3px 0 var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 42%, var(--surface-top));
+  box-shadow: var(--shadow-control);
 }
 .calendar-year-month strong {
   font-family: var(--font-dot-gothic), sans-serif;
