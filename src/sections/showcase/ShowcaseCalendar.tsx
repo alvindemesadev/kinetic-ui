@@ -1,13 +1,20 @@
-import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus, X } from "lucide-react";
+import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Clock3, Plus, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 
 import { toast } from "sonner";
 
 import { TimePicker } from "../../components";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "../../components/ui/dropdown-menu";
 import { calendarDateKey, createCalendarMonth, formatCalendarMonth } from "./ShowcaseData";
 
-type CalendarView = "month" | "agenda";
+type CalendarView = "day" | "week" | "month" | "year";
 type EventTone = "orange" | "blue" | "green";
 
 type CalendarEvent = {
@@ -28,6 +35,12 @@ const initialEvents: CalendarEvent[] = [
 ];
 
 const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const viewModes: Array<{ value: CalendarView; label: string; shortcut: string }> = [
+  { value: "day", label: "Day", shortcut: "D" },
+  { value: "week", label: "Week", shortcut: "W" },
+  { value: "month", label: "Month", shortcut: "M" },
+  { value: "year", label: "Year", shortcut: "Y" },
+];
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   weekday: "long",
@@ -81,6 +94,36 @@ export function ShowcaseCalendar() {
     .filter((event) => event.date === selection)
     .sort((a, b) => a.time.localeCompare(b.time));
   const selectedDateLabel = dateFormatter.format(dateFromKey(selection));
+  const selectedViewMode = viewModes.find((option) => option.value === view) ?? viewModes[2];
+  const weekDays = useMemo(() => {
+    const selectedDate = dateFromKey(selection);
+    const mondayOffset = (selectedDate.getDay() + 6) % 7;
+    const monday = new Date(selectedDate);
+    monday.setDate(selectedDate.getDate() - mondayOffset);
+    return Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + index);
+      const value = calendarDateKey(date.getFullYear(), date.getMonth(), date.getDate());
+      return {
+        day: date.getDate(),
+        month: date.getMonth(),
+        year: date.getFullYear(),
+        value,
+        muted: date.getMonth() !== calendarView.month,
+      };
+    });
+  }, [calendarView.month, selection]);
+  const yearMonths = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, month) => ({
+        month,
+        label: new Intl.DateTimeFormat("en", { month: "long" }).format(new Date(calendarView.year, month, 1)),
+        events: events.filter((event) =>
+          event.date.startsWith(`${calendarView.year}-${String(month + 1).padStart(2, "0")}`),
+        ),
+      })),
+    [calendarView.year, events],
+  );
 
   const moveMonth = (amount: number) => {
     setCalendarView((current) => {
@@ -94,6 +137,11 @@ export function ShowcaseCalendar() {
     const todayKey = calendarDateKey(today.getFullYear(), today.getMonth(), today.getDate());
     setCalendarView({ year: today.getFullYear(), month: today.getMonth() });
     setSelection(todayKey);
+  };
+
+  const selectDate = (value: string, year: number, month: number) => {
+    setSelection(value);
+    if (month !== calendarView.month || year !== calendarView.year) setCalendarView({ year, month });
   };
 
   const openComposer = () => {
@@ -160,20 +208,27 @@ export function ShowcaseCalendar() {
             <span>{monthEvents.length} scheduled events</span>
           </div>
           <div className="calendar-toolbar-end">
-            <div className="calendar-view-toggle" role="radiogroup" aria-label="Calendar view">
-              {(["month", "agenda"] as const).map((option) => (
-                <button
-                  className={view === option ? "active" : ""}
-                  type="button"
-                  role="radio"
-                  aria-checked={view === option}
-                  key={option}
-                  onClick={() => setView(option)}
-                >
-                  {option[0].toUpperCase() + option.slice(1)}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="calendar-view-mode-trigger" type="button" aria-label="Calendar view mode">
+                  <span>{selectedViewMode.label}</span>
+                  <ChevronDown size={15} aria-hidden="true" />
                 </button>
-              ))}
-            </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" sideOffset={8} className="calendar-view-mode-menu">
+                <DropdownMenuRadioGroup
+                  value={view}
+                  onValueChange={(value) => setView(value as CalendarView)}
+                >
+                  {viewModes.map((option) => (
+                    <DropdownMenuRadioItem value={option.value} key={option.value}>
+                      <span>{option.label}</span>
+                      <span className="calendar-view-mode-shortcut">{option.shortcut}</span>
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <button
               className="button button-primary calendar-add-button"
               type="button"
@@ -213,10 +268,7 @@ export function ShowcaseCalendar() {
                             aria-label={day.value}
                             aria-description={`${dateFormatter.format(dateFromKey(day.value))}${dayEvents.length ? `, ${dayEvents.length} events` : ""}`}
                             key={day.value}
-                            onClick={() => {
-                              setSelection(day.value);
-                              if (day.muted) setCalendarView({ year: day.year, month: day.month });
-                            }}
+                            onClick={() => selectDate(day.value, day.year, day.month)}
                           >
                             <span className="calendar-day-number">{day.day}</span>
                             <span className="calendar-day-events">
@@ -236,32 +288,101 @@ export function ShowcaseCalendar() {
                   ))}
                 </div>
               </>
-            ) : (
-              <div className="calendar-agenda-view">
-                <div className="calendar-agenda-view-heading">
-                  <strong>{formatCalendarMonth(calendarView.year, calendarView.month)} agenda</strong>
-                  <span>Upcoming events in this month</span>
+            ) : view === "week" ? (
+              <div className="calendar-mode-view calendar-week-view">
+                <div className="calendar-mode-heading">
+                  <strong>Week of {dateFormatter.format(dateFromKey(weekDays[0].value))}</strong>
+                  <span>Seven-day view</span>
                 </div>
-                {monthEvents.length ? (
-                  <div className="calendar-agenda-list">
-                    {monthEvents.map((event) => (
+                <div className="calendar-week-view-grid">
+                  {weekDays.map((day) => {
+                    const dayEvents = events
+                      .filter((event) => event.date === day.value)
+                      .sort((a, b) => a.time.localeCompare(b.time));
+                    const selected = day.value === selection;
+                    return (
                       <button
-                        className={`calendar-agenda-row ${event.tone}`}
+                        className={`calendar-week-day ${day.muted ? "muted" : ""} ${selected ? "selected" : ""}`}
                         type="button"
-                        key={event.id}
-                        onClick={() => setSelection(event.date)}
+                        aria-pressed={selected}
+                        aria-label={day.value}
+                        key={day.value}
+                        onClick={() => selectDate(day.value, day.year, day.month)}
                       >
-                        <time dateTime={`${event.date}T${event.time}`}>{event.time}</time>
-                        <span>
-                          <strong>{event.title}</strong>
-                          <small>{dateFormatter.format(dateFromKey(event.date))}</small>
+                        <span>{weekdays[weekDays.indexOf(day)]}</span>
+                        <strong>{day.day}</strong>
+                        <span className="calendar-day-events">
+                          {dayEvents.map((event) => (
+                            <span className={`calendar-event-chip ${event.tone}`} key={event.id}>
+                              <span>{event.time}</span> {event.title}
+                            </span>
+                          ))}
                         </span>
                       </button>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="calendar-empty-state">No events scheduled for this month.</p>
-                )}
+                    );
+                  })}
+                </div>
+              </div>
+            ) : view === "day" ? (
+              <div className="calendar-mode-view calendar-day-view">
+                <div className="calendar-mode-heading">
+                  <strong>{selectedDateLabel}</strong>
+                  <span>Day view</span>
+                </div>
+                <div className="calendar-hour-list">
+                  {Array.from({ length: 12 }, (_, index) => {
+                    const hour = index + 8;
+                    const hourEvents = selectedEvents.filter(
+                      (event) => Number(event.time.slice(0, 2)) === hour,
+                    );
+                    return (
+                      <div className="calendar-hour-row" key={hour}>
+                        <time>{String(hour).padStart(2, "0")}:00</time>
+                        <div>
+                          {hourEvents.map((event) => (
+                            <span className={`calendar-event-chip ${event.tone}`} key={event.id}>
+                              <span>{event.time}</span> {event.title}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="calendar-mode-view calendar-year-view">
+                <div className="calendar-mode-heading">
+                  <strong>{calendarView.year}</strong>
+                  <span>
+                    Year view ·{" "}
+                    {events.filter((event) => event.date.startsWith(`${calendarView.year}-`)).length} events
+                  </span>
+                </div>
+                <div className="calendar-year-grid">
+                  {yearMonths.map(({ month, label, events: monthEventsForYear }) => (
+                    <button
+                      className={`calendar-year-month ${month === calendarView.month ? "selected" : ""}`}
+                      type="button"
+                      key={month}
+                      onClick={() => {
+                        setCalendarView({ year: calendarView.year, month });
+                        setSelection(calendarDateKey(calendarView.year, month, 1));
+                        setView("month");
+                      }}
+                    >
+                      <strong>{label}</strong>
+                      <span>
+                        {monthEventsForYear.length} {monthEventsForYear.length === 1 ? "event" : "events"}
+                      </span>
+                      <i aria-hidden="true">
+                        {monthEventsForYear.slice(0, 4).map((event) => (
+                          <b className={event.tone} key={event.id} />
+                        ))}
+                      </i>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>

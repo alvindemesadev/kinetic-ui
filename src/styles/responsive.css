@@ -311,6 +311,9 @@
   .calendar-event-actions .button {
     flex: 1;
   }
+  .calendar-year-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   .calendar-day-cell {
     min-height: 88px;
     padding: 7px;
@@ -488,6 +491,17 @@
   }
   .calendar-composer-actions {
     grid-column: auto;
+  }
+  .calendar-mode-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .calendar-week-view-grid {
+    min-height: 390px;
+  }
+  .calendar-year-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

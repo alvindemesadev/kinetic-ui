@@ -77,9 +77,11 @@ describe("SkeuomorphicKit shell", () => {
     expect(calendar).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Calendar that feels tactile" })).toBeInTheDocument();
 
-    await user.click(screen.getByRole("radio", { name: "Agenda" }));
-    expect(screen.getByText("August 2026 agenda")).toBeInTheDocument();
-    await user.click(screen.getByRole("radio", { name: "Month" }));
+    await user.click(screen.getByRole("button", { name: "Calendar view mode" }));
+    await user.click(screen.getByRole("menuitemradio", { name: /^Week/ }));
+    expect(screen.getByText("Seven-day view")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Calendar view mode" }));
+    await user.click(screen.getByRole("menuitemradio", { name: /^Month/ }));
 
     await user.click(screen.getByRole("button", { name: /2026-08-12/ }));
     expect(screen.getByText("Wednesday, August 12, 2026")).toBeInTheDocument();
