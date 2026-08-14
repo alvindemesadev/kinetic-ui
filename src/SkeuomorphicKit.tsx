@@ -82,6 +82,8 @@ import { Navbar } from "./sections/Navbar";
 import { Hero } from "./sections/Hero";
 import { ShowcaseFoundation } from "./sections/showcase/ShowcaseFoundation";
 import { ShowcaseStatCards } from "./sections/showcase/ShowcaseStatCards";
+import { ShowcaseFeatures } from "./sections/showcase/ShowcaseFeatures";
+import { ShowcasePricing } from "./sections/showcase/ShowcasePricing";
 import { ShowcaseCalendar } from "./sections/showcase/ShowcaseCalendar";
 import { ShowcaseKanban, ShowcaseTimeline, ShowcaseTodoList } from "./sections/showcase/ShowcaseProductivity";
 import { ShowcaseDataTable } from "./sections/showcase/ShowcaseDataTable";
@@ -376,6 +378,10 @@ export default function SkeuomorphicKit() {
           />
 
           <ShowcaseStatCards />
+
+          <ShowcaseFeatures />
+
+          <ShowcasePricing />
 
           <ShowcaseFoundation />
 

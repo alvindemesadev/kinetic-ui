@@ -6,5 +6,6 @@
 @import "./styles/components/tactile-controls.css";
 @import "./styles/components/ui-primitives.css";
 @import "./styles/components/portals-overlays.css";
+@import "./styles/components/landing-page.css";
 @import "./styles/charts.css";
 @import "./styles/responsive.css";

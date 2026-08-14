@@ -12,6 +12,7 @@ import {
   PanelsTopLeft,
   Palette,
   SlidersHorizontal,
+  CircleDollarSign,
   type LucideIcon,
 } from "lucide-react";
 
@@ -24,6 +25,8 @@ export type NavigationItem = {
 export const navigation: NavigationItem[] = [
   { label: "Overview", href: "#overview", icon: LayoutDashboard },
   { label: "Stats", href: "#stats", icon: Gauge },
+  { label: "Features", href: "#features", icon: Component },
+  { label: "Pricing", href: "#pricing", icon: CircleDollarSign },
   { label: "Foundation", href: "#foundation", icon: Palette },
   { label: "Controls", href: "#controls", icon: SlidersHorizontal },
   { label: "Components", href: "#components", icon: Component },

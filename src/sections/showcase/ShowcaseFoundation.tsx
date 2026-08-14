@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, Copy, Palette, Type } from "lucide-react";
+import { AlertTriangle, Copy, LoaderCircle, Palette, Type } from "lucide-react";
 import { toast } from "sonner";
 import { palette } from "./ShowcaseData";
 
@@ -8,7 +8,10 @@ interface ShowcaseFoundationProps {
 }
 
 export function ShowcaseFoundation({ onCopyColor }: ShowcaseFoundationProps) {
+  const [copyingValue, setCopyingValue] = React.useState<string | null>(null);
+
   const handleCopyColor = async (value: string) => {
+    setCopyingValue(value);
     try {
       if (onCopyColor) {
         await onCopyColor(value);
@@ -19,6 +22,8 @@ export function ShowcaseFoundation({ onCopyColor }: ShowcaseFoundationProps) {
       toast.success("Color copied", { description: `${value} is ready to paste.` });
     } catch {
       toast.error("Unable to copy color", { description: "Copy the value manually instead." });
+    } finally {
+      setCopyingValue(null);
     }
   };
 
@@ -46,15 +51,22 @@ export function ShowcaseFoundation({ onCopyColor }: ShowcaseFoundationProps) {
               {palette.map((color) => (
                 <button
                   className="swatch"
+                  data-copying={copyingValue === color.value || undefined}
+                  aria-busy={copyingValue === color.value}
+                  disabled={copyingValue === color.value}
                   key={color.name}
                   onClick={() => void handleCopyColor(color.value)}
-                  aria-label={`Copy ${color.value}`}
+                  aria-label={copyingValue === color.value ? `Copying ${color.value}` : `Copy ${color.value}`}
                   type="button"
                 >
                   <span style={{ background: color.value }} />
                   <strong>{color.name}</strong>
                   <small>{color.value}</small>
-                  <Copy size={13} />
+                  {copyingValue === color.value ? (
+                    <LoaderCircle className="loading-button-spinner" size={13} aria-hidden="true" />
+                  ) : (
+                    <Copy size={13} />
+                  )}
                 </button>
               ))}
             </div>

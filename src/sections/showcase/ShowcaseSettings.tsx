@@ -2,7 +2,13 @@ import { Bell, KeyRound, LockKeyhole, Save, ShieldCheck, UserRound } from "lucid
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { InitialsAvatar, StyleDropdown, SwitchControl, type ThemePreference } from "../../components";
+import {
+  InitialsAvatar,
+  LoadingButton,
+  StyleDropdown,
+  SwitchControl,
+  type ThemePreference,
+} from "../../components";
 
 type AccountPageNavigation = (href: "#profile" | "#settings") => void;
 
@@ -148,13 +154,15 @@ export function ShowcaseSettings({
           >
             Cancel
           </button>
-          <button
+          <LoadingButton
             className="button button-primary"
-            type="button"
-            onClick={() => toast.success("Settings saved")}
+            loadingText="Saving"
+            onAction={async () => {
+              toast.success("Settings saved");
+            }}
           >
             <Save size={16} /> Save settings
-          </button>
+          </LoadingButton>
         </div>
       </article>
     </section>

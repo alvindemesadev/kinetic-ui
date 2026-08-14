@@ -14,6 +14,12 @@
   .stat-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .features-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pricing-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .state-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -203,8 +209,19 @@
   .component-grid.three-column,
   .state-grid,
   .auth-card-grid,
-  .stat-card-grid {
+  .stat-card-grid,
+  .features-card-grid {
     grid-template-columns: 1fr;
+  }
+  .pricing-card-grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .pricing-billing-toggle {
+    align-self: flex-start;
   }
   .kanban-board {
     grid-template-columns: 1fr;

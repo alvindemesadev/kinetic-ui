@@ -389,13 +389,13 @@ export function ShowcaseOverlayGallery() {
                 </LoadingButton>
               )}
               {openOverlay === "settings" && (
-                <button
+                <LoadingButton
                   className="button button-primary"
-                  type="button"
-                  onClick={() => finishAction("Settings saved")}
+                  loadingText="Saving"
+                  onAction={async () => finishAction("Settings saved")}
                 >
                   Save settings
-                </button>
+                </LoadingButton>
               )}
             </footer>
           </section>
