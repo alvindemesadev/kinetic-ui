@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -84,6 +85,10 @@ describe("SkeuomorphicKit shell", () => {
     expect(screen.getByText("Wednesday, August 12, 2026")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Add event" }));
+    const eventDialog = screen.getByRole("dialog", { name: "Add event" });
+    await user.click(within(eventDialog).getByRole("button", { name: /Time picker/ }));
+    expect(screen.getByRole("dialog", { name: "Choose a time" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Done" }));
     await user.type(screen.getByLabelText("Event title"), "Team sync");
     await user.click(screen.getByRole("button", { name: "Save event" }));
     expect((await screen.findAllByText("Team sync")).length).toBeGreaterThanOrEqual(2);

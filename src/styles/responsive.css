@@ -302,6 +302,15 @@
   .calendar-composer-actions .button {
     flex: 1;
   }
+  .calendar-event-form {
+    grid-template-columns: 1fr;
+  }
+  .calendar-event-actions {
+    grid-column: auto;
+  }
+  .calendar-event-actions .button {
+    flex: 1;
+  }
   .calendar-day-cell {
     min-height: 88px;
     padding: 7px;

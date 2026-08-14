@@ -1,8 +1,10 @@
-import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus } from "lucide-react";
-import { useMemo, useState, type FormEvent } from "react";
+import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 
 import { toast } from "sonner";
 
+import { TimePicker } from "../../components";
+import { useFocusTrap } from "../../hooks/useFocusTrap";
 import { calendarDateKey, createCalendarMonth, formatCalendarMonth } from "./ShowcaseData";
 
 type CalendarView = "month" | "agenda";
@@ -44,9 +46,28 @@ export function ShowcaseCalendar() {
   const [selection, setSelection] = useState("2026-08-12");
   const [view, setView] = useState<CalendarView>("month");
   const [events, setEvents] = useState(initialEvents);
-  const [composerOpen, setComposerOpen] = useState(false);
+  const [addEventOpen, setAddEventOpen] = useState(false);
+  const [timePickerOpen, setTimePickerOpen] = useState(false);
   const [draftTitle, setDraftTitle] = useState("");
   const [draftTime, setDraftTime] = useState("09:00");
+  const eventDialogRef = useRef<HTMLElement>(null);
+
+  useFocusTrap(eventDialogRef, addEventOpen);
+
+  useEffect(() => {
+    if (!addEventOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      if (timePickerOpen) {
+        setTimePickerOpen(false);
+        return;
+      }
+      setAddEventOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [addEventOpen, timePickerOpen]);
 
   const days = useMemo(() => createCalendarMonth(calendarView.year, calendarView.month), [calendarView]);
   const monthEvents = useMemo(
@@ -76,7 +97,8 @@ export function ShowcaseCalendar() {
   };
 
   const openComposer = () => {
-    setComposerOpen(true);
+    setAddEventOpen(true);
+    setTimePickerOpen(false);
     setDraftTitle("");
     setDraftTime("09:00");
   };
@@ -95,7 +117,8 @@ export function ShowcaseCalendar() {
         tone: "orange",
       },
     ]);
-    setComposerOpen(false);
+    setAddEventOpen(false);
+    setTimePickerOpen(false);
     toast.success("Event added", { description: `${title} · ${selectedDateLabel}` });
   };
 
@@ -160,41 +183,6 @@ export function ShowcaseCalendar() {
             </button>
           </div>
         </header>
-
-        {composerOpen ? (
-          <form className="calendar-composer" onSubmit={addEvent}>
-            <div className="calendar-composer-title">
-              <CalendarDays size={17} aria-hidden="true" />
-              <strong>Add event for {selectedDateLabel}</strong>
-            </div>
-            <label>
-              <span>Event title</span>
-              <input
-                autoFocus
-                value={draftTitle}
-                onChange={(event) => setDraftTitle(event.target.value)}
-                placeholder="e.g. Product sync"
-                required
-              />
-            </label>
-            <label>
-              <span>Time</span>
-              <input type="time" value={draftTime} onChange={(event) => setDraftTime(event.target.value)} />
-            </label>
-            <div className="calendar-composer-actions">
-              <button
-                className="button button-secondary"
-                type="button"
-                onClick={() => setComposerOpen(false)}
-              >
-                Cancel
-              </button>
-              <button className="button button-primary" type="submit">
-                Save event
-              </button>
-            </div>
-          </form>
-        ) : null}
 
         <div className="calendar-workspace-body">
           <div className="calendar-month-surface">
@@ -306,6 +294,73 @@ export function ShowcaseCalendar() {
           </aside>
         </div>
       </article>
+
+      {addEventOpen ? (
+        <div
+          className="modal-layer calendar-event-modal-layer"
+          role="presentation"
+          onMouseDown={(event) => event.target === event.currentTarget && setAddEventOpen(false)}
+        >
+          <section
+            ref={eventDialogRef}
+            className="dialog-card calendar-event-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="calendar-event-dialog-title"
+            tabIndex={-1}
+          >
+            <span className="drawer-handle" />
+            <div className="dialog-icon">
+              <CalendarDays size={21} aria-hidden="true" />
+            </div>
+            <div className="dialog-copy">
+              <span className="eyebrow">Schedule event</span>
+              <h2 id="calendar-event-dialog-title">Add event</h2>
+              <p>Keep the day focused with a clear title and a tactile time control.</p>
+            </div>
+            <form className="calendar-event-form" onSubmit={addEvent}>
+              <label className="calendar-event-field">
+                <span>Event title</span>
+                <input
+                  autoFocus
+                  data-autofocus
+                  value={draftTitle}
+                  onChange={(event) => setDraftTitle(event.target.value)}
+                  placeholder="e.g. Product sync"
+                  required
+                />
+              </label>
+              <TimePicker
+                value={draftTime}
+                onChange={setDraftTime}
+                isOpen={timePickerOpen}
+                onToggle={() => setTimePickerOpen((open) => !open)}
+                onClose={() => setTimePickerOpen(false)}
+              />
+              <div className="dialog-actions calendar-event-actions">
+                <button
+                  className="button button-secondary"
+                  type="button"
+                  onClick={() => setAddEventOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button className="button button-primary" type="submit">
+                  Save event
+                </button>
+              </div>
+            </form>
+            <button
+              className="icon-button dialog-close"
+              aria-label="Close add event dialog"
+              onClick={() => setAddEventOpen(false)}
+              type="button"
+            >
+              <X size={18} />
+            </button>
+          </section>
+        </div>
+      ) : null}
     </section>
   );
 }

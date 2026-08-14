@@ -1895,6 +1895,60 @@ kbd {
   color: var(--text-muted);
   font-size: var(--text-2xs);
 }
+.calendar-event-modal-layer {
+  z-index: 120;
+}
+.calendar-event-dialog {
+  width: min(560px, 100%);
+}
+.calendar-event-dialog .dialog-copy h2 {
+  margin-bottom: 7px;
+}
+.calendar-event-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 176px;
+  align-items: end;
+  gap: 13px;
+  margin-top: 22px;
+}
+.calendar-event-field,
+.calendar-event-form > .field {
+  display: grid;
+  gap: 6px;
+}
+.calendar-event-field > span,
+.calendar-event-form > .field > span {
+  color: var(--text-muted);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+}
+.calendar-event-field input {
+  width: 100%;
+  height: var(--kinetic-control-height);
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-control);
+  color: var(--text);
+  background: var(--surface-inset);
+  box-shadow: var(--shadow-inset);
+  font-size: var(--text-sm);
+}
+.calendar-event-field input:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border));
+  box-shadow:
+    var(--shadow-inset),
+    0 0 0 3px var(--accent-soft);
+}
+.calendar-event-form > .field .custom-trigger {
+  min-height: var(--kinetic-control-height);
+}
+.calendar-event-actions {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  padding-top: 17px;
+  border-top: 1px solid var(--border-soft);
+}
 .calendar-today,
 .calendar-add-button {
   min-height: 38px;
@@ -2068,7 +2122,7 @@ kbd {
   box-shadow: var(--shadow-inset);
 }
 .calendar-day-cell.muted {
-  color: color-mix(in srgb, var(--text-muted) 88%, var(--surface-mid));
+  color: var(--text-muted);
   background: color-mix(in srgb, var(--surface-inset) 58%, var(--surface-mid));
 }
 .calendar-day-cell.today:not(.selected) {
