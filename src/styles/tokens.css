@@ -82,9 +82,7 @@
   --chart-grid: rgba(35, 35, 32, 0.13);
   --chart-track: #d2cfc6;
   --chart-hover: rgba(35, 35, 32, 0.045);
-  --shadow-raised:
-    0 16px 34px rgba(61, 57, 47, 0.11), 0 3px 8px rgba(61, 57, 47, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(69, 66, 58, 0.18);
+  --shadow-raised: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(69, 66, 58, 0.18);
   --shadow-soft: 0 9px 24px rgba(61, 57, 47, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   --shadow-control:
     0 4px 9px rgba(60, 57, 50, 0.18), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(55, 52, 46, 0.16);
@@ -165,9 +163,7 @@
   --chart-grid: rgba(255, 255, 255, 0.075);
   --chart-track: #2a2d30;
   --chart-hover: rgba(255, 255, 255, 0.035);
-  --shadow-raised:
-    0 18px 42px rgba(0, 0, 0, 0.24), 0 3px 9px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.065),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.48);
+  --shadow-raised: inset 0 1px 0 rgba(255, 255, 255, 0.065), inset 0 -1px 0 rgba(0, 0, 0, 0.48);
   --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.055);
   --shadow-control:
     0 5px 12px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.09),
