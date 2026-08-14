@@ -5,6 +5,7 @@ import { siReact, siVite } from "simple-icons";
 import { describe, expect, it, vi } from "vitest";
 import {
   AuthCard,
+  AvatarPicker,
   ButtonStateShowcase,
   DatePicker,
   DateTimePicker,
@@ -16,6 +17,19 @@ import {
 } from ".";
 
 describe("reusable controls", () => {
+  it("changes the selected avatar from its picker", async () => {
+    function Example() {
+      const [value, setValue] = useState("AD");
+      return <AvatarPicker name="Alvin de Mesa" value={value} onChange={setValue} />;
+    }
+
+    render(<Example />);
+    await userEvent.click(screen.getByRole("button", { name: "Change Alvin de Mesa avatar" }));
+    await userEvent.click(screen.getByRole("option", { name: "Use KM avatar" }));
+    await userEvent.click(screen.getByRole("button", { name: "Save avatar" }));
+    expect(screen.getByRole("img", { name: "Alvin de Mesa avatar" })).toHaveTextContent("KM");
+  });
+
   it("reports and changes switch state", async () => {
     const onChange = vi.fn();
     render(<SwitchControl checked={false} onChange={onChange} label="Notifications" />);

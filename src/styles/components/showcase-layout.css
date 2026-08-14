@@ -2798,6 +2798,150 @@ kbd {
   position: relative;
   margin: 0 auto 13px;
 }
+.profile-card .avatar-picker {
+  width: max-content;
+  margin: 0 auto 13px;
+}
+.profile-card .avatar-picker .avatar-large {
+  margin: 0;
+}
+.avatar-picker {
+  position: relative;
+  z-index: 2;
+}
+.avatar-picker-trigger {
+  position: relative;
+  display: grid;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.avatar-picker-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.avatar-picker-edit {
+  position: absolute;
+  right: -1px;
+  bottom: 1px;
+  display: grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
+  box-shadow: var(--shadow-control);
+}
+.avatar-picker-trigger:hover .avatar-picker-edit,
+.avatar-picker-trigger:focus-visible .avatar-picker-edit {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--border));
+}
+.avatar-picker-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  z-index: 50;
+  width: min(258px, calc(100vw - 48px));
+  padding: 14px;
+  transform: translateX(-50%);
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-menu);
+  color: var(--text);
+  background: linear-gradient(155deg, var(--surface-top), var(--surface-mid) 55%, var(--surface-bottom));
+  box-shadow: var(--shadow-control);
+}
+.avatar-picker-heading {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-soft);
+  text-align: left;
+}
+.avatar-picker-heading strong {
+  font-size: var(--text-sm);
+}
+.avatar-picker-heading span {
+  color: var(--text-muted);
+  font-size: var(--text-2xs);
+}
+.avatar-picker-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-top: 12px;
+}
+.avatar-picker-options button {
+  position: relative;
+  display: grid;
+  min-height: 47px;
+  place-items: center;
+  padding: 5px;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-sm);
+  background: var(--surface-inset);
+  box-shadow: var(--shadow-inset);
+  cursor: pointer;
+}
+.avatar-picker-options button:hover,
+.avatar-picker-options button:focus-visible,
+.avatar-picker-options button[aria-selected="true"] {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border));
+  background: var(--accent-soft);
+  box-shadow: var(--shadow-control);
+}
+.avatar-picker-options button[aria-selected="true"] > svg {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  color: var(--accent);
+}
+.avatar-picker-input {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  color: var(--text-soft);
+  font-size: var(--text-2xs);
+  font-weight: 650;
+  text-align: left;
+}
+.avatar-picker-input input {
+  width: 100%;
+  height: 34px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--kinetic-radius-control);
+  outline: 0;
+  color: var(--text);
+  background: var(--surface-inset);
+  box-shadow: var(--shadow-inset);
+  font-family: var(--font-dot-gothic), sans-serif;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
+.avatar-picker-input input:focus {
+  border-color: color-mix(in srgb, var(--accent) 58%, var(--border));
+  box-shadow:
+    var(--shadow-inset),
+    0 0 0 3px var(--accent-soft);
+}
+.avatar-picker-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 7px;
+  margin-top: 13px;
+  padding-top: 11px;
+  border-top: 1px solid var(--border-soft);
+}
+.avatar-picker-footer .button {
+  min-height: 32px;
+  padding-inline: 10px;
+  font-size: var(--text-xs);
+}
 .profile-menu {
   position: absolute;
   top: 12px;

@@ -319,6 +319,20 @@ test("navbar profile avatar opens its profile card", async ({ page }) => {
   await expect(trigger).toBeFocused();
 });
 
+test("profile card avatar can be changed from its Skeuomorphic picker", async ({ page }) => {
+  await page.goto("/");
+  const profileCard = page.locator(".profile-card").first();
+  const trigger = profileCard.getByRole("button", { name: "Change Alvin de Mesa avatar" });
+  await trigger.click();
+
+  const picker = profileCard.getByRole("dialog", { name: "Change avatar" });
+  await expect(picker).toBeVisible();
+  await picker.getByRole("option", { name: "Use KM avatar" }).click();
+  await picker.getByRole("button", { name: "Save avatar" }).click();
+  await expect(profileCard.getByRole("img", { name: "Alvin de Mesa avatar" })).toHaveText("KM");
+  await expect(trigger).toBeFocused();
+});
+
 test("collapsed sidebar profile menu hides its duplicate tooltip", async ({ page }) => {
   test.skip((page.viewportSize()?.width ?? 1280) < 981, "The collapsed sidebar is a desktop behavior.");
   await page.goto("/");

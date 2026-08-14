@@ -42,8 +42,8 @@ import {
 import { toast } from "sonner";
 import {
   AuthCard,
+  AvatarPicker,
   ForgotPasswordCard,
-  InitialsAvatar,
   ButtonStateShowcase,
   DeleteConfirmationDialog,
   DatePicker,
@@ -178,6 +178,7 @@ export default function SkeuomorphicKit() {
   const [openControl, setOpenControl] = useState<OpenControl>(null);
   const [selectedDate, setSelectedDate] = useState("2026-08-12");
   const [selectedTime, setSelectedTime] = useState("22:22");
+  const [profileAvatar, setProfileAvatar] = useState("AD");
   const [miniSection, setMiniSection] = useState<MiniSection>("Dashboard");
   const [miniSidebarOpen, setMiniSidebarOpen] = useState(true);
   const [miniSearchOpen, setMiniSearchOpen] = useState(false);
@@ -681,7 +682,7 @@ export default function SkeuomorphicKit() {
             <div className="component-grid three-column">
               <article className="panel profile-card">
                 <div className="cover-strip" />
-                <InitialsAvatar size="large" name="Alvin de Mesa" />
+                <AvatarPicker name="Alvin de Mesa" value={profileAvatar} onChange={setProfileAvatar} />
                 <button className="icon-button profile-menu" aria-label="Profile options">
                   <MoreHorizontal size={18} />
                 </button>
