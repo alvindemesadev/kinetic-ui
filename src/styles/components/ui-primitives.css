@@ -1003,11 +1003,26 @@
 .ui-kit [data-slot="table-caption"] {
   color: var(--text-muted);
 }
-.ui-kit :is([data-slot="breadcrumb-link"], [data-slot="pagination-link"]) {
+.ui-kit [data-slot="breadcrumb-link"] {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px solid transparent;
   border-radius: var(--kinetic-radius-sm);
   color: var(--text-muted);
 }
-.ui-kit :is([data-slot="breadcrumb-link"], [data-slot="pagination-link"]):hover,
+.ui-kit [data-slot="pagination-link"] {
+  border-radius: var(--kinetic-radius-sm);
+  color: var(--text-muted);
+}
+.ui-kit [data-slot="breadcrumb-link"]:hover,
+.ui-kit [data-slot="breadcrumb-link"]:focus-visible {
+  border-color: var(--border);
+  color: var(--text);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
+  box-shadow: var(--shadow-control);
+}
 .ui-kit [data-slot="pagination-link"]:hover {
   color: var(--text);
   background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
