@@ -222,6 +222,7 @@ test("main hamburger smoothly toggles the sidebar at every viewport", async ({ p
     await expect(content).toHaveCSS("margin-left", "76px");
     await expect(sidebar.getByRole("button", { name: "Toggle sidebar" })).toBeVisible();
     await expect(sidebar.getByRole("img", { name: "Alvin de Mesa avatar" })).toBeVisible();
+    await expect(sidebar.locator(".sidebar-nav")).toHaveCSS("overflow-x", "hidden");
     await toggle.click();
     await expect(shell).not.toHaveClass(/sidebar-collapsed/);
     await expect(content).toHaveCSS("margin-left", "248px");

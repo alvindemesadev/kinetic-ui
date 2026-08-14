@@ -114,6 +114,7 @@
   flex-direction: column;
   gap: 5px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .nav-label {
   padding: 10px 11px 6px;
@@ -425,6 +426,11 @@
     align-items: center;
     margin-top: 18px;
     gap: 8px;
+    scrollbar-width: none;
+  }
+  .ui-kit.sidebar-collapsed .sidebar-nav::-webkit-scrollbar {
+    width: 0;
+    height: 0;
   }
   .ui-kit.sidebar-collapsed .sidebar-nav a {
     width: 52px;
