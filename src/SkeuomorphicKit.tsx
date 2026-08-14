@@ -12,7 +12,6 @@ import {
   Download,
   FileText,
   Inbox,
-  LibraryBig,
   Link2,
   LoaderCircle,
   MessageCircle,
@@ -68,8 +67,10 @@ const densityOptions: Array<{ value: ViewDensity; label: string }> = [
 const ChartGallery = lazy(() => import("./ChartGallery"));
 const ComponentCatalog = lazy(() => import("./ComponentCatalog"));
 
-const isLibraryRoute = () =>
-  window.location.pathname.replace(/\/+$/, "") === "/library" || window.location.hash === "#library";
+const isLibraryAlias = () => {
+  const path = window.location.pathname.replace(/\/+$/, "");
+  return (path === "/library" && !window.location.hash) || window.location.hash === "#library";
+};
 
 import { waitForDemo } from "./sections/demoUtils";
 import { Sidebar } from "./sections/Sidebar";
@@ -162,7 +163,6 @@ export default function SkeuomorphicKit() {
   const [miniSelectedCard, setMiniSelectedCard] = useState<string | null>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [profileSignedIn, setProfileSignedIn] = useState(true);
-  const [libraryRequested, setLibraryRequested] = useState(isLibraryRoute);
   const [viewDensity, setViewDensity] = useState<ViewDensity>(() => {
     const storedDensity = localStorage.getItem("kinetic-view-density");
     return densityOptions.some((option) => option.value === storedDensity)
@@ -220,15 +220,13 @@ export default function SkeuomorphicKit() {
 
   useEffect(() => {
     const handleRouteChange = () => {
-      const requested = isLibraryRoute();
-      setLibraryRequested(requested);
-      if (requested && window.location.pathname.replace(/\/+$/, "") === "/library") {
-        requestAnimationFrame(() => document.querySelector("#library")?.scrollIntoView({ block: "start" }));
+      if (isLibraryAlias()) {
+        requestAnimationFrame(() => document.querySelector("#reference")?.scrollIntoView({ block: "start" }));
       }
     };
     window.addEventListener("hashchange", handleRouteChange);
     window.addEventListener("popstate", handleRouteChange);
-    if (window.location.pathname.replace(/\/+$/, "") === "/library") handleRouteChange();
+    if (isLibraryAlias()) handleRouteChange();
     return () => {
       window.removeEventListener("hashchange", handleRouteChange);
       window.removeEventListener("popstate", handleRouteChange);
@@ -274,15 +272,6 @@ export default function SkeuomorphicKit() {
     setMiniNotificationOpen(false);
     setMiniProfileOpen(false);
   };
-  const openLibrary = () => {
-    setLibraryRequested(true);
-    window.history.pushState({}, "", "/library");
-    window.dispatchEvent(new PopStateEvent("popstate"));
-    requestAnimationFrame(() =>
-      document.querySelector("#library")?.scrollIntoView({ behavior: "smooth", block: "start" }),
-    );
-  };
-
   return (
     <div
       className={`ui-kit ${theme} density-${viewDensity} ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}
@@ -837,42 +826,24 @@ export default function SkeuomorphicKit() {
           </Section>
 
           <Section
-            id="library"
+            id="reference"
             eyebrow="06 · Reference"
             title="Component reference"
             description="Reusable primitives with the same tactile materials, interaction rules, and accessible behavior as the template."
           >
-            {libraryRequested ? (
-              <Suspense
-                fallback={
-                  <div className="panel charts-placeholder">
-                    <LoaderCircle className="large-spinner" size={23} />
-                    <div>
-                      <strong>Loading component reference</strong>
-                      <p>The reusable primitive examples are loading.</p>
-                    </div>
+            <Suspense
+              fallback={
+                <div className="panel charts-placeholder">
+                  <LoaderCircle className="large-spinner" size={23} />
+                  <div>
+                    <strong>Loading component reference</strong>
+                    <p>The reusable primitive examples are loading.</p>
                   </div>
-                }
-              >
-                <ComponentCatalog />
-              </Suspense>
-            ) : (
-              <div className="panel reference-launch">
-                <span className="reference-launch-icon" aria-hidden="true">
-                  <LibraryBig size={21} />
-                </span>
-                <div>
-                  <h3>Browse reusable primitives</h3>
-                  <p>
-                    Open the full reference when you need component-level examples without adding duplicate
-                    demos to the main template flow.
-                  </p>
                 </div>
-                <button className="button button-primary" type="button" onClick={openLibrary}>
-                  Open component reference
-                </button>
-              </div>
-            )}
+              }
+            >
+              <ComponentCatalog />
+            </Suspense>
           </Section>
 
           <Section

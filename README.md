@@ -1,6 +1,6 @@
 # Kinetic UI — Skeuomorphic React Template
 
-A Vite, React, TypeScript, Tailwind CSS v4, and shadcn-style component showcase with responsive dark/light skeuomorphic styling. The project includes the complete 64-component shadcn catalog, Kinetic-specific controls, a lazy-loaded Recharts gallery, keyboard-accessible overlays, local theme persistence, and automated unit and accessibility checks.
+A Vite, React, TypeScript, Tailwind CSS v4, and shadcn-style component showcase with responsive dark/light skeuomorphic styling. The project includes a unified Skeuomorphic page, Kinetic-specific controls, a lazy-loaded Recharts gallery, keyboard-accessible overlays, local theme persistence, and automated unit and accessibility checks.
 
 ## Requirements
 
@@ -15,6 +15,8 @@ npm run dev
 ```
 
 Create a production build with `npm run build`, or run the complete local verification pipeline with `npm run check`.
+
+The root URL (`/`) is the canonical showcase page. The legacy `/library` URL is kept as a compatibility alias and opens the same page at the Reference section (`#reference`).
 
 ## Available scripts
 
@@ -84,7 +86,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 ```
 
-For discovery or application-level composition, `src/components/ui/index.ts` provides a complete barrel export. `src/components/ui/registry.ts` contains the authoritative 64-component inventory displayed in the showcase.
+For discovery or application-level composition, `src/components/ui/index.ts` provides a complete barrel export. `src/components/ui/registry.ts` contains the authoritative 64-component inventory available to the application; the curated Reference section uses shared Skeuomorphic examples for components demonstrated on the page.
 
 Tailwind v4 is integrated with the Vite plugin. `components.json` points the shadcn CLI at `src/styles.css` and the `@/*` alias resolves to `src/*`. Kinetic's dark and light themes populate the same semantic variables used by generated components, including `background`, `foreground`, `primary`, `card`, `popover`, `muted`, and `sidebar`.
 
@@ -130,7 +132,7 @@ src/
   test/                Vitest setup
   App.tsx              Application shell
   SkeuomorphicKit.tsx  Showcase composition and demonstration state
-  ComponentCatalog.tsx Lazy-loaded catalog shell
+  ComponentCatalog.tsx Lazy-loaded reference examples
   ChartGallery.tsx     Lazy-loaded chart examples
   styles/              Token, base, component, chart, and responsive stylesheets
   styles.css           Entry point importing the stylesheets above

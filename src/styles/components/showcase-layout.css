@@ -3378,7 +3378,7 @@ kbd {
 .catalog-shell {
   display: grid;
   gap: 18px;
-  margin-top: max(16px, var(--density-grid-gap, 16px));
+  margin-top: 0;
 }
 .reference-launch {
   display: grid;

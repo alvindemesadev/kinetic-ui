@@ -35,6 +35,25 @@ test("showcase and modal pass automated accessibility checks", async ({ page }) 
   await expect(trigger).toBeFocused();
 });
 
+test("legacy library URL is the canonical page and focuses the reference section", async ({ page }) => {
+  await page.goto("/library");
+
+  await expect(page.getByRole("heading", { name: /Interfaces with/ })).toBeVisible();
+  await expect(page.locator("#reference")).toBeVisible();
+  await expect(page.locator(".catalog-shell")).toBeVisible();
+  await expect(page.locator("#reference")).toHaveJSProperty("id", "reference");
+  await expect
+    .poll(() => page.locator("#reference").evaluate((element) => element.getBoundingClientRect().top), {
+      timeout: 3000,
+    })
+    .toBeLessThan(180);
+
+  const overview = page.locator("#main-sidebar").getByRole("link", { name: "Overview" });
+  await overview.click();
+  await expect(page.locator("#overview")).toBeVisible();
+  await expect(overview).toHaveClass(/active/);
+});
+
 test("sidebar menus map to real sections and track the active destination", async ({ page }) => {
   test.skip(
     (page.viewportSize()?.width ?? 1280) < 981,
@@ -49,9 +68,9 @@ test("sidebar menus map to real sections and track the active destination", asyn
     );
 
   for (const href of hrefs) {
-    const link = sidebar.locator(href === "/library" ? 'a[href="/library"]' : `a[href$="${href}"]`);
+    const link = sidebar.locator(`a[href$="${href}"]`);
     await link.click();
-    const section = href.startsWith("#") ? page.locator(href) : page.locator("#library");
+    const section = page.locator(href);
     await expect(section).toBeVisible();
     await expect(link).toHaveClass(/active/);
   }
@@ -307,37 +326,15 @@ test("collapsed sidebar profile menu hides its duplicate tooltip", async ({ page
   await expect(trigger).not.toHaveAttribute("data-tooltip");
 });
 
-test("component library selection controls behave like Kinetic labeled rows", async ({ page }) => {
+test("reference form primitives stay unique and use the shared controls", async ({ page }) => {
   await page.goto("/library");
   const library = page.getByLabel("Skeuomorphic component library");
   await expect(library).toBeVisible({ timeout: 10_000 });
   const formCard = library.locator('[data-slot="card"]').filter({ hasText: "Form controls" });
-  const checkbox = formCard.getByRole("checkbox", { name: "Sync automatically" });
-  const notifications = formCard.getByRole("switch", { name: "Notifications" });
-  const performance = formCard.getByRole("radio", { name: "Maximum performance" });
-  const syncLabel = formCard.getByText("Sync automatically", { exact: true });
-
-  await expect(checkbox).toBeChecked();
-  await expect(syncLabel).toHaveCSS("font-size", "12px");
-  await expect(formCard.getByText("Keep component changes synchronized.")).toHaveCSS("font-size", "11px");
-  const checkboxBox = await checkbox.boundingBox();
-  const syncLabelBox = await syncLabel.boundingBox();
-  expect(checkboxBox).not.toBeNull();
-  expect(syncLabelBox).not.toBeNull();
-  expect(checkboxBox!.x).toBeLessThan(syncLabelBox!.x);
-  await checkbox.click();
-  await expect(checkbox).not.toBeChecked();
-  await expect(notifications).toBeChecked();
-  const switchBox = await notifications.boundingBox();
-  const switchThumb = await notifications.locator('[data-slot="switch-thumb"]').boundingBox();
-  expect(switchBox).not.toBeNull();
-  expect(switchThumb).not.toBeNull();
-  expect(switchThumb!.x).toBeGreaterThanOrEqual(switchBox!.x);
-  expect(switchThumb!.x + switchThumb!.width).toBeLessThanOrEqual(switchBox!.x + switchBox!.width);
-  await notifications.click();
-  await expect(notifications).not.toBeChecked();
-  await performance.click();
-  await expect(performance).toBeChecked();
+  await expect(formCard.getByLabel("Project name")).toHaveCSS("font-size", "14px");
+  await expect(formCard.getByRole("checkbox")).toHaveCount(0);
+  await expect(formCard.getByRole("switch")).toHaveCount(0);
+  await expect(formCard.getByRole("radio")).toHaveCount(0);
 
   const completion = formCard.getByRole("slider", { name: "Completion" });
   await completion.focus();
@@ -391,12 +388,12 @@ test("custom popovers move focus in and restore it when closed", async ({ page }
 
 test("component library renders working examples inside its reference section", async ({ page }) => {
   await page.goto("/library");
-  const section = page.locator("#library");
+  const section = page.locator("#reference");
   const library = section.getByLabel("Skeuomorphic component library");
 
   await expect(library).toBeVisible({ timeout: 10_000 });
-  await expect(library).toHaveCSS("margin-top", "16px");
-  await expect(library.locator('[data-slot="card"]')).toHaveCount(12);
+  await expect(library).toHaveCSS("margin-top", "0px");
+  await expect(library.locator('[data-slot="card"]')).toHaveCount(11);
   await expect(page.getByText("Full shadcn-style catalog", { exact: true })).toHaveCount(0);
   await expect(page.locator(".catalog-registry-item")).toHaveCount(0);
   const boldToggle = library.getByRole("button", { name: "Bold" });
@@ -424,14 +421,9 @@ test("component library renders working examples inside its reference section", 
   await catalogEmail.focus();
   await expect(catalogEmail).toHaveCSS("outline-style", "none");
 
-  const catalogDateCard = library.locator('[data-slot="card"]').filter({ hasText: "Date, OTP & popover" });
-  const catalogDateTrigger = catalogDateCard.locator(".catalog-date-picker").getByRole("button", {
-    name: /Date picker/i,
-  });
-  await catalogDateTrigger.click();
-  await expect(catalogDateCard.locator(".date-popover")).toBeVisible();
-  await expect(catalogDateCard).toHaveCSS("overflow", "visible");
-  await catalogDateTrigger.click();
+  const otpCard = library.locator('[data-slot="card"]').filter({ hasText: "OTP & popover" });
+  await expect(otpCard.getByRole("textbox", { name: "Verification code" })).toBeVisible();
+  await expect(otpCard.getByRole("button", { name: "Details" })).toBeVisible();
 
   const command = library.locator(".catalog-command");
   const commandBox = await command.boundingBox();
@@ -469,38 +461,8 @@ test("component library renders working examples inside its reference section", 
   await expect(drawer).toBeHidden();
   await expect(drawerTrigger).toBeFocused();
 
-  await library.getByRole("button", { name: "Delete", exact: true }).click();
-  const alertDialog = page.locator('[data-slot="alert-dialog-content"]');
-  await expect(alertDialog).toBeVisible();
-  await expect(alertDialog.locator('[data-slot="alert-dialog-media"] svg')).toBeVisible();
-  await alertDialog.getByRole("button", { name: "Cancel" }).click();
-  await expect(alertDialog).toBeHidden();
-
-  const catalogTable = library.locator(".catalog-table-demo");
-  await expect(catalogTable.getByText("Project files", { exact: true })).toBeVisible();
-  await expect(catalogTable.locator('[data-slot="table-body"] > [data-slot="table-row"]')).toHaveCount(4);
-  await expect(catalogTable.locator('[data-slot="table-container"]')).toHaveCSS("border-radius", "0px");
-  const rowActions = catalogTable.getByRole("button", { name: "Actions for Control Surface" });
-  await rowActions.click();
-  const rowActionsMenu = page.getByRole("menu");
-  await expect(rowActionsMenu.getByRole("menuitem", { name: "View" })).toBeVisible();
-  await expect(rowActionsMenu.getByRole("menuitem", { name: "Edit" })).toBeVisible();
-  await expect(rowActionsMenu.getByRole("menuitem", { name: "Delete" })).toHaveAttribute(
-    "data-variant",
-    "destructive",
-  );
-  await rowActionsMenu.getByRole("menuitem", { name: "View" }).click();
-  await catalogTable.getByRole("textbox", { name: "Filter modules" }).fill("Analytics");
-  await expect(catalogTable.getByText("Analytics Module", { exact: true })).toBeVisible();
-  await expect(catalogTable.getByText("Control Surface", { exact: true })).toHaveCount(0);
-
-  const implementationNoteTrigger = library.getByRole("button", { name: "Show implementation note" });
-  await implementationNoteTrigger.click();
-  await expect(implementationNoteTrigger).toHaveCSS("border-bottom-left-radius", "0px");
-  await expect(implementationNoteTrigger).toHaveCSS("border-bottom-right-radius", "0px");
-  await expect(
-    library.getByText("The table, collapsible region, and controls above are the real exported components."),
-  ).toBeVisible();
+  await expect(library.getByText("Table & structured data", { exact: true })).toHaveCount(0);
+  await expect(library.getByText("Content, messages & empty states", { exact: true })).toHaveCount(0);
 });
 
 test("foundation carousel uses smooth directional transitions", async ({ page }) => {

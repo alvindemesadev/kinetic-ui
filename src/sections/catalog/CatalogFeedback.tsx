@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TypographyCode } from "@/components/ui/typography";
@@ -19,7 +18,6 @@ export function CatalogFeedback() {
               <Skeleton className="h-3 w-1/2" />
             </div>
           </div>
-          <Progress value={68} aria-label="Loading progress" />
           <p className="text-sm text-muted-foreground">
             Use <TypographyCode>npm run check</TypographyCode> before shipping. <Kbd>Ctrl K</Kbd>
           </p>

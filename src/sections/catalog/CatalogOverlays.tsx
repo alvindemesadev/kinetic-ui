@@ -1,15 +1,3 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -62,7 +50,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
-import { FileText, Mail, MoreHorizontal, Plus, Search, Settings2, Trash2 } from "lucide-react";
+import { FileText, Mail, MoreHorizontal, Plus, Search, Settings2 } from "lucide-react";
 
 import { DemoBlock } from "./DemoBlock";
 
@@ -162,24 +150,6 @@ export function CatalogOverlays({
               </DrawerFooter>
             </DrawerContent>
           </Drawer>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive">Delete</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogMedia>
-                  <Trash2 />
-                </AlertDialogMedia>
-                <AlertDialogTitle>Delete this item?</AlertDialogTitle>
-                <AlertDialogDescription>This demonstration keeps the action local.</AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
         </div>
         <div className="overlay-type-grid" aria-label="Overlay component types">
           <span>

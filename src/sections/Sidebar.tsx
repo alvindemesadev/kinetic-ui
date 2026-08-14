@@ -31,13 +31,12 @@ export function Sidebar({
   const sidebarToggleRef = useRef<HTMLButtonElement>(null);
   const profileTriggerRef = useRef<HTMLButtonElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
-  const getActiveHref = () =>
-    window.location.pathname.replace(/\/+$/, "") === "/library"
-      ? "/library"
-      : window.location.hash || "#overview";
-  const getNavigationHref = (href: string) => {
-    if (href === "/library" || window.location.pathname.replace(/\/+$/, "") !== "/library") return href;
-    return href.startsWith("#") ? `/${href}` : href;
+  const getActiveHref = () => {
+    const path = window.location.pathname.replace(/\/+$/, "");
+    if ((path === "/library" && !window.location.hash) || window.location.hash === "#library") {
+      return "#reference";
+    }
+    return window.location.hash || "#overview";
   };
   const [activeHref, setActiveHref] = useState(getActiveHref);
 
@@ -110,7 +109,7 @@ export function Sidebar({
           <span className="nav-label">Library</span>
           {navigation.map((item) => {
             const Icon = item.icon;
-            const href = getNavigationHref(item.href);
+            const href = item.href;
             return (
               <a
                 className={href === activeHref ? "active" : ""}

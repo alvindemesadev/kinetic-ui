@@ -1,44 +1,35 @@
 import { render, screen } from "@testing-library/react";
-import { within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import ComponentCatalog from "./ComponentCatalog";
 
 describe("ComponentCatalog showcase", () => {
-  it("renders the library summary and every demo block", () => {
+  it("renders the reference examples in the shared page system", () => {
     render(<ComponentCatalog />);
     expect(screen.getByLabelText("Skeuomorphic component library")).toBeInTheDocument();
-    expect(screen.getByText("Skeuomorphic component library")).toBeInTheDocument();
     for (const title of [
-      "Actions & feedback",
+      "Actions, feedback & loading",
       "Form controls",
-      "Date, OTP & popover",
+      "OTP & popover",
       "Navigation",
       "Disclosure & selection",
       "Loading & typography",
       "Dialogs, sheets & drawers",
       "Menus, search & selection",
       "Inputs, toggles & identity",
-      "Content, messages & empty states",
+      "Content & empty states",
       "Layout, carousel & scrolling",
-      "Table & structured data",
     ]) {
       expect(screen.getAllByText(title).length).toBeGreaterThan(0);
     }
+    expect(screen.queryByText("Table & structured data")).not.toBeInTheDocument();
   });
 
-  it("toggles the checkbox and switch controls", async () => {
-    const user = userEvent.setup();
+  it("keeps the shared form controls and verification input available", () => {
     render(<ComponentCatalog />);
-    const checkbox = screen.getByRole("checkbox", { name: "Sync automatically" });
-    expect(checkbox).toBeChecked();
-    await user.click(checkbox);
-    expect(checkbox).not.toBeChecked();
-
-    const switchControl = screen.getByRole("switch", { name: "Notifications" });
-    await user.click(switchControl);
-    expect(switchControl).toHaveAttribute("data-state", "unchecked");
+    expect(screen.getByLabelText("Project name")).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "Verification code" })).toBeInTheDocument();
   });
 
   it("defaults the alert notification channel to active", () => {
@@ -60,18 +51,6 @@ describe("ComponentCatalog showcase", () => {
     await user.click(trigger);
     await user.keyboard("{ArrowDown}{Enter}");
     expect(screen.getByText("Vue")).toBeInTheDocument();
-  });
-
-  it("uses the Kinetic date picker in the date primitives card", async () => {
-    const user = userEvent.setup();
-    render(<ComponentCatalog />);
-    const trigger = screen.getByRole("button", { name: "Date picker, 08/12/2026" });
-
-    await user.click(trigger);
-    expect(screen.getByRole("dialog", { name: "Choose a date" })).toBeInTheDocument();
-    expect(screen.getByRole("combobox", { name: "Month" })).toHaveValue("7");
-    expect(screen.getByRole("combobox", { name: "Year" })).toHaveValue("2026");
-    expect(screen.getByRole("gridcell", { name: "2026-08-12" })).toHaveAttribute("aria-selected", "true");
   });
 
   it("opens and closes the edit profile dialog", async () => {
@@ -102,40 +81,5 @@ describe("ComponentCatalog showcase", () => {
     expect(screen.getByText("Content")).toBeInTheDocument();
     expect(screen.getByLabelText("Scrollable component rows")).toBeInTheDocument();
     expect(screen.getByText("Scrollable component row 1")).toBeInTheDocument();
-  });
-
-  it("renders the structured data table with all rows", () => {
-    render(<ComponentCatalog />);
-    const tableDemo = document.querySelector<HTMLElement>(".catalog-table-demo");
-    expect(tableDemo).toBeInTheDocument();
-
-    const table = within(tableDemo as HTMLElement);
-    expect(table.getByRole("table")).toBeInTheDocument();
-    expect(table.getByRole("columnheader", { name: /Name/ })).toBeInTheDocument();
-    expect(table.getByRole("cell", { name: /Control Surface/ })).toBeInTheDocument();
-    expect(table.getByRole("cell", { name: /Command Palette/ })).toBeInTheDocument();
-    expect(table.getByRole("cell", { name: /Analytics Module/ })).toBeInTheDocument();
-    expect(table.getByRole("cell", { name: /Profile Drawer/ })).toBeInTheDocument();
-    expect(table.getByRole("textbox", { name: "Filter modules" })).toBeInTheDocument();
-  });
-
-  it("opens row actions with view, edit, and delete choices", async () => {
-    const user = userEvent.setup();
-    render(<ComponentCatalog />);
-    const actions = screen.getByRole("button", { name: "Actions for Control Surface" });
-
-    await user.click(actions);
-
-    expect(screen.getByRole("menu")).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "View" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Edit" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Delete" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Delete" })).toHaveAttribute("data-variant", "destructive");
-
-    await user.click(screen.getByRole("menuitem", { name: "Delete" }));
-
-    expect(screen.getByRole("dialog", { name: "Delete" })).toBeInTheDocument();
-    expect(screen.getByText("Delete Control Surface?")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
   });
 });

@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { format } from "date-fns";
-
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
@@ -13,39 +9,25 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { DatePicker as KineticDatePicker } from "@/components";
 import { Atom, Settings2, Triangle } from "lucide-react";
 
 import { DemoBlock } from "./DemoBlock";
 
 export function CatalogForms({
-  date,
-  setDate,
-  enabled,
-  setEnabled,
   completion,
   setCompletion,
   framework,
   setFramework,
 }: {
-  date: Date | undefined;
-  setDate: (value: Date | undefined) => void;
-  enabled: boolean;
-  setEnabled: (value: boolean) => void;
   completion: number[];
   setCompletion: (value: number[]) => void;
   framework: string;
   setFramework: (value: string) => void;
 }) {
-  const [dateOpen, setDateOpen] = useState(false);
-  const dateValue = date ? format(date, "yyyy-MM-dd") : "";
-
   return (
     <>
       <DemoBlock title="Form controls">
@@ -86,43 +68,6 @@ export function CatalogForms({
               </SelectContent>
             </Select>
           </div>
-          <div className="catalog-selection-controls">
-            <div className="catalog-control-row">
-              <span>
-                <Label htmlFor="catalog-sync">Sync automatically</Label>
-                <small>Keep component changes synchronized.</small>
-              </span>
-              <Checkbox id="catalog-sync" aria-label="Sync automatically" defaultChecked />
-            </div>
-            <RadioGroup defaultValue="balanced" className="catalog-radio-group" aria-label="Performance mode">
-              <div className="catalog-control-row">
-                <span>
-                  <Label htmlFor="catalog-balanced">Balanced performance</Label>
-                  <small>Best mix of speed and battery use.</small>
-                </span>
-                <RadioGroupItem value="balanced" id="catalog-balanced" aria-label="Balanced performance" />
-              </div>
-              <div className="catalog-control-row">
-                <span>
-                  <Label htmlFor="catalog-fast">Maximum performance</Label>
-                  <small>Prioritize speed for intensive work.</small>
-                </span>
-                <RadioGroupItem value="fast" id="catalog-fast" aria-label="Maximum performance" />
-              </div>
-            </RadioGroup>
-            <div className="catalog-control-row catalog-switch-row">
-              <span>
-                <Label htmlFor="catalog-enabled">Notifications</Label>
-                <small>Desktop alerts and sounds.</small>
-              </span>
-              <Switch
-                id="catalog-enabled"
-                aria-label="Notifications"
-                checked={enabled}
-                onCheckedChange={setEnabled}
-              />
-            </div>
-          </div>
           <div className="catalog-slider-field">
             <span>
               <Label>Completion</Label>
@@ -137,17 +82,8 @@ export function CatalogForms({
         </div>
       </DemoBlock>
 
-      <DemoBlock title="Date, OTP & popover">
+      <DemoBlock title="OTP & popover">
         <div className="catalog-date-otp-row">
-          <div className="catalog-date-picker">
-            <KineticDatePicker
-              value={dateValue}
-              onChange={(nextValue) => setDate(nextValue ? new Date(`${nextValue}T00:00:00`) : undefined)}
-              isOpen={dateOpen}
-              onToggle={() => setDateOpen((current) => !current)}
-              onClose={() => setDateOpen(false)}
-            />
-          </div>
           <InputOTP maxLength={4} aria-label="Verification code">
             <InputOTPGroup>
               <InputOTPSlot index={0} />

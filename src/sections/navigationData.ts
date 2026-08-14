@@ -26,7 +26,7 @@ export const navigation: NavigationItem[] = [
   { label: "Components", href: "#components", icon: Component },
   { label: "Calendar", href: "#calendar", icon: CalendarDays },
   { label: "Overlays", href: "#overlays", icon: PanelsTopLeft },
-  { label: "Reference", href: "/library", icon: LibraryBig },
+  { label: "Reference", href: "#reference", icon: LibraryBig },
   { label: "Data", href: "#data", icon: BarChart3 },
   { label: "States", href: "#states", icon: Activity },
 ];
