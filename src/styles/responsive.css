@@ -229,6 +229,15 @@
   .kanban-board {
     grid-template-columns: 1fr;
   }
+  .date-time-picker-embedded {
+    grid-template-columns: 1fr;
+  }
+  .date-time-picker-footer {
+    justify-content: stretch;
+  }
+  .date-time-picker-footer .button {
+    flex: 1;
+  }
   .kanban-composer,
   .todo-composer {
     align-items: stretch;

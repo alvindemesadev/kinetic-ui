@@ -7,6 +7,7 @@ import {
   AuthCard,
   ButtonStateShowcase,
   DatePicker,
+  DateTimePicker,
   FrameworkCombobox,
   InfiniteLogoCarousel,
   LoadingButton,
@@ -93,6 +94,24 @@ describe("reusable controls", () => {
 
     await userEvent.click(screen.getByRole("radio", { name: "AM" }));
     expect(screen.getByRole("button", { name: "Time picker, 11:22 AM" })).toBeVisible();
+  });
+
+  it("combines date and time in one picker surface", async () => {
+    const onChange = vi.fn();
+    render(
+      <DateTimePicker
+        value={{ date: "2026-08-12", time: "22:22" }}
+        onChange={onChange}
+        isOpen
+        onToggle={vi.fn()}
+        onClose={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByRole("dialog", { name: "Choose date and time" })).toBeVisible();
+    await userEvent.click(screen.getByRole("gridcell", { name: "2026-08-13" }));
+    expect(onChange).toHaveBeenCalledWith({ date: "2026-08-13", time: "22:22" });
+    expect(screen.getByRole("button", { name: /Date and time picker/ })).toBeVisible();
   });
 
   it("renders an accessible infinite logo track and lets users pause it", async () => {

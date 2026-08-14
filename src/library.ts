@@ -10,10 +10,13 @@ export * from "./components/ui";
 export * from "./components/primitives";
 export {
   DatePicker as SkeuomorphicDatePicker,
+  DateTimePicker,
   FrameworkCombobox,
   StyleDropdown,
   TimePicker,
   type DatePickerProps as SkeuomorphicDatePickerProps,
+  type DateTimePickerProps,
+  type DateTimeValue,
   type FrameworkComboboxProps,
   type OpenControlProps,
   type StyleDropdownProps,

@@ -377,6 +377,15 @@ test("custom popovers move focus in and restore it when closed", async ({ page }
   await timeDialog.getByRole("button", { name: "Done" }).click();
   await expect(timeTrigger).toBeFocused();
 
+  const dateTimeField = controls.locator(".custom-control").filter({ hasText: "Date & time" });
+  const dateTimeTrigger = dateTimeField.getByRole("button", { name: /Date and time picker/i });
+  await dateTimeTrigger.click();
+  const dateTimeDialog = dateTimeField.getByRole("dialog", { name: "Choose date and time" });
+  await expect(dateTimeDialog).toBeVisible();
+  await dateTimeDialog.getByRole("gridcell", { name: "2026-08-13" }).click();
+  await dateTimeDialog.getByRole("button", { name: "Apply date & time" }).click();
+  await expect(dateTimeTrigger).toBeFocused();
+
   const styleField = controls.locator(".custom-control").filter({ hasText: "Dropdown" });
   const styleTrigger = styleField.getByRole("combobox", { name: /Interface style/i });
   await styleTrigger.click();

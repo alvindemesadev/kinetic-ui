@@ -51,6 +51,7 @@ import {
   InfiniteLogoCarousel,
   StyleDropdown,
   TimePicker,
+  DateTimePicker,
   SwitchControl,
   type ThemePreference,
 } from "./components";
@@ -58,7 +59,7 @@ import { DeferredRender } from "./components/DeferredRender";
 import { useFocusTrap } from "./hooks/useFocusTrap";
 import { useTheme } from "./hooks/useTheme";
 
-type OpenControl = "date" | "time" | "style" | "framework" | null;
+type OpenControl = "date" | "time" | "date-time" | "style" | "framework" | null;
 type ViewDensity = "compact" | "comfortable" | "spacious";
 
 const densityOptions: Array<{ value: ViewDensity; label: string }> = [
@@ -497,6 +498,18 @@ export default function SkeuomorphicKit() {
                     onChange={setSelectedTime}
                     isOpen={openControl === "time"}
                     onToggle={() => setOpenControl((current) => (current === "time" ? null : "time"))}
+                    onClose={() => setOpenControl(null)}
+                  />
+                  <DateTimePicker
+                    value={{ date: selectedDate, time: selectedTime }}
+                    onChange={({ date, time }) => {
+                      setSelectedDate(date);
+                      setSelectedTime(time);
+                    }}
+                    isOpen={openControl === "date-time"}
+                    onToggle={() =>
+                      setOpenControl((current) => (current === "date-time" ? null : "date-time"))
+                    }
                     onClose={() => setOpenControl(null)}
                   />
                   <StyleDropdown

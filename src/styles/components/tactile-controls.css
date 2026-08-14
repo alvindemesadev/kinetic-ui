@@ -982,6 +982,52 @@
   width: 258px;
   padding: 14px;
 }
+.date-time-popover {
+  width: min(570px, calc(100vw - 28px));
+  padding: 14px;
+}
+.date-time-popover-heading {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.date-time-popover-heading p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-2xs);
+}
+.date-time-picker-embedded {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 13px;
+}
+.date-time-picker-embedded > .custom-control {
+  display: contents;
+}
+.date-time-picker-embedded > .custom-control > .control-popover {
+  position: static;
+  inset: auto;
+  width: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.date-time-picker-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-soft);
+}
+.date-time-picker-footer .button {
+  min-height: 34px;
+}
 .popover-kicker {
   display: block;
   color: var(--accent);

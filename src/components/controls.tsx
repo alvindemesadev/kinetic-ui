@@ -1,4 +1,5 @@
 import {
+  CalendarClock,
   CalendarDays,
   Check,
   ChevronDown,
@@ -66,9 +67,17 @@ function createMonthGrid(year: number, month: number) {
 export type DatePickerProps = OpenControlProps & {
   value: string;
   onChange: (value: string) => void;
+  embedded?: boolean;
 };
 
-export function DatePicker({ value, onChange, isOpen, onToggle, onClose }: DatePickerProps) {
+export function DatePicker({
+  value,
+  onChange,
+  isOpen,
+  onToggle,
+  onClose,
+  embedded = false,
+}: DatePickerProps) {
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -159,26 +168,30 @@ export function DatePicker({ value, onChange, isOpen, onToggle, onClose }: DateP
       className={`field custom-control ${isOpen ? "is-open" : ""}`}
       onClick={(event) => event.stopPropagation()}
     >
-      <span>Date picker</span>
-      <button
-        ref={triggerRef}
-        className="custom-trigger"
-        type="button"
-        aria-label={`Date picker, ${formatDate(value)}`}
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        onClick={onToggle}
-      >
-        <span>{formatDate(value)}</span>
-        <CalendarDays size={15} />
-      </button>
+      {!embedded && (
+        <>
+          <span>Date picker</span>
+          <button
+            ref={triggerRef}
+            className="custom-trigger"
+            type="button"
+            aria-label={`Date picker, ${formatDate(value)}`}
+            aria-haspopup="dialog"
+            aria-expanded={isOpen}
+            aria-controls={panelId}
+            onClick={onToggle}
+          >
+            <span>{formatDate(value)}</span>
+            <CalendarDays size={15} />
+          </button>
+        </>
+      )}
       {isOpen && (
         <div
           ref={panelRef}
           className="control-popover date-popover"
           id={panelId}
-          role="dialog"
+          role={embedded ? "group" : "dialog"}
           aria-label="Choose a date"
         >
           <div className="picker-heading" aria-live="polite" aria-atomic="true">
@@ -269,6 +282,7 @@ export function DatePicker({ value, onChange, isOpen, onToggle, onClose }: DateP
 export type TimePickerProps = OpenControlProps & {
   value: string;
   onChange: (value: string) => void;
+  embedded?: boolean;
 };
 
 type ClockFormat = "12" | "24";
@@ -283,7 +297,14 @@ function formatTime(value: string, format: ClockFormat) {
   return `${String(displayHour(hour, format)).padStart(2, "0")}:${String(minute).padStart(2, "0")} ${hour >= 12 ? "PM" : "AM"}`;
 }
 
-export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimePickerProps) {
+export function TimePicker({
+  value,
+  onChange,
+  isOpen,
+  onToggle,
+  onClose,
+  embedded = false,
+}: TimePickerProps) {
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -395,25 +416,29 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
       className={`field custom-control ${isOpen ? "is-open" : ""}`}
       onClick={(event) => event.stopPropagation()}
     >
-      <span>Time picker</span>
-      <button
-        ref={triggerRef}
-        className="custom-trigger"
-        type="button"
-        aria-label={`Time picker, ${formatTime(value, clockFormat)}`}
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        onClick={onToggle}
-      >
-        <span>{formatTime(value, clockFormat)}</span>
-        <Clock3 size={15} />
-      </button>
+      {!embedded && (
+        <>
+          <span>Time picker</span>
+          <button
+            ref={triggerRef}
+            className="custom-trigger"
+            type="button"
+            aria-label={`Time picker, ${formatTime(value, clockFormat)}`}
+            aria-haspopup="dialog"
+            aria-expanded={isOpen}
+            aria-controls={panelId}
+            onClick={onToggle}
+          >
+            <span>{formatTime(value, clockFormat)}</span>
+            <Clock3 size={15} />
+          </button>
+        </>
+      )}
       {isOpen && (
         <div
           className="control-popover time-popover align-right"
           id={panelId}
-          role="dialog"
+          role={embedded ? "group" : "dialog"}
           aria-label="Choose a time"
           ref={panelRef}
           onKeyDown={(event) => {
@@ -557,6 +582,94 @@ export function TimePicker({ value, onChange, isOpen, onToggle, onClose }: TimeP
           <button className="picker-done" type="button" onClick={closeAndRestoreFocus}>
             Done
           </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export type DateTimeValue = {
+  date: string;
+  time: string;
+};
+
+export type DateTimePickerProps = OpenControlProps & {
+  value: DateTimeValue;
+  onChange: (value: DateTimeValue) => void;
+};
+
+export function DateTimePicker({ value, onChange, isOpen, onToggle, onClose }: DateTimePickerProps) {
+  const panelId = useId();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeAndRestoreFocus = useCallback(() => {
+    onClose();
+    requestAnimationFrame(() => triggerRef.current?.focus());
+  }, [onClose]);
+
+  return (
+    <div
+      className={`field full custom-control date-time-control ${isOpen ? "is-open" : ""}`}
+      onClick={(event) => event.stopPropagation()}
+    >
+      <span>Date &amp; time</span>
+      <button
+        ref={triggerRef}
+        className="custom-trigger"
+        type="button"
+        aria-label={`Date and time picker, ${formatDate(value.date)} at ${formatTime(value.time, "24")}`}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        onClick={onToggle}
+      >
+        <span>
+          {formatDate(value.date)} · {formatTime(value.time, "24")}
+        </span>
+        <CalendarClock size={15} />
+      </button>
+      {isOpen && (
+        <div
+          className="control-popover date-time-popover"
+          id={panelId}
+          role="dialog"
+          aria-label="Choose date and time"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              closeAndRestoreFocus();
+            }
+          }}
+        >
+          <div className="date-time-popover-heading">
+            <span className="popover-kicker">Schedule a moment</span>
+            <p>Choose a date and time in one surface.</p>
+          </div>
+          <div className="date-time-picker-embedded">
+            <DatePicker
+              embedded
+              value={value.date}
+              onChange={(date) => onChange({ ...value, date })}
+              isOpen
+              onToggle={() => undefined}
+              onClose={() => undefined}
+            />
+            <TimePicker
+              embedded
+              value={value.time}
+              onChange={(time) => onChange({ ...value, time })}
+              isOpen
+              onToggle={() => undefined}
+              onClose={() => undefined}
+            />
+          </div>
+          <div className="date-time-picker-footer">
+            <button className="button button-secondary" type="button" onClick={closeAndRestoreFocus}>
+              Cancel
+            </button>
+            <button className="button button-primary" type="button" onClick={closeAndRestoreFocus}>
+              Apply date &amp; time
+            </button>
+          </div>
         </div>
       )}
     </div>
