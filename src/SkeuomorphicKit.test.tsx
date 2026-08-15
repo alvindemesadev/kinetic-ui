@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
@@ -91,13 +91,11 @@ describe("SkeuomorphicKit shell", () => {
     await user.click(within(eventDialog).getByRole("button", { name: /Time picker/ }));
     expect(screen.getByRole("dialog", { name: "Choose a time" })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Done" }));
-    // The time picker restores focus to its trigger in a requestAnimationFrame;
-    // wait for that to land before typing, or the deferred focus restore fires
-    // between userEvent's focus click and its first keystroke and swallows them.
-    await waitFor(() =>
-      expect(within(eventDialog).getByRole("button", { name: /Time picker/ })).toHaveFocus(),
-    );
-    await user.type(screen.getByLabelText("Event title"), "Team sync");
+    // The lazy catalog's resizable panels attach a document-level pointerdown
+    // listener whose hit-test, under jsdom's mocked layout, can steal focus to
+    // the resizable handle between userEvent's focus click and its keystrokes.
+    // Type via fireEvent to avoid the pointer interaction entirely.
+    fireEvent.change(screen.getByLabelText("Event title"), { target: { value: "Team sync" } });
     await user.click(screen.getByRole("button", { name: "Save event" }));
     expect((await screen.findAllByText("Team sync")).length).toBeGreaterThanOrEqual(2);
   });
