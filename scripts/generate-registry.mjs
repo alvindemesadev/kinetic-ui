@@ -7,8 +7,10 @@
  *   - ./public/r/{name}.json   — built per-item registry files for consumers.
  *   - ./public/r/index.json    — discovery index.
  *
- * It also keeps `components.json` → `registries.kinetic.url` in sync with
+ * It also keeps `components.json` → `registries["@kinetic"].url` in sync with
  * `REGISTRY_URL` below so consumers can run `npx shadcn add @kinetic/button`.
+ * The CLI's config schema requires every `registries` key to start with `@`,
+ * so the key is `@kinetic` (a legacy plain `kinetic` key is dropped).
  *
  * Registry conventions verified against shadcn CLI v4:
  *   - `registryDependencies` must be namespaced (`@kinetic/...`) so deps
@@ -27,7 +29,7 @@ import { format as formatJson, resolveConfig as resolvePrettierConfig } from "pr
 const root = resolve(import.meta.dirname, "..");
 
 /** Published location of the built registry (GitHub + jsDelivr). */
-const REGISTRY_URL = "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.1.0/public/r/{name}.json";
+const REGISTRY_URL = "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.2.0/public/r/{name}.json";
 const REGISTRY_NAMESPACE = "@kinetic";
 
 const registrySource = readFileSync(join(root, "src/components/ui/registry.ts"), "utf8");
@@ -283,10 +285,14 @@ writes.set(join(outputDirectory, "index.json"), `${JSON.stringify(index, null, 2
 
 const configPath = join(root, "components.json");
 const config = JSON.parse(readFileSync(configPath, "utf8"));
-if (config.registries?.kinetic?.url !== REGISTRY_URL) {
+// The CLI requires every `registries` key to start with `@`, so the registry key
+// is `@kinetic`; a legacy plain `kinetic` key would fail config validation.
+const registries = { ...(config.registries ?? {}) };
+delete registries.kinetic;
+if (registries["@kinetic"]?.url !== REGISTRY_URL) {
   writes.set(
     configPath,
-    `${JSON.stringify({ ...config, registries: { ...config.registries, kinetic: { url: REGISTRY_URL } } }, null, 2)}\n`,
+    `${JSON.stringify({ ...config, registries: { ...registries, "@kinetic": { url: REGISTRY_URL } } }, null, 2)}\n`,
   );
 }
 
@@ -338,7 +344,7 @@ if (checkOnly) {
     writeFileSync(path, content);
   }
   if (writes.has(configPath)) {
-    console.log(`[registry] components.json registries.kinetic.url -> ${REGISTRY_URL}`);
+    console.log(`[registry] components.json registries["@kinetic"].url -> ${REGISTRY_URL}`);
   }
   console.log(
     `[registry] Generated ${builtItems.length} built items (${names.length} components + kinetic styles) and wrote ${outputDirectory.replace(root, ".")}.`,

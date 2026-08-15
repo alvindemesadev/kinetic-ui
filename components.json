@@ -22,8 +22,8 @@
   "menuColor": "default",
   "menuAccent": "subtle",
   "registries": {
-    "kinetic": {
-      "url": "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.1.0/public/r/{name}.json"
+    "@kinetic": {
+      "url": "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.2.0/public/r/{name}.json"
     }
   }
 }
