@@ -100,6 +100,20 @@ Add or refresh a registry component with:
 npx shadcn@latest add button
 ```
 
+### Install from the published registry
+
+Kinetic publishes its catalog as a shadcn-style registry: **65 items — 64 components plus the `kinetic` material-skin bundle** — served from jsDelivr and pinned to a release tag (`@v1.0.0`) so consumers get a versioned, immutable registry. Install into any project with the shadcn CLI:
+
+```bash
+# register the registry once (writes components.json)
+npx shadcn registry add @kinetic=https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.0.0/public/r/{name}.json
+
+# add components — dependencies and the Kinetic skin install automatically
+npx shadcn add @kinetic/button @kinetic/card @kinetic/sidebar
+```
+
+After adding, import `@/styles/kinetic/kinetic.css` after Tailwind and wrap your app in an element with class `ui-kit`. The full consumer contract, the CSS-travel decision, and the per-release re-pin flow are documented in [docs/registry.md](docs/registry.md).
+
 ## Theme handling
 
 `src/hooks/useTheme.ts` exposes the resolved `dark` or `light` theme, the stored `dark`, `light`, or `system` preference, and a preference setter. The hook:
