@@ -155,24 +155,38 @@ jobs:
           printf '/// <reference types="vite/client" />\n' > src/vite-env.d.ts
           cat > src/App.tsx <<EOF
           import { Button } from "@/components/ui/button";
+          import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
           export default function App() {
             return (
               <div className="ui-kit dark">
-                <Button>Kinetic Button</Button>
+                <Card className="max-w-sm">
+                  <CardHeader>
+                    <CardTitle>Kinetic UI</CardTitle>
+                    <CardDescription>Installed from the pinned registry</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button>Kinetic Button</Button>
+                  </CardContent>
+                </Card>
               </div>
             );
           }
           EOF
 
-      - name: Install @kinetic/button from the pinned registry
+      # card declares @kinetic/kinetic in its registryDependencies, so the CLI must
+      # resolve the skin chain transitively from the same pinned registry.
+      # Pinned to 4.17.0 (the version this repo is built and verified against): newer
+      # shadcn@latest versions resolve a base colors/neutral item for multi-item adds,
+      # which custom registries don't serve, so @latest would false-fail this job.
+      - name: Install @kinetic/button and @kinetic/card from the pinned registry
         run: |
           cd kinetic-install-check
-          npx shadcn@latest add @kinetic/button --yes
+          npx shadcn@4.17.0 add @kinetic/button @kinetic/card --yes
 
       - name: Assert the component and the skin bundle were installed
         run: |
           cd kinetic-install-check
-          for f in src/components/ui/button.tsx src/styles/kinetic/kinetic.css src/styles/kinetic/tokens.css src/styles/kinetic/base.css src/styles/kinetic/tactile-controls.css src/styles/kinetic/ui-primitives.css src/styles/kinetic/portals-overlays.css; do
+          for f in src/components/ui/button.tsx src/components/ui/card.tsx src/styles/kinetic/kinetic.css src/styles/kinetic/tokens.css src/styles/kinetic/base.css src/styles/kinetic/tactile-controls.css src/styles/kinetic/ui-primitives.css src/styles/kinetic/portals-overlays.css; do
             test -f "$f" && echo "ok: $f" || { echo "MISSING: $f"; exit 1; }
           done
 
