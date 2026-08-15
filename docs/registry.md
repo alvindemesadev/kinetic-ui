@@ -117,6 +117,14 @@ register `@kinetic=http://localhost:8199/r/{name}.json`.
   a directory containing protected junctions (e.g. `C:\Users\<user>` or `%TEMP%`). Run
   consumer projects from a clean path (e.g. `C:\regtest\...`) or run `shadcn init` on a
   non-Windows machine and copy the generated `components.json` + `lib/utils` over.
+- **Newer `shadcn@latest` CLIs fail multi-item adds to custom registries** (a CLI bug, not a
+  config problem). Versions after ~4.17.0 resolve a base `colors/neutral` item for multi-item
+  adds by appending `/colors/neutral.json` to the registry URL template, which custom
+  registries don't serve — the error mentions `.../r/{name}.json/colors/neutral.json` and
+  suggests trying a previous version. Single-item adds work fine on every version. If you hit
+  it, add components one at a time (`npx shadcn add @kinetic/button`, then `@kinetic/card`),
+  or pin the CLI to `4.17.0` — the version this repo is verified against and the one the CI
+  install-check job uses.
 - The registry covers `src/components/ui/*` (the shadcn-style primitives). The custom
   Skeuomorphic pickers (`AvatarPicker`, `DatePicker`, …) remain in the published npm library
   (`src/library.ts`) rather than the registry.
