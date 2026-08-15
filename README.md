@@ -97,8 +97,13 @@ Tailwind v4 is integrated with the Vite plugin. `components.json` points the sha
 Add or refresh a registry component with:
 
 ```bash
-npx shadcn@latest add button
+npx shadcn@latest add @kinetic/button
 ```
+
+The `@kinetic/` prefix resolves the component against this repo's pinned registry (see below).
+Unprefixed names like `npx shadcn add button` resolve against ui.shadcn.com's default registry
+instead — that works for upstream components, but it won't pull Kinetic's skin bundle or the
+version pinned to this repo's registry.
 
 ### Install from the published registry
 
