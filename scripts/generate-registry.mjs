@@ -27,7 +27,7 @@ import { format as formatJson, resolveConfig as resolvePrettierConfig } from "pr
 const root = resolve(import.meta.dirname, "..");
 
 /** Published location of the built registry (GitHub + jsDelivr). */
-const REGISTRY_URL = "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.0.0/public/r/{name}.json";
+const REGISTRY_URL = "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.1.0/public/r/{name}.json";
 const REGISTRY_NAMESPACE = "@kinetic";
 
 const registrySource = readFileSync(join(root, "src/components/ui/registry.ts"), "utf8");

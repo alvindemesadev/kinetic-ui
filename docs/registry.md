@@ -32,7 +32,7 @@ files from the repository, so the built registry must be committed.
 
 ### Versioning
 
-`REGISTRY_URL` is pinned to a **release tag** (`@v1.0.0`), so consumers get a versioned,
+`REGISTRY_URL` is pinned to a **release tag** (`@v1.1.0`), so consumers get a versioned,
 immutable registry — `main` can keep evolving without silently changing what `@kinetic/*`
 installs. On each release: tag it (`v1.1.0`, …), update `REGISTRY_URL` to the new tag, run
 `npm run registry:build`, and commit the regenerated files.
@@ -71,7 +71,7 @@ any consumer.
 
 ```bash
 # register the registry once (writes components.json)
-npx shadcn registry add @kinetic=https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.0.0/public/r/{name}.json
+npx shadcn registry add @kinetic=https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.1.0/public/r/{name}.json
 
 # add components (dependencies and the kinetic skin install automatically)
 npx shadcn add @kinetic/button @kinetic/card @kinetic/sidebar

@@ -102,11 +102,11 @@ npx shadcn@latest add button
 
 ### Install from the published registry
 
-Kinetic publishes its catalog as a shadcn-style registry: **65 items — 64 components plus the `kinetic` material-skin bundle** — served from jsDelivr and pinned to a release tag (`@v1.0.0`) so consumers get a versioned, immutable registry. Install into any project with the shadcn CLI:
+Kinetic publishes its catalog as a shadcn-style registry: **65 items — 64 components plus the `kinetic` material-skin bundle** — served from jsDelivr and pinned to a release tag (`@v1.1.0`) so consumers get a versioned, immutable registry. Install into any project with the shadcn CLI:
 
 ```bash
 # register the registry once (writes components.json)
-npx shadcn registry add @kinetic=https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.0.0/public/r/{name}.json
+npx shadcn registry add @kinetic=https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.1.0/public/r/{name}.json
 
 # add components — dependencies and the Kinetic skin install automatically
 npx shadcn add @kinetic/button @kinetic/card @kinetic/sidebar
