@@ -6,6 +6,7 @@ import {
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+import { useDismissOnOutsideClick, usePopoverFocusTrap } from "../hooks/useFocusTrap";
 
 export type InitialsAvatarProps = {
   size?: "small" | "medium" | "large";
@@ -135,6 +136,9 @@ export function AvatarPicker({
     setIsOpen(false);
     requestAnimationFrame(() => triggerRef.current?.focus());
   };
+
+  usePopoverFocusTrap(panelRef, isOpen);
+  useDismissOnOutsideClick(panelRef, triggerRef, isOpen, close);
 
   const save = () => {
     if (mode === "image") {

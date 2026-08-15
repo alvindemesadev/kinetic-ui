@@ -13,6 +13,7 @@ import {
   Sun,
 } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState, useCallback, type KeyboardEvent } from "react";
+import { useDismissOnOutsideClick, usePopoverFocusTrap } from "../hooks/useFocusTrap";
 import { frameworkOptions, styleOptions } from "./controlData";
 
 export type OpenControlProps = {
@@ -90,6 +91,17 @@ export function DatePicker({
   const days = useMemo(() => createMonthGrid(viewMonth.year, viewMonth.month), [viewMonth]);
   const selectedIndex = days.findIndex((date) => date.value === value);
   const [activeIndex, setActiveIndex] = useState(selectedIndex);
+  const [lastOpenState, setLastOpenState] = useState({ open: isOpen, value });
+  // When the panel reopens, follow the current value so the grid never
+  // disagrees with the trigger (the value can change while closed through
+  // another control, e.g. the combined date & time picker).
+  if (isOpen && value && (lastOpenState.open !== isOpen || lastOpenState.value !== value)) {
+    setLastOpenState({ open: isOpen, value });
+    const [year, month] = value.split("-").map(Number);
+    setViewMonth((current) =>
+      current.year === year && current.month === month - 1 ? current : { year, month: month - 1 },
+    );
+  }
 
   useEffect(() => {
     if (!isOpen) return;
@@ -105,6 +117,9 @@ export function DatePicker({
     onClose();
     requestAnimationFrame(() => triggerRef.current?.focus());
   }, [onClose]);
+
+  usePopoverFocusTrap(panelRef, isOpen && !embedded);
+  useDismissOnOutsideClick(panelRef, triggerRef, isOpen && !embedded, closeAndRestoreFocus);
 
   const moveMonth = useCallback((amount: number) => {
     setViewMonth((current) => {
@@ -344,6 +359,9 @@ export function TimePicker({
     onClose();
     requestAnimationFrame(() => triggerRef.current?.focus());
   }, [onClose]);
+
+  usePopoverFocusTrap(panelRef, isOpen && !embedded);
+  useDismissOnOutsideClick(panelRef, triggerRef, isOpen && !embedded, closeAndRestoreFocus);
 
   if (value !== lastValue) {
     setLastValue(value);
@@ -603,10 +621,14 @@ export type DateTimePickerProps = OpenControlProps & {
 export function DateTimePicker({ value, onChange, isOpen, onToggle, onClose }: DateTimePickerProps) {
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const closeAndRestoreFocus = useCallback(() => {
     onClose();
     requestAnimationFrame(() => triggerRef.current?.focus());
   }, [onClose]);
+
+  usePopoverFocusTrap(panelRef, isOpen);
+  useDismissOnOutsideClick(panelRef, triggerRef, isOpen, closeAndRestoreFocus);
 
   return (
     <div
@@ -631,6 +653,7 @@ export function DateTimePicker({ value, onChange, isOpen, onToggle, onClose }: D
       </button>
       {isOpen && (
         <div
+          ref={panelRef}
           className="control-popover date-time-popover"
           id={panelId}
           role="dialog"
@@ -707,6 +730,8 @@ export function StyleDropdown({ value, onChange, isOpen, onToggle, onClose }: St
     onClose();
     requestAnimationFrame(() => triggerRef.current?.focus());
   }, [onClose]);
+  usePopoverFocusTrap(panelRef, isOpen);
+  useDismissOnOutsideClick(panelRef, triggerRef, isOpen, closeAndRestoreFocus);
   const focusOption = useCallback((target: EventTarget & HTMLButtonElement, amount: number) => {
     const buttons = [...(target.parentElement?.querySelectorAll<HTMLButtonElement>("[role=option]") ?? [])];
     const index = buttons.indexOf(target);
@@ -810,6 +835,7 @@ export function FrameworkCombobox({
 }: FrameworkComboboxProps) {
   const listboxId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const matches = useMemo(
     () => options.filter((option) => option.toLowerCase().includes(value.toLowerCase())),
@@ -819,6 +845,8 @@ export function FrameworkCombobox({
     onClose();
     requestAnimationFrame(() => inputRef.current?.focus());
   }, [onClose]);
+  usePopoverFocusTrap(panelRef, isOpen);
+  useDismissOnOutsideClick(panelRef, inputRef, isOpen, closeAndRestoreFocus);
   const choose = useCallback(
     (option: string) => {
       onChange(option);
@@ -878,6 +906,7 @@ export function FrameworkCombobox({
       </div>
       {isOpen && (
         <div
+          ref={panelRef}
           className="control-popover combobox-popover"
           id={listboxId}
           role="listbox"

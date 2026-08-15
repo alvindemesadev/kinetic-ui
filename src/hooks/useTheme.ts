@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { ThemePreference } from "../components";
 
 export type Theme = "dark" | "light";
@@ -38,14 +38,14 @@ export function useTheme() {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
-  const setPreference = (nextPreference: ThemePreference) => {
+  const setPreference = useCallback((nextPreference: ThemePreference) => {
     try {
       localStorage.setItem(storageKey, nextPreference);
     } catch {
       // The in-memory preference still works when storage is unavailable.
     }
     setPreferenceState(nextPreference);
-  };
+  }, []);
 
   return { theme, preference, setPreference };
 }

@@ -30,6 +30,31 @@ describe("reusable controls", () => {
     expect(screen.getByRole("img", { name: "Alvin de Mesa avatar" })).toHaveTextContent("KM");
   });
 
+  it("keeps Tab inside the avatar picker popover", async () => {
+    render(<AvatarPicker name="Alvin de Mesa" value="AD" onChange={vi.fn()} />);
+    await userEvent.click(screen.getByRole("button", { name: "Change Alvin de Mesa avatar" }));
+    const dialog = screen.getByRole("dialog", { name: "Change avatar" });
+    const focusable = [...dialog.querySelectorAll<HTMLElement>("button:not([disabled]), input")];
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    last.focus();
+    fireEvent.keyDown(last, { key: "Tab" });
+    expect(document.activeElement).toBe(first);
+    first.focus();
+    fireEvent.keyDown(first, { key: "Tab", shiftKey: true });
+    expect(document.activeElement).toBe(last);
+  });
+
+  it("closes the avatar picker on an outside click but not on an inside one", async () => {
+    render(<AvatarPicker name="Alvin de Mesa" value="AD" onChange={vi.fn()} />);
+    await userEvent.click(screen.getByRole("button", { name: "Change Alvin de Mesa avatar" }));
+    const dialog = screen.getByRole("dialog", { name: "Change avatar" });
+    fireEvent.pointerDown(dialog);
+    expect(screen.getByRole("dialog", { name: "Change avatar" })).toBeInTheDocument();
+    fireEvent.pointerDown(document.body);
+    expect(screen.queryByRole("dialog", { name: "Change avatar" })).not.toBeInTheDocument();
+  });
+
   it("supports image avatar zoom and rotation before saving", async () => {
     const onImageChange = vi.fn();
     render(
@@ -106,6 +131,28 @@ describe("reusable controls", () => {
     expect(screen.getByRole("button", { name: "Date picker, 02/14/2030" })).toBeVisible();
   });
 
+  it("shows the month of the value when the panel opens after an external change", async () => {
+    function Example() {
+      const [open, setOpen] = useState(false);
+      const [value, setValue] = useState("2026-12-05");
+      return (
+        <DatePicker
+          value={value}
+          onChange={setValue}
+          isOpen={open}
+          onToggle={() => setOpen((current) => !current)}
+          onClose={() => setOpen(false)}
+        />
+      );
+    }
+
+    render(<Example />);
+    // The value is December but the grid is mounted at its initial month.
+    await userEvent.click(screen.getByRole("button", { name: "Date picker, 12/05/2026" }));
+    expect(screen.getByRole("grid", { name: "December 2026" })).toBeInTheDocument();
+    expect(screen.getByRole("gridcell", { name: "2026-12-05" })).toHaveAttribute("aria-selected", "true");
+  });
+
   it("accepts typed hour and minute values", async () => {
     function Example() {
       const [value, setValue] = useState("22:22");
@@ -133,6 +180,29 @@ describe("reusable controls", () => {
 
     await userEvent.click(screen.getByRole("radio", { name: "AM" }));
     expect(screen.getByRole("button", { name: "Time picker, 11:22 AM" })).toBeVisible();
+  });
+
+  it("closes the date picker when clicking outside the popover", async () => {
+    function Example() {
+      const [open, setOpen] = useState(false);
+      return (
+        <DatePicker
+          value="2026-08-12"
+          onChange={vi.fn()}
+          isOpen={open}
+          onToggle={() => setOpen((current) => !current)}
+          onClose={() => setOpen(false)}
+        />
+      );
+    }
+
+    render(<Example />);
+    await userEvent.click(screen.getByRole("button", { name: "Date picker, 08/12/2026" }));
+    expect(screen.getByRole("dialog", { name: "Choose a date" })).toBeInTheDocument();
+    fireEvent.pointerDown(screen.getByRole("gridcell", { name: "2026-08-12" }));
+    expect(screen.getByRole("dialog", { name: "Choose a date" })).toBeInTheDocument();
+    fireEvent.pointerDown(document.body);
+    expect(screen.queryByRole("dialog", { name: "Choose a date" })).not.toBeInTheDocument();
   });
 
   it("combines date and time in one picker surface", async () => {
