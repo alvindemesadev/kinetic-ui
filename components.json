@@ -23,7 +23,7 @@
   "menuAccent": "subtle",
   "registries": {
     "kinetic": {
-      "url": "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@main/public/r/{name}.json"
+      "url": "https://cdn.jsdelivr.net/gh/alvindemesadev/kinetic-ui@v1.0.0/public/r/{name}.json"
     }
   }
 }
