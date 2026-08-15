@@ -1,6 +1,13 @@
+/**
+ * Generates the component documentation pages in docs/components from the ui registry.
+ *
+ * Usage: node scripts/generate-component-docs.mjs [--check]
+ *   --check  verify every generated page matches disk without writing; exits 1 on drift.
+ */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, resolve } from "node:path";
+import { format as formatWithPrettier, resolveConfig as resolvePrettierConfig } from "prettier";
 
 const root = resolve(import.meta.dirname, "..");
 const registrySource = readFileSync(join(root, "src/components/ui/registry.ts"), "utf8");
@@ -26,7 +33,8 @@ const categoryFor = (name) => {
   return "content";
 };
 
-mkdirSync(outputDirectory, { recursive: true });
+// Generate every page in memory so `--check` can compare against disk without writing.
+const contents = new Map();
 
 for (const name of names) {
   const slug = slugify(name);
@@ -74,10 +82,39 @@ Document any loading, disabled, error, and success state added by the consuming 
 - Source: [\`${source}\`](../../${source})
 - Dependencies: React and Kinetic UI tokens (plus imports listed by the source file)
 `;
-  writeFileSync(join(outputDirectory, `${slug}.md`), content);
+  contents.set(join(outputDirectory, `${slug}.md`), content);
 }
 
-const prettier = join(root, "node_modules/prettier/bin/prettier.cjs");
-execFileSync(process.execPath, [prettier, "--write", "docs/components"], { cwd: root, stdio: "ignore" });
+// Generated pages are committed through prettier, so format the in-memory copies the same way.
+const prettierOptions = (await resolvePrettierConfig(join(outputDirectory, "placeholder.md"))) ?? {};
+for (const [path, content] of [...contents]) {
+  contents.set(path, await formatWithPrettier(content, { ...prettierOptions, parser: "markdown" }));
+}
 
-console.log(`Generated ${names.length} component documentation pages.`);
+const checkOnly = process.argv.includes("--check");
+
+if (checkOnly) {
+  const drifted = [];
+  for (const [path, expected] of contents) {
+    let actual;
+    try {
+      actual = readFileSync(path, "utf8").replace(/\r\n/g, "\n");
+    } catch {
+      actual = null;
+    }
+    if (actual !== expected) drifted.push(path.replace(root, "."));
+  }
+  if (drifted.length > 0) {
+    console.error(`[docs] Drift detected in ${drifted.length} generated file(s):`);
+    for (const file of drifted) console.error(`  - ${file}`);
+    console.error('Run "npm run docs:components" and commit the regenerated files.');
+    process.exit(1);
+  }
+  console.log(`[docs] Generated component docs are up to date (${names.length} pages).`);
+} else {
+  mkdirSync(outputDirectory, { recursive: true });
+  for (const [path, content] of contents) writeFileSync(path, content);
+  const prettier = join(root, "node_modules/prettier/bin/prettier.cjs");
+  execFileSync(process.execPath, [prettier, "--write", "docs/components"], { cwd: root, stdio: "ignore" });
+  console.log(`Generated ${names.length} component documentation pages.`);
+}
