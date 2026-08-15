@@ -41,17 +41,19 @@ The `registry-install` job in `.github/workflows/quality.yml` **proves the pin i
 every push and pull request**. It scaffolds a throwaway Vite app, wires the shadcn config
 with the `@kinetic` registry URL **extracted from the `REGISTRY_URL` constant** (so the job
 can never drift from the pin), runs
-`npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox`, asserts that the
-components _and_ the Kinetic skin bundle landed, and typechecks + builds the app with the
-skin compiled in. `combobox` resolves a **multi-hop dependency chain** from the pinned
-registry — it declares `@kinetic/input-group` and `@kinetic/button`, and `input-group` in
-turn declares `@kinetic/input` and `@kinetic/textarea`, all sharing the `@kinetic/kinetic`
-skin — so the job proves transitive resolution across registry items, not just a direct
-skin dependency. The skin assertion is what distinguishes this registry from the unrelated
-community `@kinetic` registry — a bare upstream component would pass the add but fail the
-skin check. The CLI is pinned to `4.17.0` (the version this repo is verified against):
-newer `shadcn@latest` versions resolve a base `colors/neutral` item for multi-item adds
-that custom registries don't serve, which would false-fail the job.
+`npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar`,
+asserts that the components, the `use-mobile` hook file, _and_ the Kinetic skin bundle
+landed, and typechecks + builds the app with the skin compiled in. The chain exercises
+**transitive resolution across registry items**: `combobox` declares `@kinetic/input-group`
+and `@kinetic/button` (and `input-group` in turn declares `input`/`textarea`), and
+`sidebar` is the deepest case — 6 component deps (`button`, `input`, `separator`, `sheet`,
+`skeleton`, `tooltip`) plus the `src/hooks/use-mobile.ts` hook file, all sharing the
+`@kinetic/kinetic` skin. So the job proves multi-hop resolution and `registry:file` hook
+install, not just a direct skin dependency. The skin assertion is what distinguishes this
+registry from the unrelated community `@kinetic` registry — a bare upstream component would
+pass the add but fail theskin check. The CLI is pinned to `4.17.0` — the version this repo's registry is verified
+against — so the job stays deterministic as the CLI evolves (the same command is also
+verified to work on `shadcn@latest`).
 
 This enforces the release flow: **bump `REGISTRY_URL` → tag and publish → the next CI run
 proves the new pin installs end-to-end**. The job fails fast if the constant is bumped to a
@@ -120,14 +122,13 @@ register `@kinetic=http://localhost:8199/r/{name}.json`.
   a directory containing protected junctions (e.g. `C:\Users\<user>` or `%TEMP%`). Run
   consumer projects from a clean path (e.g. `C:\regtest\...`) or run `shadcn init` on a
   non-Windows machine and copy the generated `components.json` + `lib/utils` over.
-- **Newer `shadcn@latest` CLIs fail multi-item adds to custom registries** (a CLI bug, not a
-  config problem). Versions after ~4.17.0 resolve a base `colors/neutral` item for multi-item
-  adds by appending `/colors/neutral.json` to the registry URL template, which custom
-  registries don't serve — the error mentions `.../r/{name}.json/colors/neutral.json` and
-  suggests trying a previous version. Single-item adds work fine on every version. If you hit
-  it, add components one at a time (`npx shadcn add @kinetic/button`, then `@kinetic/card`),
-  or pin the CLI to `4.17.0` — the version this repo is verified against and the one the CI
-  install-check job uses.
+- **`REGISTRY_URL` env var hijacks the CLI's registry base**: the shadcn CLI reads
+  `process.env.REGISTRY_URL` as the base URL for registry base items (styles, colors). If you
+  export it — e.g. the pinned `@kinetic` URL in a shell or CI step — the CLI resolves base
+  items like `colors/neutral.json` against it and fails with
+  `.../public/r/{name}.json/colors/neutral.json was not found`. Unset it (`unset REGISTRY_URL`)
+  before running shadcn commands; the registry configured in `components.json` is what
+  matters.
 - The registry covers `src/components/ui/*` (the shadcn-style primitives). The custom
   Skeuomorphic pickers (`AvatarPicker`, `DatePicker`, …) remain in the published npm library
   (`src/library.ts`) rather than the registry.

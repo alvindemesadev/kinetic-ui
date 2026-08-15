@@ -157,31 +157,73 @@ jobs:
           import { Button } from "@/components/ui/button";
           import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
           import { Combobox, ComboboxContent, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
+          import {
+            Sidebar,
+            SidebarContent,
+            SidebarGroup,
+            SidebarGroupContent,
+            SidebarGroupLabel,
+            SidebarHeader,
+            SidebarInset,
+            SidebarMenu,
+            SidebarMenuButton,
+            SidebarMenuItem,
+            SidebarProvider,
+          } from "@/components/ui/sidebar";
           const frameworks = ["React", "Vue", "Svelte"].map((label) => ({ label, value: label }));
           export default function App() {
             return (
               <div className="ui-kit dark">
-                <Card className="max-w-sm">
-                  <CardHeader>
-                    <CardTitle>Kinetic UI</CardTitle>
-                    <CardDescription>Installed from the pinned registry</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex flex-col gap-4">
-                    <Button>Kinetic Button</Button>
-                    <Combobox items={frameworks}>
-                      <ComboboxInput />
-                      <ComboboxContent>
-                        <ComboboxList>
-                          {frameworks.map((f) => (
-                            <ComboboxItem key={f.value} value={f.value}>
-                              {f.label}
-                            </ComboboxItem>
-                          ))}
-                        </ComboboxList>
-                      </ComboboxContent>
-                    </Combobox>
-                  </CardContent>
-                </Card>
+                <SidebarProvider>
+                  <Sidebar>
+                    <SidebarHeader>
+                      <SidebarMenu>
+                        <SidebarMenuItem>
+                          <SidebarMenuButton asChild>
+                            <a href="#">Home</a>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </SidebarMenu>
+                    </SidebarHeader>
+                    <SidebarContent>
+                      <SidebarGroup>
+                        <SidebarGroupLabel>Frameworks</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                          <SidebarMenu>
+                            <SidebarMenuItem>
+                              <SidebarMenuButton asChild>
+                                <a href="#">React</a>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          </SidebarMenu>
+                        </SidebarGroupContent>
+                      </SidebarGroup>
+                    </SidebarContent>
+                  </Sidebar>
+                  <SidebarInset className="flex-1 p-4">
+                    <Card className="max-w-sm">
+                      <CardHeader>
+                        <CardTitle>Kinetic UI</CardTitle>
+                        <CardDescription>Installed from the pinned registry</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex flex-col gap-4">
+                        <Button>Kinetic Button</Button>
+                        <Combobox items={frameworks}>
+                          <ComboboxInput />
+                          <ComboboxContent>
+                            <ComboboxList>
+                              {frameworks.map((f) => (
+                                <ComboboxItem key={f.value} value={f.value}>
+                                  {f.label}
+                                </ComboboxItem>
+                              ))}
+                            </ComboboxList>
+                          </ComboboxContent>
+                        </Combobox>
+                      </CardContent>
+                    </Card>
+                  </SidebarInset>
+                </SidebarProvider>
               </div>
             );
           }
@@ -190,24 +232,24 @@ jobs:
       # combobox declares @kinetic/input-group + @kinetic/button, and input-group
       # declares input/textarea, so the CLI must resolve a multi-hop chain from the
       # same pinned registry (combobox -> input-group -> input/textarea -> kinetic).
-      # Pinned to 4.17.0 (the version this repo is built and verified against): newer
-      # shadcn@latest versions resolve a base colors/neutral item for multi-item adds,
-      # which custom registries don't serve, so @latest would false-fail this job.
-      - name: Install @kinetic/button, card, and combobox from the pinned registry
+      # sidebar is the deepest case: 6 component deps (button, input, separator,
+      # sheet, skeleton, tooltip) plus the src/hooks/use-mobile.ts hook file.
+      # Pinned to 4.17.0 (the version this repo's registry is verified against) so the
+      # job behaves deterministically as the CLI evolves; also verified on shadcn@latest.
+      - name: Install @kinetic/button, card, combobox, and sidebar from the pinned registry
         run: |
           cd kinetic-install-check
-          # Retry once: the many item fetches can hit a transient jsDelivr error that
-          # clears on the next run.
-          npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox --yes || {
+          # Retry once to ride out genuine transient network errors on the many item fetches.
+          npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes || {
             echo "install failed (likely a transient jsDelivr/CLI hiccup) — retrying once"
-            rm -rf src/components src/styles
-            npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox --yes
+            rm -rf src/components src/styles src/hooks
+            npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes
           }
 
       - name: Assert the component and the skin bundle were installed
         run: |
           cd kinetic-install-check
-          for f in src/components/ui/button.tsx src/components/ui/card.tsx src/components/ui/combobox.tsx src/components/ui/input-group.tsx src/components/ui/input.tsx src/components/ui/textarea.tsx src/styles/kinetic/kinetic.css src/styles/kinetic/tokens.css src/styles/kinetic/base.css src/styles/kinetic/tactile-controls.css src/styles/kinetic/ui-primitives.css src/styles/kinetic/portals-overlays.css; do
+          for f in src/components/ui/button.tsx src/components/ui/card.tsx src/components/ui/combobox.tsx src/components/ui/input-group.tsx src/components/ui/input.tsx src/components/ui/textarea.tsx src/components/ui/sidebar.tsx src/components/ui/separator.tsx src/components/ui/sheet.tsx src/components/ui/skeleton.tsx src/components/ui/tooltip.tsx src/hooks/use-mobile.ts src/styles/kinetic/kinetic.css src/styles/kinetic/tokens.css src/styles/kinetic/base.css src/styles/kinetic/tactile-controls.css src/styles/kinetic/ui-primitives.css src/styles/kinetic/portals-overlays.css; do
             test -f "$f" && echo "ok: $f" || { echo "MISSING: $f"; exit 1; }
           done
 
