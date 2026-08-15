@@ -493,6 +493,38 @@ jobs:
           npm run build
           grep -l "ui-kit" dist/assets/*.css >/dev/null || { echo "skin missing from CSS bundle"; exit 1; }
 
+  # Negative test: with REGISTRY_URL deliberately set, registry:verify must fail
+  # AND the failure must come from the check-shadcn-env.mjs guard (not a missing
+  # dependency or an unrelated error). Keeps the guard honest against regressions.
+  registry-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: registry:verify must fail closed when REGISTRY_URL is set
+        env:
+          REGISTRY_URL: https://example.invalid/r/{name}.json
+        run: |
+          set +e
+          OUTPUT=$(npm run registry:verify 2>&1)
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ]; then
+            echo "expected the REGISTRY_URL guard to fail, but registry:verify succeeded"
+            exit 1
+          fi
+          if ! echo "$OUTPUT" | grep -q "\[shadcn-env\] REGISTRY_URL is set"; then
+            echo "registry:verify failed, but not because of the REGISTRY_URL guard:"
+            echo "$OUTPUT"
+            exit 1
+          fi
+          echo "guard failed closed as expected"
+
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 20
