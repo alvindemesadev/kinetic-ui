@@ -101,8 +101,12 @@ npx shadcn registry add @kinetic=https://cdn.jsdelivr.net/gh/alvindemesadev/kine
 npx shadcn add @kinetic/button @kinetic/card @kinetic/sidebar
 ```
 
-For local testing against a built registry: run `node scripts/serve-registry.mjs` and
-register `@kinetic=http://localhost:8199/r/{name}.json`.
+For local testing against a built registry: make sure `REGISTRY_URL` is unset first — the
+shadcn CLI reads it as its base registry URL override and would resolve base items
+(`colors/neutral.json`, styles, …) against it instead of the local server, producing
+confusing `.../r/{name}.json/colors/neutral.json was not found` errors. Then run
+`node scripts/serve-registry.mjs` (it warns at startup if `REGISTRY_URL` is set) and register
+`@kinetic=http://localhost:8199/r/{name}.json`.
 
 ## Registry format notes (verified against shadcn CLI v4)
 

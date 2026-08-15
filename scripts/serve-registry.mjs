@@ -3,6 +3,11 @@
  * `shadcn registry add @kinetic=http://localhost:8199/r/{name}.json`.
  *
  * Usage: node scripts/serve-registry.mjs [port]
+ *
+ * The shadcn CLI reads `process.env.REGISTRY_URL` as its base registry URL
+ * override, so before testing with the CLI make sure it is unset:
+ *   unset REGISTRY_URL
+ * (scripts/check-shadcn-env.mjs fails loudly if it is set.)
  */
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
@@ -10,6 +15,15 @@ import { join, normalize, resolve } from "node:path";
 
 const port = Number(process.argv[2] ?? 8199);
 const root = resolve(import.meta.dirname, "../public");
+
+if (process.env.REGISTRY_URL) {
+  console.warn(
+    `[serve-registry] REGISTRY_URL is set to: ${process.env.REGISTRY_URL}\n` +
+      "[serve-registry] The shadcn CLI uses this variable as its base registry URL override and would\n" +
+      "[serve-registry] resolve base items (colors/neutral.json, styles, ...) against it instead of this server.\n" +
+      "[serve-registry] Unset it before running shadcn commands:  unset REGISTRY_URL",
+  );
+}
 
 const contentTypes = {
   ".json": "application/json",
