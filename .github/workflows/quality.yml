@@ -38,6 +38,151 @@ jobs:
       - run: npm run registry:build && npm run registry:verify
       - run: npm run registry:check
 
+  # End-to-end installability check: a throwaway Vite app installs @kinetic/button
+  # from the pinned registry tag (the REGISTRY_URL constant is the source of truth,
+  # so this job can never drift from the pin — and it fails fast if a release tag is
+  # bumped in the constant before the release is actually published).
+  registry-install:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Extract the pinned registry URL
+        id: registry-url
+        run: |
+          REGISTRY_URL=$(node -e "const s=require('fs').readFileSync('scripts/generate-registry.mjs','utf8');const m=s.match(/REGISTRY_URL = \"([^\"]+)\"/);if(!m){console.error('REGISTRY_URL not found');process.exit(1)}console.log(m[1])")
+          echo "pinned: $REGISTRY_URL"
+          echo "url=$REGISTRY_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Scaffold a throwaway Vite app
+        run: |
+          npm create vite@latest kinetic-install-check -- --template react-ts
+          cd kinetic-install-check
+          npm install
+          npm install -D tailwindcss @tailwindcss/vite
+          npm install clsx tailwind-merge
+
+      - name: Wire the shadcn config (aliases, Tailwind, cn helper, registry)
+        env:
+          REGISTRY_URL: ${{ steps.registry-url.outputs.url }}
+        run: |
+          cd kinetic-install-check
+          # paths resolve relative to the config file; no baseUrl (deprecated in TS 6)
+          cat > tsconfig.json <<EOF
+          {
+            "compilerOptions": {
+              "paths": { "@/*": ["./src/*"] }
+            },
+            "files": [],
+            "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+          }
+          EOF
+          cat > tsconfig.app.json <<EOF
+          {
+            "compilerOptions": {
+              "target": "ES2022",
+              "useDefineForClassFields": true,
+              "lib": ["ES2022", "DOM", "DOM.Iterable"],
+              "allowJs": false,
+              "skipLibCheck": true,
+              "esModuleInterop": true,
+              "allowSyntheticDefaultImports": true,
+              "strict": true,
+              "forceConsistentCasingInFileNames": true,
+              "module": "ESNext",
+              "moduleResolution": "Bundler",
+              "paths": { "@/*": ["./src/*"] },
+              "resolveJsonModule": true,
+              "isolatedModules": true,
+              "noEmit": true,
+              "jsx": "react-jsx"
+            },
+            "include": ["src"]
+          }
+          EOF
+          cat > vite.config.ts <<EOF
+          import path from "node:path";
+          import { defineConfig } from "vite";
+          import react from "@vitejs/plugin-react";
+          import tailwindcss from "@tailwindcss/vite";
+          export default defineConfig({
+            plugins: [react(), tailwindcss()],
+            resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+          });
+          EOF
+          cat > components.json <<EOF
+          {
+            "\$schema": "https://ui.shadcn.com/schema.json",
+            "style": "radix-nova",
+            "rsc": false,
+            "tsx": true,
+            "tailwind": { "config": "", "css": "src/index.css", "baseColor": "neutral", "cssVariables": true, "prefix": "" },
+            "iconLibrary": "lucide",
+            "rtl": false,
+            "aliases": { "components": "@/components", "utils": "@/lib/utils", "ui": "@/components/ui", "lib": "@/lib", "hooks": "@/hooks" },
+            "menuColor": "default",
+            "menuAccent": "subtle",
+            "registries": { "@kinetic": { "url": "${REGISTRY_URL}" } }
+          }
+          EOF
+          mkdir -p src/lib
+          cat > src/lib/utils.ts <<EOF
+          import { clsx, type ClassValue } from "clsx";
+          import { twMerge } from "tailwind-merge";
+          export function cn(...inputs: ClassValue[]) {
+            return twMerge(clsx(inputs));
+          }
+          EOF
+          cat > src/index.css <<EOF
+          @import "tailwindcss";
+          @import "./styles/kinetic/kinetic.css";
+          EOF
+          cat > src/main.tsx <<EOF
+          import { StrictMode } from "react";
+          import { createRoot } from "react-dom/client";
+          import "./index.css";
+          import App from "./App";
+          createRoot(document.getElementById("root")!).render(
+            <StrictMode>
+              <App />
+            </StrictMode>,
+          );
+          EOF
+          printf '/// <reference types="vite/client" />\n' > src/vite-env.d.ts
+          cat > src/App.tsx <<EOF
+          import { Button } from "@/components/ui/button";
+          export default function App() {
+            return (
+              <div className="ui-kit dark">
+                <Button>Kinetic Button</Button>
+              </div>
+            );
+          }
+          EOF
+
+      - name: Install @kinetic/button from the pinned registry
+        run: |
+          cd kinetic-install-check
+          npx shadcn@latest add @kinetic/button --yes
+
+      - name: Assert the component and the skin bundle were installed
+        run: |
+          cd kinetic-install-check
+          for f in src/components/ui/button.tsx src/styles/kinetic/kinetic.css src/styles/kinetic/tokens.css src/styles/kinetic/base.css src/styles/kinetic/tactile-controls.css src/styles/kinetic/ui-primitives.css src/styles/kinetic/portals-overlays.css; do
+            test -f "$f" && echo "ok: $f" || { echo "MISSING: $f"; exit 1; }
+          done
+
+      - name: Typecheck and build the app with the installed button
+        run: |
+          cd kinetic-install-check
+          npx tsc -b
+          npm run build
+          grep -l "ui-kit" dist/assets/*.css >/dev/null || { echo "skin missing from CSS bundle"; exit 1; }
+
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 20
