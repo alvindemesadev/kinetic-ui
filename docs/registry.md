@@ -40,15 +40,18 @@ installs. On each release: tag it (`v1.2.0`, …), update `REGISTRY_URL` to the 
 The `registry-install` job in `.github/workflows/quality.yml` **proves the pin installs on
 every push and pull request**. It scaffolds a throwaway Vite app, wires the shadcn config
 with the `@kinetic` registry URL **extracted from the `REGISTRY_URL` constant** (so the job
-can never drift from the pin), runs `npx shadcn@4.17.0 add @kinetic/button @kinetic/card`,
-asserts that the components _and_ the Kinetic skin bundle landed, and typechecks + builds
-the app with the skin compiled in. `card` declares `@kinetic/kinetic` in its
-`registryDependencies`, so the job also proves the skin chain resolves **transitively** from
-the pinned registry, not from some other source. The skin assertion is what distinguishes
-this registry from the unrelated community `@kinetic` registry — a bare upstream component
-would pass the add but fail the skin check. The CLI is pinned to `4.17.0` (the version this
-repo is verified against): newer `shadcn@latest` versions resolve a base `colors/neutral`
-item for multi-item adds that custom registries don't serve, which would false-fail the job.
+can never drift from the pin), runs
+`npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox`, asserts that the
+components _and_ the Kinetic skin bundle landed, and typechecks + builds the app with the
+skin compiled in. `combobox` resolves a **multi-hop dependency chain** from the pinned
+registry — it declares `@kinetic/input-group` and `@kinetic/button`, and `input-group` in
+turn declares `@kinetic/input` and `@kinetic/textarea`, all sharing the `@kinetic/kinetic`
+skin — so the job proves transitive resolution across registry items, not just a direct
+skin dependency. The skin assertion is what distinguishes this registry from the unrelated
+community `@kinetic` registry — a bare upstream component would pass the add but fail the
+skin check. The CLI is pinned to `4.17.0` (the version this repo is verified against):
+newer `shadcn@latest` versions resolve a base `colors/neutral` item for multi-item adds
+that custom registries don't serve, which would false-fail the job.
 
 This enforces the release flow: **bump `REGISTRY_URL` → tag and publish → the next CI run
 proves the new pin installs end-to-end**. The job fails fast if the constant is bumped to a
