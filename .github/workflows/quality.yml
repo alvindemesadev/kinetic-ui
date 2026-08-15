@@ -35,6 +35,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # REGISTRY_URL would override the shadcn CLI's base registry URL; fail loudly
+      # rather than let it produce confusing item-not-found errors.
+      - run: node scripts/check-shadcn-env.mjs
       - run: npm run registry:build && npm run registry:verify
       - run: npm run registry:check
 
@@ -236,6 +239,9 @@ jobs:
       # sheet, skeleton, tooltip) plus the src/hooks/use-mobile.ts hook file.
       # Pinned to 4.17.0 (the version this repo's registry is verified against) so the
       # job behaves deterministically as the CLI evolves; also verified on shadcn@latest.
+      - name: Guard against a REGISTRY_URL env override of the shadcn CLI
+        run: node scripts/check-shadcn-env.mjs
+
       - name: Install @kinetic/button, card, combobox, and sidebar from the pinned registry
         run: |
           cd kinetic-install-check

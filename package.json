@@ -14,7 +14,7 @@
     "verify:docs": "npm run docs:check && node scripts/verify-component-docs.mjs",
     "registry:build": "node scripts/generate-registry.mjs",
     "registry:check": "node scripts/generate-registry.mjs --check",
-    "registry:verify": "node scripts/generate-registry.mjs && npx shadcn registry validate ./registry.json",
+    "registry:verify": "node scripts/generate-registry.mjs && node scripts/check-shadcn-env.mjs && npx shadcn registry validate ./registry.json",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
