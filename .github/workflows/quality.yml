@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    # Weekly determinism re-check for the pinned CLI leg of registry-install.
+    - cron: "0 4 * * 1"
 
 concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
@@ -45,9 +48,20 @@ jobs:
   # from the pinned registry tag (the REGISTRY_URL constant is the source of truth,
   # so this job can never drift from the pin — and it fails fast if a release tag is
   # bumped in the constant before the release is actually published).
+  # The matrix runs two legs from one definition: every push/PR tracks shadcn@latest
+  # (consumer reality), and the pinned 4.17.0 leg (the version this repo's registry
+  # is verified against) runs on the weekly schedule so it can't silently drift out
+  # of installability.
   registry-install:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      matrix:
+        include:
+          - cli: latest
+          - cli: "4.17.0"
+            pinned: true
+    if: matrix.pinned != true || github.event_name == 'schedule'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -246,10 +260,10 @@ jobs:
         run: |
           cd kinetic-install-check
           # Retry once to ride out genuine transient network errors on the many item fetches.
-          npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes || {
+          npx shadcn@${{ matrix.cli }} add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes || {
             echo "install failed (likely a transient jsDelivr/CLI hiccup) — retrying once"
             rm -rf src/components src/styles src/hooks
-            npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes
+            npx shadcn@${{ matrix.cli }} add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes
           }
 
       - name: Assert the component and the skin bundle were installed

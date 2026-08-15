@@ -51,9 +51,10 @@ and `@kinetic/button` (and `input-group` in turn declares `input`/`textarea`), a
 `@kinetic/kinetic` skin. So the job proves multi-hop resolution and `registry:file` hook
 install, not just a direct skin dependency. The skin assertion is what distinguishes this
 registry from the unrelated community `@kinetic` registry — a bare upstream component would
-pass the add but fail theskin check. The CLI is pinned to `4.17.0` — the version this repo's registry is verified
-against — so the job stays deterministic as the CLI evolves (the same command is also
-verified to work on `shadcn@latest`).
+pass the add but fail theskin check. The job's install step tracks `shadcn@latest` on every push and PR (consumer
+reality), and a **weekly scheduled leg** re-runs the same command pinned to `4.17.0` — the
+version this repo's registry is verified against — so neither the latest CLI drifting
+ahead nor the pinned version silently breaking can go unnoticed.
 
 This enforces the release flow: **bump `REGISTRY_URL` → tag and publish → the next CI run
 proves the new pin installs end-to-end**. The job fails fast if the constant is bumped to a
