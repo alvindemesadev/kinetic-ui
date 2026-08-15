@@ -37,6 +37,20 @@ immutable registry — `main` can keep evolving without silently changing what `
 installs. On each release: tag it (`v1.2.0`, …), update `REGISTRY_URL` to the new tag, run
 `npm run registry:build`, and commit the regenerated files.
 
+The `registry-install` job in `.github/workflows/quality.yml` **proves the pin installs on
+every push and pull request**. It scaffolds a throwaway Vite app, wires the shadcn config
+with the `@kinetic` registry URL **extracted from the `REGISTRY_URL` constant** (so the job
+can never drift from the pin), runs `npx shadcn add @kinetic/button`, asserts that the
+component _and_ the Kinetic skin bundle landed, and typechecks + builds the app with the
+skin compiled in. The skin assertion is what distinguishes this registry from the unrelated
+community `@kinetic` registry — a bare upstream button would pass the add but fail the
+skin check.
+
+This enforces the release flow: **bump `REGISTRY_URL` → tag and publish → the next CI run
+proves the new pin installs end-to-end**. The job fails fast if the constant is bumped to a
+tag that doesn't exist yet, which is the correct failure mode — an unpublished pin is a
+broken registry until the release ships.
+
 ## How the CSS travels (decision)
 
 Kinetic components are styled by bespoke CSS files that live outside the component sources
