@@ -4,12 +4,8 @@
   "type": "registry:ui",
   "title": "Input",
   "description": "Input — forms primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "forms"
   },

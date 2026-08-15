@@ -4,13 +4,8 @@
   "type": "registry:ui",
   "title": "Switch",
   "description": "Switch — forms primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["radix-ui", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "forms"
   },

@@ -4,11 +4,7 @@
   "type": "registry:file",
   "title": "Kinetic UI styles",
   "description": "Skeuomorphic material skin: design tokens, base styles, and data-slot skins for the Kinetic UI registry. Wrap your app in an element with class `ui-kit` (plus `dark`/`light`) and import `@/styles/kinetic/kinetic.css` in your global stylesheet.",
-  "dependencies": [
-    "@fontsource/geist",
-    "@fontsource/geist-mono",
-    "@fontsource/dotgothic16"
-  ],
+  "dependencies": ["@fontsource/geist", "@fontsource/geist-mono", "@fontsource/dotgothic16"],
   "registryDependencies": [],
   "files": [
     {

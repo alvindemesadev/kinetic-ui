@@ -4,12 +4,8 @@
   "type": "registry:ui",
   "title": "Aspect Ratio",
   "description": "Aspect Ratio — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["radix-ui"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

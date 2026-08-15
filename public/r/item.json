@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Item",
   "description": "Item — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/separator",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui", "react"],
+  "registryDependencies": ["@kinetic/separator", "@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

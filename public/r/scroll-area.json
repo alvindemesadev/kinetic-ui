@@ -4,13 +4,8 @@
   "type": "registry:ui",
   "title": "Scroll Area",
   "description": "Scroll Area — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["radix-ui", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

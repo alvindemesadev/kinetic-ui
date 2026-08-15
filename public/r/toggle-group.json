@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Toggle Group",
   "description": "Toggle Group — actions primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/toggle",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui", "react"],
+  "registryDependencies": ["@kinetic/toggle", "@kinetic/kinetic"],
   "meta": {
     "category": "actions"
   },

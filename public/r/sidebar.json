@@ -4,12 +4,7 @@
   "type": "registry:ui",
   "title": "Sidebar",
   "description": "Sidebar — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "lucide-react",
-    "radix-ui",
-    "react"
-  ],
+  "dependencies": ["class-variance-authority", "lucide-react", "radix-ui", "react"],
   "registryDependencies": [
     "@kinetic/button",
     "@kinetic/input",

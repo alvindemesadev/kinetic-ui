@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Carousel",
   "description": "Carousel — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "embla-carousel-react",
-    "lucide-react",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["embla-carousel-react", "lucide-react", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

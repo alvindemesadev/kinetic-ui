@@ -4,14 +4,8 @@
   "type": "registry:ui",
   "title": "Pagination",
   "description": "Pagination — navigation primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "lucide-react",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["lucide-react", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
   "meta": {
     "category": "navigation"
   },

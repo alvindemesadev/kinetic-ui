@@ -4,16 +4,8 @@
   "type": "registry:ui",
   "title": "Input Group",
   "description": "Input Group — forms primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/input",
-    "@kinetic/textarea",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/input", "@kinetic/textarea", "@kinetic/kinetic"],
   "meta": {
     "category": "forms"
   },

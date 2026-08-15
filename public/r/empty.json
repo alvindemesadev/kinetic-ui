@@ -4,12 +4,8 @@
   "type": "registry:ui",
   "title": "Empty",
   "description": "Empty — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

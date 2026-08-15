@@ -4,12 +4,8 @@
   "type": "registry:ui",
   "title": "Message",
   "description": "Message — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

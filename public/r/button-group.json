@@ -4,14 +4,8 @@
   "type": "registry:ui",
   "title": "Button Group",
   "description": "Button Group — actions primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "@kinetic/separator",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
+  "registryDependencies": ["@kinetic/separator", "@kinetic/kinetic"],
   "meta": {
     "category": "actions"
   },

@@ -4,16 +4,8 @@
   "type": "registry:ui",
   "title": "Command",
   "description": "Command — navigation primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "cmdk",
-    "lucide-react",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/dialog",
-    "@kinetic/input-group",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["cmdk", "lucide-react", "react"],
+  "registryDependencies": ["@kinetic/dialog", "@kinetic/input-group", "@kinetic/kinetic"],
   "meta": {
     "category": "navigation"
   },

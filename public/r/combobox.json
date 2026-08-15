@@ -4,16 +4,8 @@
   "type": "registry:ui",
   "title": "Combobox",
   "description": "Combobox — forms primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "@base-ui/react",
-    "lucide-react",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/input-group",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["@base-ui/react", "lucide-react", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/input-group", "@kinetic/kinetic"],
   "meta": {
     "category": "forms"
   },

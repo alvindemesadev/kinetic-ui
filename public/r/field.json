@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Field",
   "description": "Field — forms primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/label",
-    "@kinetic/separator",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "react"],
+  "registryDependencies": ["@kinetic/label", "@kinetic/separator", "@kinetic/kinetic"],
   "meta": {
     "category": "forms"
   },

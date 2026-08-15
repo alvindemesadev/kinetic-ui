@@ -4,12 +4,8 @@
   "type": "registry:ui",
   "title": "Spinner",
   "description": "Spinner — feedback primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "feedback"
   },

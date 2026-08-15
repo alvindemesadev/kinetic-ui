@@ -4,12 +4,8 @@
   "type": "registry:ui",
   "title": "Collapsible",
   "description": "Collapsible — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["radix-ui"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

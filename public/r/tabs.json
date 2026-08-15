@@ -4,14 +4,8 @@
   "type": "registry:ui",
   "title": "Tabs",
   "description": "Tabs — navigation primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "navigation"
   },

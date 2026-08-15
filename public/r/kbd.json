@@ -5,9 +5,7 @@
   "title": "Kbd",
   "description": "Kbd — navigation primitive from the Kinetic UI registry.",
   "dependencies": [],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "navigation"
   },

@@ -4,12 +4,8 @@
   "type": "registry:ui",
   "title": "Resizable",
   "description": "Resizable — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "react-resizable-panels"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["react-resizable-panels"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

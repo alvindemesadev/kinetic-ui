@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Questionnaire",
   "description": "Questionnaire — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "@shadcn/react",
-    "lucide-react",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["@shadcn/react", "lucide-react", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

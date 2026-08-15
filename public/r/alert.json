@@ -4,13 +4,8 @@
   "type": "registry:ui",
   "title": "Alert",
   "description": "Alert — feedback primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "feedback"
   },

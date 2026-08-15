@@ -4,17 +4,8 @@
   "type": "registry:ui",
   "title": "Date Picker",
   "description": "Date Picker — forms primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "date-fns",
-    "lucide-react",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/calendar",
-    "@kinetic/popover",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["date-fns", "lucide-react", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/calendar", "@kinetic/popover", "@kinetic/kinetic"],
   "meta": {
     "category": "forms"
   },

@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Dialog",
   "description": "Dialog — overlays primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "lucide-react",
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["lucide-react", "radix-ui", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
   "meta": {
     "category": "overlays"
   },

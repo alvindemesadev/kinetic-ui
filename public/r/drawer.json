@@ -4,13 +4,8 @@
   "type": "registry:ui",
   "title": "Drawer",
   "description": "Drawer — overlays primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "react",
-    "vaul"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["react", "vaul"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "overlays"
   },

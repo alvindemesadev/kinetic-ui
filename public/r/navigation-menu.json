@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Navigation Menu",
   "description": "Navigation Menu — navigation primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "lucide-react",
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "lucide-react", "radix-ui", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "navigation"
   },

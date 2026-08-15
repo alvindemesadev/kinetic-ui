@@ -4,14 +4,8 @@
   "type": "registry:ui",
   "title": "Input OTP",
   "description": "Input OTP — forms primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "input-otp",
-    "lucide-react",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["input-otp", "lucide-react", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "forms"
   },

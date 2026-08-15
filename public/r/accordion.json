@@ -4,14 +4,8 @@
   "type": "registry:ui",
   "title": "Accordion",
   "description": "Accordion — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "lucide-react",
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["lucide-react", "radix-ui", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

@@ -4,13 +4,8 @@
   "type": "registry:ui",
   "title": "Tooltip",
   "description": "Tooltip — feedback primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["radix-ui", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "feedback"
   },

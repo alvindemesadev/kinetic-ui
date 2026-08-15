@@ -4,16 +4,8 @@
   "type": "registry:ui",
   "title": "Data Table",
   "description": "Data Table — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "@tanstack/react-table",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/input",
-    "@kinetic/table",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["@tanstack/react-table", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/input", "@kinetic/table", "@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

@@ -22,6 +22,7 @@
  */
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { format as formatJson, resolveConfig as resolvePrettierConfig } from "prettier";
 
 const root = resolve(import.meta.dirname, "..");
 
@@ -287,6 +288,15 @@ if (config.registries?.kinetic?.url !== REGISTRY_URL) {
     configPath,
     `${JSON.stringify({ ...config, registries: { ...config.registries, kinetic: { url: REGISTRY_URL } } }, null, 2)}\n`,
   );
+}
+
+// Format generated JSON with the repo's prettier config so the committed output matches
+// `npm run format:check` (same approach as scripts/generate-component-docs.mjs).
+const prettierOptions = (await resolvePrettierConfig(configPath)) ?? {};
+for (const [path, content] of [...writes]) {
+  if (path.endsWith(".json")) {
+    writes.set(path, await formatJson(content, { ...prettierOptions, parser: "json" }));
+  }
 }
 
 // --- Apply or verify ----------------------------------------------------------------

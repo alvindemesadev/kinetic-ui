@@ -5,9 +5,7 @@
   "title": "Skeleton",
   "description": "Skeleton — content primitive from the Kinetic UI registry.",
   "dependencies": [],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

@@ -4,13 +4,8 @@
   "type": "registry:ui",
   "title": "Chart",
   "description": "Chart — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "react",
-    "recharts"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["react", "recharts"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

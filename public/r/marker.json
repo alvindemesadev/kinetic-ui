@@ -4,14 +4,8 @@
   "type": "registry:ui",
   "title": "Marker",
   "description": "Marker — feedback primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui", "react"],
+  "registryDependencies": ["@kinetic/kinetic"],
   "meta": {
     "category": "feedback"
   },

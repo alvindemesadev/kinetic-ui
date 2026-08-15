@@ -4,15 +4,8 @@
   "type": "registry:ui",
   "title": "Calendar",
   "description": "Calendar — content primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "lucide-react",
-    "react",
-    "react-day-picker"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["lucide-react", "react", "react-day-picker"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
   "meta": {
     "category": "content"
   },

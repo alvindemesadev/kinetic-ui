@@ -8,11 +8,7 @@
       "type": "registry:file",
       "title": "Kinetic UI styles",
       "description": "Skeuomorphic material skin: design tokens, base styles, and data-slot skins for the Kinetic UI registry. Wrap your app in an element with class `ui-kit` (plus `dark`/`light`) and import `@/styles/kinetic/kinetic.css` in your global stylesheet.",
-      "dependencies": [
-        "@fontsource/geist",
-        "@fontsource/geist-mono",
-        "@fontsource/dotgothic16"
-      ],
+      "dependencies": ["@fontsource/geist", "@fontsource/geist-mono", "@fontsource/dotgothic16"],
       "registryDependencies": [],
       "files": [
         {
@@ -52,14 +48,8 @@
       "type": "registry:ui",
       "title": "Accordion",
       "description": "Accordion — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -75,13 +65,8 @@
       "type": "registry:ui",
       "title": "Alert",
       "description": "Alert — feedback primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "feedback"
       },
@@ -97,14 +82,8 @@
       "type": "registry:ui",
       "title": "Alert Dialog",
       "description": "Alert Dialog — overlays primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "overlays"
       },
@@ -120,12 +99,8 @@
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Aspect Ratio — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -141,15 +116,8 @@
       "type": "registry:ui",
       "title": "Attachment",
       "description": "Attachment — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -165,13 +133,8 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "Avatar — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -187,14 +150,8 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "Badge — feedback primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "feedback"
       },
@@ -210,14 +167,8 @@
       "type": "registry:ui",
       "title": "Breadcrumb",
       "description": "Breadcrumb — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -233,14 +184,8 @@
       "type": "registry:ui",
       "title": "Bubble",
       "description": "Bubble — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -256,14 +201,8 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Button — actions primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "actions"
       },
@@ -279,14 +218,8 @@
       "type": "registry:ui",
       "title": "Button Group",
       "description": "Button Group — actions primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui"
-      ],
-      "registryDependencies": [
-        "@kinetic/separator",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@kinetic/separator", "@kinetic/kinetic"],
       "meta": {
         "category": "actions"
       },
@@ -302,15 +235,8 @@
       "type": "registry:ui",
       "title": "Calendar",
       "description": "Calendar — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "react",
-        "react-day-picker"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "react", "react-day-picker"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -326,12 +252,8 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "Card — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -347,15 +269,8 @@
       "type": "registry:ui",
       "title": "Carousel",
       "description": "Carousel — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "embla-carousel-react",
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["embla-carousel-react", "lucide-react", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -371,13 +286,8 @@
       "type": "registry:ui",
       "title": "Chart",
       "description": "Chart — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react",
-        "recharts"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react", "recharts"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -393,14 +303,8 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Checkbox — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -416,12 +320,8 @@
       "type": "registry:ui",
       "title": "Collapsible",
       "description": "Collapsible — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -437,16 +337,8 @@
       "type": "registry:ui",
       "title": "Combobox",
       "description": "Combobox — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "@base-ui/react",
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/input-group",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["@base-ui/react", "lucide-react", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/input-group", "@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -462,16 +354,8 @@
       "type": "registry:ui",
       "title": "Command",
       "description": "Command — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "cmdk",
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/dialog",
-        "@kinetic/input-group",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["cmdk", "lucide-react", "react"],
+      "registryDependencies": ["@kinetic/dialog", "@kinetic/input-group", "@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -487,14 +371,8 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "Context Menu — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -510,16 +388,8 @@
       "type": "registry:ui",
       "title": "Data Table",
       "description": "Data Table — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "@tanstack/react-table",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/input",
-        "@kinetic/table",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["@tanstack/react-table", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/input", "@kinetic/table", "@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -535,11 +405,7 @@
       "type": "registry:ui",
       "title": "Date Picker",
       "description": "Date Picker — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "date-fns",
-        "lucide-react",
-        "react"
-      ],
+      "dependencies": ["date-fns", "lucide-react", "react"],
       "registryDependencies": [
         "@kinetic/button",
         "@kinetic/calendar",
@@ -561,15 +427,8 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "Dialog — overlays primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "overlays"
       },
@@ -585,13 +444,8 @@
       "type": "registry:ui",
       "title": "Direction",
       "description": "Direction — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -607,13 +461,8 @@
       "type": "registry:ui",
       "title": "Drawer",
       "description": "Drawer — overlays primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react",
-        "vaul"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react", "vaul"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "overlays"
       },
@@ -629,14 +478,8 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "Dropdown Menu — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -652,12 +495,8 @@
       "type": "registry:ui",
       "title": "Empty",
       "description": "Empty — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -673,15 +512,8 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Field — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/label",
-        "@kinetic/separator",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "react"],
+      "registryDependencies": ["@kinetic/label", "@kinetic/separator", "@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -697,13 +529,8 @@
       "type": "registry:ui",
       "title": "Hover Card",
       "description": "Hover Card — overlays primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "overlays"
       },
@@ -719,12 +546,8 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Input — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -740,16 +563,8 @@
       "type": "registry:ui",
       "title": "Input Group",
       "description": "Input Group — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/input",
-        "@kinetic/textarea",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/input", "@kinetic/textarea", "@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -765,14 +580,8 @@
       "type": "registry:ui",
       "title": "Input OTP",
       "description": "Input OTP — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "input-otp",
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["input-otp", "lucide-react", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -788,15 +597,8 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "Item — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/separator",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/separator", "@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -813,9 +615,7 @@
       "title": "Kbd",
       "description": "Kbd — navigation primitive from the Kinetic UI registry.",
       "dependencies": [],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -831,13 +631,8 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Label — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -853,14 +648,8 @@
       "type": "registry:ui",
       "title": "Marker",
       "description": "Marker — feedback primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "feedback"
       },
@@ -876,14 +665,8 @@
       "type": "registry:ui",
       "title": "Menubar",
       "description": "Menubar — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -899,12 +682,8 @@
       "type": "registry:ui",
       "title": "Message",
       "description": "Message — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -920,15 +699,8 @@
       "type": "registry:ui",
       "title": "Message Scroller",
       "description": "Message Scroller — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "@shadcn/react",
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["@shadcn/react", "lucide-react", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -944,13 +716,8 @@
       "type": "registry:ui",
       "title": "Native Select",
       "description": "Native Select — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -966,15 +733,8 @@
       "type": "registry:ui",
       "title": "Navigation Menu",
       "description": "Navigation Menu — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -990,14 +750,8 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Pagination — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -1013,13 +767,8 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Popover — overlays primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "overlays"
       },
@@ -1035,13 +784,8 @@
       "type": "registry:ui",
       "title": "Progress",
       "description": "Progress — feedback primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "feedback"
       },
@@ -1057,15 +801,8 @@
       "type": "registry:ui",
       "title": "Questionnaire",
       "description": "Questionnaire — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "@shadcn/react",
-        "lucide-react",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["@shadcn/react", "lucide-react", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -1081,13 +818,8 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "Radio Group — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -1103,12 +835,8 @@
       "type": "registry:ui",
       "title": "Resizable",
       "description": "Resizable — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react-resizable-panels"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react-resizable-panels"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -1124,13 +852,8 @@
       "type": "registry:ui",
       "title": "Scroll Area",
       "description": "Scroll Area — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -1146,14 +869,8 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "Select — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -1169,13 +886,8 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "Separator — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -1191,15 +903,8 @@
       "type": "registry:ui",
       "title": "Sheet",
       "description": "Sheet — overlays primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/button",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
       "meta": {
         "category": "overlays"
       },
@@ -1215,12 +920,7 @@
       "type": "registry:ui",
       "title": "Sidebar",
       "description": "Sidebar — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "lucide-react",
-        "radix-ui",
-        "react"
-      ],
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui", "react"],
       "registryDependencies": [
         "@kinetic/button",
         "@kinetic/input",
@@ -1251,9 +951,7 @@
       "title": "Skeleton",
       "description": "Skeleton — content primitive from the Kinetic UI registry.",
       "dependencies": [],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -1269,13 +967,8 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "Slider — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -1291,12 +984,8 @@
       "type": "registry:ui",
       "title": "Spinner",
       "description": "Spinner — feedback primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "feedback"
       },
@@ -1312,13 +1001,8 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Switch — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -1334,12 +1018,8 @@
       "type": "registry:ui",
       "title": "Table",
       "description": "Table — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },
@@ -1355,14 +1035,8 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "Tabs — navigation primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "navigation"
       },
@@ -1378,12 +1052,8 @@
       "type": "registry:ui",
       "title": "Textarea",
       "description": "Textarea — forms primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "forms"
       },
@@ -1399,14 +1069,8 @@
       "type": "registry:ui",
       "title": "Toast",
       "description": "Toast — feedback primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "lucide-react",
-        "react",
-        "sonner"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["lucide-react", "react", "sonner"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "feedback"
       },
@@ -1422,14 +1086,8 @@
       "type": "registry:ui",
       "title": "Toggle",
       "description": "Toggle — actions primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "actions"
       },
@@ -1445,15 +1103,8 @@
       "type": "registry:ui",
       "title": "Toggle Group",
       "description": "Toggle Group — actions primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "class-variance-authority",
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/toggle",
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["class-variance-authority", "radix-ui", "react"],
+      "registryDependencies": ["@kinetic/toggle", "@kinetic/kinetic"],
       "meta": {
         "category": "actions"
       },
@@ -1469,13 +1120,8 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "Tooltip — feedback primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "radix-ui",
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["radix-ui", "react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "feedback"
       },
@@ -1491,12 +1137,8 @@
       "type": "registry:ui",
       "title": "Typography",
       "description": "Typography — content primitive from the Kinetic UI registry.",
-      "dependencies": [
-        "react"
-      ],
-      "registryDependencies": [
-        "@kinetic/kinetic"
-      ],
+      "dependencies": ["react"],
+      "registryDependencies": ["@kinetic/kinetic"],
       "meta": {
         "category": "content"
       },

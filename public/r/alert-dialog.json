@@ -4,14 +4,8 @@
   "type": "registry:ui",
   "title": "Alert Dialog",
   "description": "Alert Dialog — overlays primitive from the Kinetic UI registry.",
-  "dependencies": [
-    "radix-ui",
-    "react"
-  ],
-  "registryDependencies": [
-    "@kinetic/button",
-    "@kinetic/kinetic"
-  ],
+  "dependencies": ["radix-ui", "react"],
+  "registryDependencies": ["@kinetic/button", "@kinetic/kinetic"],
   "meta": {
     "category": "overlays"
   },
