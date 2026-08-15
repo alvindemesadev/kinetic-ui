@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination",
+  "type": "registry:ui",
+  "title": "Pagination",
+  "description": "Pagination — navigation primitive from the Kinetic UI registry.",
+  "dependencies": [
+    "lucide-react",
+    "react"
+  ],
+  "registryDependencies": [
+    "@kinetic/button",
+    "@kinetic/kinetic"
+  ],
+  "meta": {
+    "category": "navigation"
+  },
+  "files": [
+    {
+      "path": "components/ui/pagination.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\nimport { Button } from \"@/components/ui/button\";\nimport { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from \"lucide-react\";\n\nfunction Pagination({ className, ...props }: React.ComponentProps<\"nav\">) {\n  return (\n    <nav\n      role=\"navigation\"\n      aria-label=\"pagination\"\n      data-slot=\"pagination\"\n      className={cn(\"mx-auto flex w-full justify-center\", className)}\n      {...props}\n    />\n  );\n}\n\nfunction PaginationContent({ className, ...props }: React.ComponentProps<\"ul\">) {\n  return (\n    <ul data-slot=\"pagination-content\" className={cn(\"flex items-center gap-0.5\", className)} {...props} />\n  );\n}\n\nfunction PaginationItem({ ...props }: React.ComponentProps<\"li\">) {\n  return <li data-slot=\"pagination-item\" {...props} />;\n}\n\ntype PaginationLinkProps = {\n  isActive?: boolean;\n} & Pick<React.ComponentProps<typeof Button>, \"size\"> &\n  React.ComponentProps<\"a\">;\n\nfunction PaginationLink({ className, isActive, size = \"icon\", ...props }: PaginationLinkProps) {\n  return (\n    <Button asChild variant={isActive ? \"outline\" : \"ghost\"} size={size} className={cn(className)}>\n      <a\n        aria-current={isActive ? \"page\" : undefined}\n        data-slot=\"pagination-link\"\n        data-active={isActive}\n        {...props}\n      />\n    </Button>\n  );\n}\n\nfunction PaginationPrevious({\n  className,\n  text = \"Previous\",\n  ...props\n}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {\n  return (\n    <PaginationLink\n      aria-label=\"Go to previous page\"\n      size=\"default\"\n      className={cn(\"pl-1.5!\", className)}\n      {...props}\n    >\n      <ChevronLeftIcon data-icon=\"inline-start\" />\n      <span className=\"hidden sm:block\">{text}</span>\n    </PaginationLink>\n  );\n}\n\nfunction PaginationNext({\n  className,\n  text = \"Next\",\n  ...props\n}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {\n  return (\n    <PaginationLink\n      aria-label=\"Go to next page\"\n      size=\"default\"\n      className={cn(\"pr-1.5!\", className)}\n      {...props}\n    >\n      <span className=\"hidden sm:block\">{text}</span>\n      <ChevronRightIcon data-icon=\"inline-end\" />\n    </PaginationLink>\n  );\n}\n\nfunction PaginationEllipsis({ className, ...props }: React.ComponentProps<\"span\">) {\n  return (\n    <span\n      aria-hidden\n      data-slot=\"pagination-ellipsis\"\n      className={cn(\n        \"flex size-8 items-center justify-center [&_svg:not([class*='size-'])]:size-4\",\n        className,\n      )}\n      {...props}\n    >\n      <MoreHorizontalIcon />\n      <span className=\"sr-only\">More pages</span>\n    </span>\n  );\n}\n\nexport {\n  Pagination,\n  PaginationContent,\n  PaginationEllipsis,\n  PaginationItem,\n  PaginationLink,\n  PaginationNext,\n  PaginationPrevious,\n};\n"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toast",
+  "type": "registry:ui",
+  "title": "Toast",
+  "description": "Toast — feedback primitive from the Kinetic UI registry.",
+  "dependencies": [
+    "lucide-react",
+    "react",
+    "sonner"
+  ],
+  "registryDependencies": [
+    "@kinetic/kinetic"
+  ],
+  "meta": {
+    "category": "feedback"
+  },
+  "files": [
+    {
+      "path": "components/ui/toast.tsx",
+      "type": "registry:ui",
+      "content": "import { useEffect, useState } from \"react\";\nimport { toast, Toaster as Sonner, type ToasterProps } from \"sonner\";\nimport { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from \"lucide-react\";\n\nexport { toast };\n\nconst Toaster = ({ ...props }: ToasterProps) => {\n  const [theme, setTheme] = useState<\"light\" | \"dark\">(() =>\n    document.documentElement.classList.contains(\"dark\") ? \"dark\" : \"light\",\n  );\n\n  useEffect(() => {\n    const root = document.documentElement;\n    const syncTheme = () => setTheme(root.classList.contains(\"dark\") ? \"dark\" : \"light\");\n    syncTheme();\n\n    const observer = new MutationObserver(syncTheme);\n    observer.observe(root, { attributes: true, attributeFilter: [\"class\"] });\n    return () => observer.disconnect();\n  }, []);\n\n  return (\n    <Sonner\n      theme={theme}\n      className=\"toaster group\"\n      icons={{\n        success: <CircleCheckIcon className=\"size-4\" />,\n        info: <InfoIcon className=\"size-4\" />,\n        warning: <TriangleAlertIcon className=\"size-4\" />,\n        error: <OctagonXIcon className=\"size-4\" />,\n        loading: <Loader2Icon className=\"size-4 animate-spin\" />,\n      }}\n      style={\n        {\n          \"--normal-bg\": \"var(--popover)\",\n          \"--normal-text\": \"var(--popover-foreground)\",\n          \"--normal-border\": \"var(--border)\",\n          \"--border-radius\": \"var(--radius)\",\n        } as React.CSSProperties\n      }\n      toastOptions={{\n        classNames: {\n          toast: \"cn-toast\",\n        },\n      }}\n      {...props}\n    />\n  );\n};\n\nexport { Toaster };\n"
+    }
+  ]
+}

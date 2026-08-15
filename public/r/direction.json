@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "direction",
+  "type": "registry:ui",
+  "title": "Direction",
+  "description": "Direction — content primitive from the Kinetic UI registry.",
+  "dependencies": [
+    "radix-ui",
+    "react"
+  ],
+  "registryDependencies": [
+    "@kinetic/kinetic"
+  ],
+  "meta": {
+    "category": "content"
+  },
+  "files": [
+    {
+      "path": "components/ui/direction.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Direction } from \"radix-ui\";\n\nfunction DirectionProvider({\n  dir,\n  direction,\n  children,\n}: React.ComponentProps<typeof Direction.DirectionProvider> & {\n  direction?: React.ComponentProps<typeof Direction.DirectionProvider>[\"dir\"];\n}) {\n  return <Direction.DirectionProvider dir={direction ?? dir}>{children}</Direction.DirectionProvider>;\n}\n\nconst useDirection = Direction.useDirection;\n\nexport { DirectionProvider, useDirection };\n"
+    }
+  ]
+}

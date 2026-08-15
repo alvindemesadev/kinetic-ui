@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-picker",
+  "type": "registry:ui",
+  "title": "Date Picker",
+  "description": "Date Picker — forms primitive from the Kinetic UI registry.",
+  "dependencies": [
+    "date-fns",
+    "lucide-react",
+    "react"
+  ],
+  "registryDependencies": [
+    "@kinetic/button",
+    "@kinetic/calendar",
+    "@kinetic/popover",
+    "@kinetic/kinetic"
+  ],
+  "meta": {
+    "category": "forms"
+  },
+  "files": [
+    {
+      "path": "components/ui/date-picker.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\";\nimport { format } from \"date-fns\";\nimport { CalendarIcon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/utils\";\nimport { Button } from \"@/components/ui/button\";\nimport { Calendar } from \"@/components/ui/calendar\";\nimport { Popover, PopoverContent, PopoverTrigger } from \"@/components/ui/popover\";\n\ntype DatePickerProps = {\n  value?: Date;\n  onChange?: (date: Date | undefined) => void;\n  placeholder?: string;\n  disabled?: boolean;\n  className?: string;\n};\n\nfunction DatePicker({ value, onChange, placeholder = \"Pick a date\", disabled, className }: DatePickerProps) {\n  const [open, setOpen] = React.useState(false);\n\n  return (\n    <Popover open={open} onOpenChange={setOpen}>\n      <PopoverTrigger asChild>\n        <Button\n          variant=\"outline\"\n          disabled={disabled}\n          className={cn(\n            \"w-64 justify-start text-left font-normal\",\n            !value && \"text-muted-foreground\",\n            className,\n          )}\n        >\n          <CalendarIcon className=\"size-4\" />\n          {value ? format(value, \"PPP\") : placeholder}\n        </Button>\n      </PopoverTrigger>\n      <PopoverContent className=\"w-auto p-0\" align=\"start\">\n        <Calendar\n          mode=\"single\"\n          selected={value}\n          onSelect={(date) => {\n            onChange?.(date);\n            setOpen(false);\n          }}\n          autoFocus\n        />\n      </PopoverContent>\n    </Popover>\n  );\n}\n\nexport { DatePicker, type DatePickerProps };\n"
+    }
+  ]
+}

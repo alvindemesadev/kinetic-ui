@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "type": "registry:ui",
+  "title": "Tooltip",
+  "description": "Tooltip — feedback primitive from the Kinetic UI registry.",
+  "dependencies": [
+    "radix-ui",
+    "react"
+  ],
+  "registryDependencies": [
+    "@kinetic/kinetic"
+  ],
+  "meta": {
+    "category": "feedback"
+  },
+  "files": [
+    {
+      "path": "components/ui/tooltip.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Tooltip as TooltipPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nfunction TooltipProvider({\n  delayDuration = 0,\n  ...props\n}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {\n  return <TooltipPrimitive.Provider data-slot=\"tooltip-provider\" delayDuration={delayDuration} {...props} />;\n}\n\nfunction Tooltip({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Root>) {\n  return <TooltipPrimitive.Root data-slot=\"tooltip\" {...props} />;\n}\n\nfunction TooltipTrigger({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {\n  return <TooltipPrimitive.Trigger data-slot=\"tooltip-trigger\" {...props} />;\n}\n\nfunction TooltipContent({\n  className,\n  sideOffset = 0,\n  children,\n  ...props\n}: React.ComponentProps<typeof TooltipPrimitive.Content>) {\n  return (\n    <TooltipPrimitive.Portal>\n      <TooltipPrimitive.Content\n        data-slot=\"tooltip-content\"\n        sideOffset={sideOffset}\n        className={cn(\n          \"z-50 inline-flex w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs text-background has-data-[slot=kbd]:pr-1.5 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95\",\n          className,\n        )}\n        {...props}\n      >\n        {children}\n      </TooltipPrimitive.Content>\n    </TooltipPrimitive.Portal>\n  );\n}\n\nexport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };\n"
+    }
+  ]
+}

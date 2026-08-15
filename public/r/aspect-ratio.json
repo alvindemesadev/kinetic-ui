@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "title": "Aspect Ratio",
+  "description": "Aspect Ratio — content primitive from the Kinetic UI registry.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "@kinetic/kinetic"
+  ],
+  "meta": {
+    "category": "content"
+  },
+  "files": [
+    {
+      "path": "components/ui/aspect-ratio.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\";\n\nimport { AspectRatio as AspectRatioPrimitive } from \"radix-ui\";\n\nfunction AspectRatio({ ...props }: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {\n  return <AspectRatioPrimitive.Root data-slot=\"aspect-ratio\" {...props} />;\n}\n\nexport { AspectRatio };\n"
+    }
+  ]
+}

@@ -1,0 +1,1511 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "kinetic",
+  "homepage": "https://github.com/alvindemesadev/kinetic-ui",
+  "items": [
+    {
+      "name": "kinetic",
+      "type": "registry:file",
+      "title": "Kinetic UI styles",
+      "description": "Skeuomorphic material skin: design tokens, base styles, and data-slot skins for the Kinetic UI registry. Wrap your app in an element with class `ui-kit` (plus `dark`/`light`) and import `@/styles/kinetic/kinetic.css` in your global stylesheet.",
+      "dependencies": [
+        "@fontsource/geist",
+        "@fontsource/geist-mono",
+        "@fontsource/dotgothic16"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/kinetic.css",
+          "type": "registry:file",
+          "target": "src/styles/kinetic/kinetic.css"
+        },
+        {
+          "path": "src/styles/tokens.css",
+          "type": "registry:file",
+          "target": "src/styles/kinetic/tokens.css"
+        },
+        {
+          "path": "src/styles/base.css",
+          "type": "registry:file",
+          "target": "src/styles/kinetic/base.css"
+        },
+        {
+          "path": "src/styles/components/tactile-controls.css",
+          "type": "registry:file",
+          "target": "src/styles/kinetic/tactile-controls.css"
+        },
+        {
+          "path": "src/styles/components/ui-primitives.css",
+          "type": "registry:file",
+          "target": "src/styles/kinetic/ui-primitives.css"
+        },
+        {
+          "path": "src/styles/components/portals-overlays.css",
+          "type": "registry:file",
+          "target": "src/styles/kinetic/portals-overlays.css"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Accordion — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Alert — feedback primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "feedback"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Alert Dialog — overlays primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "overlays"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Aspect Ratio — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Attachment — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/attachment.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Avatar — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Badge — feedback primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "feedback"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Breadcrumb — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Bubble — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/bubble.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Button — actions primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "actions"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Button Group — actions primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@kinetic/separator",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "actions"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Calendar — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "react",
+        "react-day-picker"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Card — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Carousel — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "embla-carousel-react",
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Chart — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react",
+        "recharts"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Checkbox — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Collapsible — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Combobox — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/input-group",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "cmdk",
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/dialog",
+        "@kinetic/input-group",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Context Menu — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "Data Table — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "@tanstack/react-table",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/input",
+        "@kinetic/table",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/data-table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "Date Picker — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "date-fns",
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/calendar",
+        "@kinetic/popover",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/date-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Dialog — overlays primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "overlays"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Direction — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/direction.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Drawer — overlays primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react",
+        "vaul"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "overlays"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Dropdown Menu — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Empty — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Field — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/label",
+        "@kinetic/separator",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Hover Card — overlays primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "overlays"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Input — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Input Group — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/input",
+        "@kinetic/textarea",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Input OTP — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "input-otp",
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Item — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/separator",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/item.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Kbd — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Label — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Marker — feedback primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "feedback"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/marker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Menubar — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Message — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/message.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Message Scroller — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "@shadcn/react",
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/message-scroller.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Native Select — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "Navigation Menu — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Popover — overlays primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "overlays"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Progress — feedback primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "feedback"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "Questionnaire — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "@shadcn/react",
+        "lucide-react",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/questionnaire.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Radio Group — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Resizable — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react-resizable-panels"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/resizable.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Scroll Area — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Select — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Separator — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Sheet — overlays primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "overlays"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Sidebar — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/button",
+        "@kinetic/input",
+        "@kinetic/separator",
+        "@kinetic/sheet",
+        "@kinetic/skeleton",
+        "@kinetic/tooltip",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/hooks/use-mobile.ts",
+          "type": "registry:file",
+          "target": "src/hooks/use-mobile.ts"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Skeleton — content primitive from the Kinetic UI registry.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Slider — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Spinner — feedback primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "feedback"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Switch — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Table — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabs — navigation primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "navigation"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Textarea — forms primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "forms"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Toast — feedback primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "lucide-react",
+        "react",
+        "sonner"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "feedback"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/toast.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Toggle — actions primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "actions"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Toggle Group — actions primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/toggle",
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "actions"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Tooltip — feedback primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "radix-ui",
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "feedback"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "Typography — content primitive from the Kinetic UI registry.",
+      "dependencies": [
+        "react"
+      ],
+      "registryDependencies": [
+        "@kinetic/kinetic"
+      ],
+      "meta": {
+        "category": "content"
+      },
+      "files": [
+        {
+          "path": "src/components/ui/typography.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

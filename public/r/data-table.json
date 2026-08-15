@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table",
+  "type": "registry:ui",
+  "title": "Data Table",
+  "description": "Data Table — content primitive from the Kinetic UI registry.",
+  "dependencies": [
+    "@tanstack/react-table",
+    "react"
+  ],
+  "registryDependencies": [
+    "@kinetic/button",
+    "@kinetic/input",
+    "@kinetic/table",
+    "@kinetic/kinetic"
+  ],
+  "meta": {
+    "category": "content"
+  },
+  "files": [
+    {
+      "path": "components/ui/data-table.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\";\nimport {\n  flexRender,\n  getCoreRowModel,\n  getFilteredRowModel,\n  getPaginationRowModel,\n  getSortedRowModel,\n  useReactTable,\n  type ColumnDef,\n  type SortingState,\n} from \"@tanstack/react-table\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from \"@/components/ui/table\";\n\ntype DataTableProps<TData, TValue> = {\n  columns: ColumnDef<TData, TValue>[];\n  data: TData[];\n  filterColumn?: string;\n  filterPlaceholder?: string;\n};\n\nfunction DataTable<TData, TValue>({\n  columns,\n  data,\n  filterColumn,\n  filterPlaceholder = \"Filter rows...\",\n}: DataTableProps<TData, TValue>) {\n  const [sorting, setSorting] = React.useState<SortingState>([]);\n  const table = useReactTable({\n    data,\n    columns,\n    state: { sorting },\n    onSortingChange: setSorting,\n    getCoreRowModel: getCoreRowModel(),\n    getSortedRowModel: getSortedRowModel(),\n    getFilteredRowModel: getFilteredRowModel(),\n    getPaginationRowModel: getPaginationRowModel(),\n  });\n\n  return (\n    <div className=\"space-y-3\" data-slot=\"data-table\">\n      {filterColumn && (\n        <Input\n          aria-label={filterPlaceholder}\n          placeholder={filterPlaceholder}\n          value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? \"\"}\n          onChange={(event) => table.getColumn(filterColumn)?.setFilterValue(event.target.value)}\n          className=\"max-w-sm\"\n        />\n      )}\n      <div className=\"data-table-surface\">\n        <Table>\n          <TableHeader>\n            {table.getHeaderGroups().map((headerGroup) => (\n              <TableRow key={headerGroup.id}>\n                {headerGroup.headers.map((header) => (\n                  <TableHead key={header.id}>\n                    {header.isPlaceholder\n                      ? null\n                      : flexRender(header.column.columnDef.header, header.getContext())}\n                  </TableHead>\n                ))}\n              </TableRow>\n            ))}\n          </TableHeader>\n          <TableBody>\n            {table.getRowModel().rows.length ? (\n              table.getRowModel().rows.map((row) => (\n                <TableRow key={row.id} data-state={row.getIsSelected() && \"selected\"}>\n                  {row.getVisibleCells().map((cell) => (\n                    <TableCell key={cell.id}>\n                      {flexRender(cell.column.columnDef.cell, cell.getContext())}\n                    </TableCell>\n                  ))}\n                </TableRow>\n              ))\n            ) : (\n              <TableRow>\n                <TableCell colSpan={columns.length} className=\"h-24 text-center text-muted-foreground\">\n                  No results.\n                </TableCell>\n              </TableRow>\n            )}\n          </TableBody>\n        </Table>\n      </div>\n      <div className=\"flex items-center justify-end gap-2\">\n        <Button\n          variant=\"outline\"\n          size=\"sm\"\n          onClick={() => table.previousPage()}\n          disabled={!table.getCanPreviousPage()}\n        >\n          Previous\n        </Button>\n        <Button\n          variant=\"outline\"\n          size=\"sm\"\n          onClick={() => table.nextPage()}\n          disabled={!table.getCanNextPage()}\n        >\n          Next\n        </Button>\n      </div>\n    </div>\n  );\n}\n\nexport { DataTable, type DataTableProps };\n"
+    }
+  ]
+}
