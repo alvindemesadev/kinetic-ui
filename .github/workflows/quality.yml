@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
   schedule:
-    # Weekly determinism re-check for the pinned CLI leg of registry-install.
+    # Weekly determinism re-check for the pinned registry-install job.
     - cron: "0 4 * * 1"
 
 concurrency:
@@ -48,20 +48,12 @@ jobs:
   # from the pinned registry tag (the REGISTRY_URL constant is the source of truth,
   # so this job can never drift from the pin — and it fails fast if a release tag is
   # bumped in the constant before the release is actually published).
-  # The matrix runs two legs from one definition: every push/PR tracks shadcn@latest
-  # (consumer reality), and the pinned 4.17.0 leg (the version this repo's registry
-  # is verified against) runs on the weekly schedule so it can't silently drift out
-  # of installability.
+  # Tracks shadcn@latest on every push/PR to match consumer reality; the weekly
+  # registry-install-pinned job re-checks the pinned 4.17.0 this repo is verified
+  # against so neither can silently drift out of installability.
   registry-install:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    strategy:
-      matrix:
-        include:
-          - cli: latest
-          - cli: "4.17.0"
-            pinned: true
-    if: matrix.pinned != true || github.event_name == 'schedule'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -251,8 +243,6 @@ jobs:
       # same pinned registry (combobox -> input-group -> input/textarea -> kinetic).
       # sidebar is the deepest case: 6 component deps (button, input, separator,
       # sheet, skeleton, tooltip) plus the src/hooks/use-mobile.ts hook file.
-      # Pinned to 4.17.0 (the version this repo's registry is verified against) so the
-      # job behaves deterministically as the CLI evolves; also verified on shadcn@latest.
       - name: Guard against a REGISTRY_URL env override of the shadcn CLI
         run: node scripts/check-shadcn-env.mjs
 
@@ -260,10 +250,233 @@ jobs:
         run: |
           cd kinetic-install-check
           # Retry once to ride out genuine transient network errors on the many item fetches.
-          npx shadcn@${{ matrix.cli }} add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes || {
+          npx shadcn@latest add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes || {
             echo "install failed (likely a transient jsDelivr/CLI hiccup) — retrying once"
             rm -rf src/components src/styles src/hooks
-            npx shadcn@${{ matrix.cli }} add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes
+            npx shadcn@latest add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes
+          }
+
+      - name: Assert the component and the skin bundle were installed
+        run: |
+          cd kinetic-install-check
+          for f in src/components/ui/button.tsx src/components/ui/card.tsx src/components/ui/combobox.tsx src/components/ui/input-group.tsx src/components/ui/input.tsx src/components/ui/textarea.tsx src/components/ui/sidebar.tsx src/components/ui/separator.tsx src/components/ui/sheet.tsx src/components/ui/skeleton.tsx src/components/ui/tooltip.tsx src/hooks/use-mobile.ts src/styles/kinetic/kinetic.css src/styles/kinetic/tokens.css src/styles/kinetic/base.css src/styles/kinetic/tactile-controls.css src/styles/kinetic/ui-primitives.css src/styles/kinetic/portals-overlays.css; do
+            test -f "$f" && echo "ok: $f" || { echo "MISSING: $f"; exit 1; }
+          done
+
+      - name: Typecheck and build the app with the installed button
+        run: |
+          cd kinetic-install-check
+          npx tsc -b
+          npm run build
+          grep -l "ui-kit" dist/assets/*.css >/dev/null || { echo "skin missing from CSS bundle"; exit 1; }
+
+  # Weekly determinism leg: the same end-to-end install with the shadcn CLI version
+  # this repo's registry is verified against, so it can't silently drift out of
+  # installability while the every-push job tracks shadcn@latest.
+  registry-install-pinned:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Extract the pinned registry URL
+        id: registry-url
+        run: |
+          REGISTRY_URL=$(node -e "const s=require('fs').readFileSync('scripts/generate-registry.mjs','utf8');const m=s.match(/REGISTRY_URL = \"([^\"]+)\"/);if(!m){console.error('REGISTRY_URL not found');process.exit(1)}console.log(m[1])")
+          echo "pinned: $REGISTRY_URL"
+          echo "url=$REGISTRY_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Scaffold a throwaway Vite app
+        run: |
+          npm create vite@latest kinetic-install-check -- --template react-ts
+          cd kinetic-install-check
+          npm install
+          npm install -D tailwindcss @tailwindcss/vite
+          npm install clsx tailwind-merge
+
+      - name: Wire the shadcn config (aliases, Tailwind, cn helper, registry)
+        env:
+          REGISTRY_URL: ${{ steps.registry-url.outputs.url }}
+        run: |
+          cd kinetic-install-check
+          # paths resolve relative to the config file; no baseUrl (deprecated in TS 6)
+          cat > tsconfig.json <<EOF
+          {
+            "compilerOptions": {
+              "paths": { "@/*": ["./src/*"] }
+            },
+            "files": [],
+            "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+          }
+          EOF
+          cat > tsconfig.app.json <<EOF
+          {
+            "compilerOptions": {
+              "target": "ES2022",
+              "useDefineForClassFields": true,
+              "lib": ["ES2022", "DOM", "DOM.Iterable"],
+              "allowJs": false,
+              "skipLibCheck": true,
+              "esModuleInterop": true,
+              "allowSyntheticDefaultImports": true,
+              "strict": true,
+              "forceConsistentCasingInFileNames": true,
+              "module": "ESNext",
+              "moduleResolution": "Bundler",
+              "paths": { "@/*": ["./src/*"] },
+              "resolveJsonModule": true,
+              "isolatedModules": true,
+              "noEmit": true,
+              "jsx": "react-jsx"
+            },
+            "include": ["src"]
+          }
+          EOF
+          cat > vite.config.ts <<EOF
+          import path from "node:path";
+          import { defineConfig } from "vite";
+          import react from "@vitejs/plugin-react";
+          import tailwindcss from "@tailwindcss/vite";
+          export default defineConfig({
+            plugins: [react(), tailwindcss()],
+            resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+          });
+          EOF
+          cat > components.json <<EOF
+          {
+            "\$schema": "https://ui.shadcn.com/schema.json",
+            "style": "radix-nova",
+            "rsc": false,
+            "tsx": true,
+            "tailwind": { "config": "", "css": "src/index.css", "baseColor": "neutral", "cssVariables": true, "prefix": "" },
+            "iconLibrary": "lucide",
+            "rtl": false,
+            "aliases": { "components": "@/components", "utils": "@/lib/utils", "ui": "@/components/ui", "lib": "@/lib", "hooks": "@/hooks" },
+            "menuColor": "default",
+            "menuAccent": "subtle",
+            "registries": { "@kinetic": { "url": "${REGISTRY_URL}" } }
+          }
+          EOF
+          mkdir -p src/lib
+          cat > src/lib/utils.ts <<EOF
+          import { clsx, type ClassValue } from "clsx";
+          import { twMerge } from "tailwind-merge";
+          export function cn(...inputs: ClassValue[]) {
+            return twMerge(clsx(inputs));
+          }
+          EOF
+          cat > src/index.css <<EOF
+          @import "tailwindcss";
+          @import "./styles/kinetic/kinetic.css";
+          EOF
+          cat > src/main.tsx <<EOF
+          import { StrictMode } from "react";
+          import { createRoot } from "react-dom/client";
+          import "./index.css";
+          import App from "./App";
+          createRoot(document.getElementById("root")!).render(
+            <StrictMode>
+              <App />
+            </StrictMode>,
+          );
+          EOF
+          printf '/// <reference types="vite/client" />\n' > src/vite-env.d.ts
+          cat > src/App.tsx <<EOF
+          import { Button } from "@/components/ui/button";
+          import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+          import { Combobox, ComboboxContent, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
+          import {
+            Sidebar,
+            SidebarContent,
+            SidebarGroup,
+            SidebarGroupContent,
+            SidebarGroupLabel,
+            SidebarHeader,
+            SidebarInset,
+            SidebarMenu,
+            SidebarMenuButton,
+            SidebarMenuItem,
+            SidebarProvider,
+          } from "@/components/ui/sidebar";
+          const frameworks = ["React", "Vue", "Svelte"].map((label) => ({ label, value: label }));
+          export default function App() {
+            return (
+              <div className="ui-kit dark">
+                <SidebarProvider>
+                  <Sidebar>
+                    <SidebarHeader>
+                      <SidebarMenu>
+                        <SidebarMenuItem>
+                          <SidebarMenuButton asChild>
+                            <a href="#">Home</a>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </SidebarMenu>
+                    </SidebarHeader>
+                    <SidebarContent>
+                      <SidebarGroup>
+                        <SidebarGroupLabel>Frameworks</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                          <SidebarMenu>
+                            <SidebarMenuItem>
+                              <SidebarMenuButton asChild>
+                                <a href="#">React</a>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          </SidebarMenu>
+                        </SidebarGroupContent>
+                      </SidebarGroup>
+                    </SidebarContent>
+                  </Sidebar>
+                  <SidebarInset className="flex-1 p-4">
+                    <Card className="max-w-sm">
+                      <CardHeader>
+                        <CardTitle>Kinetic UI</CardTitle>
+                        <CardDescription>Installed from the pinned registry</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex flex-col gap-4">
+                        <Button>Kinetic Button</Button>
+                        <Combobox items={frameworks}>
+                          <ComboboxInput />
+                          <ComboboxContent>
+                            <ComboboxList>
+                              {frameworks.map((f) => (
+                                <ComboboxItem key={f.value} value={f.value}>
+                                  {f.label}
+                                </ComboboxItem>
+                              ))}
+                            </ComboboxList>
+                          </ComboboxContent>
+                        </Combobox>
+                      </CardContent>
+                    </Card>
+                  </SidebarInset>
+                </SidebarProvider>
+              </div>
+            );
+          }
+          EOF
+
+      # combobox declares @kinetic/input-group + @kinetic/button, and input-group
+      # declares input/textarea, so the CLI must resolve a multi-hop chain from the
+      # same pinned registry (combobox -> input-group -> input/textarea -> kinetic).
+      # sidebar is the deepest case: 6 component deps (button, input, separator,
+      # sheet, skeleton, tooltip) plus the src/hooks/use-mobile.ts hook file.
+      - name: Guard against a REGISTRY_URL env override of the shadcn CLI
+        run: node scripts/check-shadcn-env.mjs
+
+      - name: Install @kinetic/button, card, combobox, and sidebar from the pinned registry (4.17.0)
+        run: |
+          cd kinetic-install-check
+          # Retry once to ride out genuine transient network errors on the many item fetches.
+          npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes || {
+            echo "install failed (likely a transient jsDelivr/CLI hiccup) — retrying once"
+            rm -rf src/components src/styles src/hooks
+            npx shadcn@4.17.0 add @kinetic/button @kinetic/card @kinetic/combobox @kinetic/sidebar --yes
           }
 
       - name: Assert the component and the skin bundle were installed
